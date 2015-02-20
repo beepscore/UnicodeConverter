@@ -40,6 +40,7 @@
 		DE381A7D1A9717F50008B492 /* UnicodeConverterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnicodeConverterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE381A821A9717F50008B492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE381A831A9717F60008B492 /* UnicodeConverterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnicodeConverterTests.m; sourceTree = "<group>"; };
+		DED333321A971ABF00D8E2B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 		DE381A5B1A9717F30008B492 = {
 			isa = PBXGroup;
 			children = (
+				DED333321A971ABF00D8E2B2 /* README.md */,
 				DE381A661A9717F40008B492 /* UnicodeConverter */,
 				DE381A801A9717F50008B492 /* UnicodeConverterTests */,
 				DE381A651A9717F40008B492 /* Products */,
@@ -414,6 +416,7 @@
 				DE381A891A9717F60008B492 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DE381A8A1A9717F60008B492 /* Build configuration list for PBXNativeTarget "UnicodeConverterTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +425,7 @@
 				DE381A8C1A9717F60008B492 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
