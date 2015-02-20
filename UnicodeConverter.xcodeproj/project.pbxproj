@@ -40,6 +40,7 @@
 		DE381A7D1A9717F50008B492 /* UnicodeConverterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnicodeConverterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE381A821A9717F50008B492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE381A831A9717F60008B492 /* UnicodeConverterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnicodeConverterTests.m; sourceTree = "<group>"; };
+		DE8E95941A971BCD0099DD6E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DED333321A971ABF00D8E2B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				DED333321A971ABF00D8E2B2 /* README.md */,
+				DE8E95941A971BCD0099DD6E /* LICENSE */,
 				DE381A661A9717F40008B492 /* UnicodeConverter */,
 				DE381A801A9717F50008B492 /* UnicodeConverterTests */,
 				DE381A651A9717F40008B492 /* Products */,
