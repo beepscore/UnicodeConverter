@@ -1,5 +1,5 @@
 //
-//  UnicodeConverter.m
+//  BSUnicodeConverter.m
 //  UnicodeConverter
 //
 //  Created by Steve Baker on 2/20/15.
@@ -8,9 +8,9 @@
 // This class provides wrapper methods, can change implementation.
 // e.g. can change from standard encoding faculties to custom.
 
-#import "UnicodeConverter.h"
+#import "BSUnicodeConverter.h"
 
-@implementation UnicodeConverter
+@implementation BSUnicodeConverter
 
 + (NSData*)dataFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
     // http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
@@ -30,7 +30,7 @@
 
 + (uint8_t*)bytesFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
     NSData *data = [string dataUsingEncoding:encoding];
-    return [UnicodeConverter bytesFromData:data];
+    return [BSUnicodeConverter bytesFromData:data];
 }
 
 + (uint8_t*)bytesFromStringTwo:(NSString*)string encoding:(NSStringEncoding)encoding {

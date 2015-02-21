@@ -1,5 +1,5 @@
 //
-//  UnicodeConverterTests.m
+//  BSUnicodeConverterTests.m
 //  UnicodeConverterTests
 //
 //  Created by Steve Baker on 2/19/15.
@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "UnicodeConverter.h"
+#import "BSUnicodeConverter.h"
 
-@interface UnicodeConverterTests : XCTestCase
+@interface BSUnicodeConverterTests : XCTestCase
 
 @end
 
-@implementation UnicodeConverterTests
+@implementation BSUnicodeConverterTests
 
 - (void)setUp {
     [super setUp];
@@ -28,7 +28,7 @@
 
 - (void)testBytesFromString {
     NSString *string = @"a";
-    uint8_t* buffer = [UnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
     char *charBuffer = (char*)buffer;
     XCTAssertEqual(97, charBuffer[0]);
     XCTAssertEqual(0x61, charBuffer[0]);
@@ -36,7 +36,7 @@
 
 - (void)testBytesFromStringTwo {
     NSString *string = @"a";
-    uint8_t* buffer = [UnicodeConverter bytesFromStringTwo:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeConverter bytesFromStringTwo:string encoding:NSUTF8StringEncoding];
     char *charBuffer = (char*)buffer;
     XCTAssertEqual(97, charBuffer[0]);
     XCTAssertEqual(0x61, charBuffer[0]);
@@ -60,7 +60,7 @@
     
     for (NSDictionary* testDict in testArray) {
         NSString *testString = testDict[@"testString"];
-        NSData *data = [UnicodeConverter dataFromString:testString
+        NSData *data = [BSUnicodeConverter dataFromString:testString
                                                encoding:NSUTF8StringEncoding];
 
         uint8_t *bytePtr = (uint8_t*)[data bytes];
@@ -86,7 +86,7 @@
                                };
     
     for (NSString* string in testDict) {
-        NSData *data = [UnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
         int expected = [testDict[string] intValue];
         XCTAssertEqual(expected, [data length], @"%@", string);
     }
@@ -97,7 +97,7 @@
                                };
 
     for (NSString* string in testDict) {
-        NSData *data = [UnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
         int expected = [testDict[string] intValue];
         XCTAssertEqual(expected, [data length], @"%@", string);
     }
@@ -107,8 +107,8 @@
     NSArray* testStrings = @[@"testing", @"español"];
     
     for (NSString* string in testStrings) {
-        NSData *data = [UnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
-        NSString *actual = [UnicodeConverter stringFromData:data encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
+        NSString *actual = [BSUnicodeConverter stringFromData:data encoding:NSUTF8StringEncoding];
         XCTAssertEqualObjects(string, actual);
     }
 }

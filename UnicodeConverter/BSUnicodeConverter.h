@@ -1,5 +1,5 @@
 //
-//  UnicodeConverter.h
+//  BSUnicodeConverter.h
 //  UnicodeConverter
 //
 //  Created by Steve Baker on 2/20/15.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UnicodeConverter : NSObject
+@interface BSUnicodeConverter : NSObject
 
 + (uint8_t*)bytesFromData:(NSData*)data;
 
