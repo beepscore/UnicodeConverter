@@ -14,6 +14,7 @@
 		DE381A751A9717F50008B492 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE381A741A9717F50008B492 /* Images.xcassets */; };
 		DE381A781A9717F50008B492 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE381A761A9717F50008B492 /* LaunchScreen.xib */; };
 		DE381A841A9717F60008B492 /* UnicodeConverterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A831A9717F60008B492 /* UnicodeConverterTests.m */; };
+		DE63260F1A9870E100095504 /* UnicodeConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63260E1A9870E100095504 /* UnicodeConverter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		DE381A7D1A9717F50008B492 /* UnicodeConverterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnicodeConverterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE381A821A9717F50008B492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE381A831A9717F60008B492 /* UnicodeConverterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnicodeConverterTests.m; sourceTree = "<group>"; };
+		DE63260D1A9870E100095504 /* UnicodeConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnicodeConverter.h; path = UnicodeConverter/UnicodeConverter.h; sourceTree = "<group>"; };
+		DE63260E1A9870E100095504 /* UnicodeConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnicodeConverter.m; path = UnicodeConverter/UnicodeConverter.m; sourceTree = "<group>"; };
 		DE8E95941A971BCD0099DD6E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DED333321A971ABF00D8E2B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,6 +68,8 @@
 		DE381A5B1A9717F30008B492 = {
 			isa = PBXGroup;
 			children = (
+				DE63260D1A9870E100095504 /* UnicodeConverter.h */,
+				DE63260E1A9870E100095504 /* UnicodeConverter.m */,
 				DED333321A971ABF00D8E2B2 /* README.md */,
 				DE8E95941A971BCD0099DD6E /* LICENSE */,
 				DE381A661A9717F40008B492 /* UnicodeConverter */,
@@ -223,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE63260F1A9870E100095504 /* UnicodeConverter.m in Sources */,
 				DE381A701A9717F40008B492 /* ViewController.m in Sources */,
 				DE381A6D1A9717F40008B492 /* AppDelegate.m in Sources */,
 				DE381A6A1A9717F40008B492 /* main.m in Sources */,
