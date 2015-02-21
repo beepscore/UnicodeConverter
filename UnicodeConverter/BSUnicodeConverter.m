@@ -13,6 +13,7 @@
 @implementation BSUnicodeConverter
 
 + (NSData*)dataFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
+    // http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
     // http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
     return [string dataUsingEncoding:encoding];
 }
@@ -68,6 +69,7 @@
 }
 
 + (NSString*)stringFromData:(NSData*)data encoding:(NSStringEncoding)encoding {
+    // http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
     // http://iosdevelopertips.com/conversion/convert-nsdata-to-nsstring.html
     return [[NSString alloc] initWithData:data encoding:encoding];
 }
