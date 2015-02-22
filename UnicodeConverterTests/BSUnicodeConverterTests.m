@@ -44,18 +44,43 @@
 
 - (void)testDataFromStringBytes {
     // https://en.wikipedia.org/wiki/UTF-8
-    // character decimal hex
-    // A         65      41
-    // a         97      61
-    NSArray* testArray = @[@{@"testString":@"A", @"byteIndex":@0, @"byteValue":@65},
+
+    // http://justskins.com/forums/escape-sequence-for-unicode-114988.html
+    unichar beta=0x03b2;
+    NSString* betaString = [NSString stringWithCharacters:&beta length:1];
+
+    // unicode escape, starts with \u or \U
+    // http://blog.ablepear.com/2010/07/objective-c-tuesdays-unicode-string.html
+    // Greek letter capital gamma Γ
+    NSString *gammaString = @"\u0393";
+
+    NSArray* testArray = @[
+                           // one byte
+                           // character decimal hex
+                           // A         65      41
+                           // a         97      61
+                           @{@"testString":@"A", @"byteIndex":@0, @"byteValue":@65},
                            @{@"testString":@"A", @"byteIndex":@0, @"byteValue":@0x41},
                            @{@"testString":@"a", @"byteIndex":@0, @"byteValue":@97},
                            @{@"testString":@"a", @"byteIndex":@0, @"byteValue":@0x61},
-                           @{@"testString":@"ab", @"byteIndex":@0, @"byteValue":@0x61},
-                           @{@"testString":@"ab", @"byteIndex":@1, @"byteValue":@0x62},
+                           
+                           // two bytes
                            @{@"testString":@"ñ", @"byteIndex":@0, @"byteValue":@0xc3},
                            @{@"testString":@"ñ", @"byteIndex":@1, @"byteValue":@0xb1},
-                           @{@"testString":@"ña", @"byteIndex":@2, @"byteValue":@0x61}
+                           @{@"testString":betaString, @"byteIndex":@0, @"byteValue":@0xce},
+                           @{@"testString":betaString, @"byteIndex":@1, @"byteValue":@0xb2},
+                           @{@"testString":gammaString, @"byteIndex":@0, @"byteValue":@0xce},
+                           @{@"testString":gammaString, @"byteIndex":@1, @"byteValue":@0x93},
+                           @{@"testString":@"ab", @"byteIndex":@0, @"byteValue":@0x61},
+                           @{@"testString":@"ab", @"byteIndex":@1, @"byteValue":@0x62},
+                           
+                           // three bytes
+                           @{@"testString":@"€", @"byteIndex":@0, @"byteValue":@0xe2},
+                           @{@"testString":@"€", @"byteIndex":@1, @"byteValue":@0x82},
+                           @{@"testString":@"€", @"byteIndex":@2, @"byteValue":@0xac},
+                           @{@"testString":@"ña", @"byteIndex":@2, @"byteValue":@0x61},
+                           
+                           // four bytes
                            ];
     
     for (NSDictionary* testDict in testArray) {

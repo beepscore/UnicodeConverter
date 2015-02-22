@@ -35,3 +35,6 @@ Is there any advantage to going through intermediate format code points?
 Is there any advantage to going through intermediate format UTF-16?
 I think UTF-16 allows different endian byte order.
 Does UTF-32 allow different endian byte order?
+
+### UTF8
+Uses 1 to 4 bytes per code point.
