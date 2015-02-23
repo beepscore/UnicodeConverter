@@ -36,7 +36,8 @@
 
 - (void)testBytesFromStringTwo {
     NSString *string = @"a";
-    uint8_t* buffer = [BSUnicodeConverter bytesFromStringTwo:string encoding:NSUTF8StringEncoding];
+    BSUnicodeConverter *converter = [[BSUnicodeConverter alloc] init];
+    uint8_t* buffer = [converter bytesFromStringTwo:string encoding:NSUTF8StringEncoding];
     char *charBuffer = (char*)buffer;
     XCTAssertEqual(97, charBuffer[0]);
     XCTAssertEqual(0x61, charBuffer[0]);

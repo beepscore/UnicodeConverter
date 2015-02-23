@@ -12,6 +12,9 @@
 
 @implementation BSUnicodeConverter
 
+// void* is a pointer to any type
+void *buffer;
+
 + (NSData*)dataFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
     // http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
     // http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
@@ -34,7 +37,13 @@
     return [BSUnicodeConverter bytesFromData:data];
 }
 
-+ (uint8_t*)bytesFromStringTwo:(NSString*)string encoding:(NSStringEncoding)encoding {
++ (NSString*)stringFromData:(NSData*)data encoding:(NSStringEncoding)encoding {
+    // http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
+    // http://iosdevelopertips.com/conversion/convert-nsdata-to-nsstring.html
+    return [[NSString alloc] initWithData:data encoding:encoding];
+}
+
+- (uint8_t*)bytesFromStringTwo:(NSString*)string encoding:(NSStringEncoding)encoding {
     // http://stackoverflow.com/questions/8019647/how-to-use-nsstring-getbytesmaxlengthusedlengthencodingoptionsrangeremaini
 
     // http://stackoverflow.com/questions/8021926/getting-weird-characters-when-going-from-nsstring-to-bytes-and-then-back-to-nsst?rq=1
@@ -44,10 +53,13 @@
 
     // NSString.h NSUTF16StringEncoding is an alias for NSUnicodeStringEncoding
     NSUInteger numberOfBytes = [string lengthOfBytesUsingEncoding:encoding];
-    
-    // void* is a pointer to any type
-    void *buffer = malloc(numberOfBytes);
-    
+
+    // ARC doesn't automatically manage malloc memory. In dealloc call free.
+    buffer = malloc(numberOfBytes);
+    if (!buffer) {
+        // memory allocation failed
+        return nil;
+    }
     NSUInteger usedLength = 0;
     // NSRangeFromString doesn't work, not sure why.
     // NSRange range = NSRangeFromString(message);
@@ -68,10 +80,9 @@
     }
 }
 
-+ (NSString*)stringFromData:(NSData*)data encoding:(NSStringEncoding)encoding {
-    // http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
-    // http://iosdevelopertips.com/conversion/convert-nsdata-to-nsstring.html
-    return [[NSString alloc] initWithData:data encoding:encoding];
+- (void)dealloc {
+    // free any malloc'ed memory
+    free(buffer);
 }
-
+    
 @end
