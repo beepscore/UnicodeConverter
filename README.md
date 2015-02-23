@@ -53,6 +53,7 @@ In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code
 
 # References
 MobileSDE-CodingProblem-Smartsheet.pdf by Smartsheet
+http://www.objc.io/issue-9/unicode.html
 
 ## UTF-8
 https://en.wikipedia.org/wiki/UTF-8
