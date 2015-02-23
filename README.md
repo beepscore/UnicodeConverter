@@ -4,7 +4,11 @@ Convert from UTF-8 to UTF-32 without using standard "Unicode conversion facultie
 # Results
 
 ## Problem statement
-"You cannot use any standard Unicode conversion faculties in your implementation."
+The task: implement a function that converts UTF-8 encoded string to UTF-32.
+You cannot use any standard Unicode conversion faculties in your implementation.
+The function will be a part of widely used utility library used in many contexts.
+It is up to you to define the input and output data types and error handling semantics.
+The code should be production quality and include tests.
 
 ## Assumptions
 OK to use "standard unicode conversion faculties" to generate source UTF-8 string.
@@ -35,6 +39,10 @@ In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code
 
 ## UTF-8 
 Uses 1 to 4 bytes per code point.
+Early decoders threw errors when given bad input, and malware exploited this
+to create denial of service attacks.
+If decoding fails, consider returning replacement character "�" (U+FFFD)
+https://en.wikipedia.org/wiki/UTF-8
 
 ## UTF-32
 Uses fixed length 4 bytes per code point.
