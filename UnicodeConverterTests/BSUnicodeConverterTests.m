@@ -139,4 +139,34 @@
     }
 }
 
+- (void)testCodePointFromUTF8DataA {
+    // returns the first code point
+    NSString* testString = @"A";
+    NSData *data = [BSUnicodeConverter dataFromString:testString
+                                             encoding:NSUTF8StringEncoding];
+    uint32_t expected = 0x41;
+    NSError *error = nil;
+    uint32_t actual = [BSUnicodeConverter codePointFromUTF8Data:data
+                                                       errorPtr:&error];
+
+    XCTAssertNil(error);
+    XCTAssertEqual(expected, actual);
+    XCTAssertEqual(expected, actual, @"testString %@ expected 0x%x actual 0x%x",
+                   testString, expected, actual);
+}
+
+- (void)testCodePointFromUTF8DataEuro {
+    // returns the first code point
+    NSString* testString = @"€";
+    NSData *data = [BSUnicodeConverter dataFromString:testString
+                                             encoding:NSUTF8StringEncoding];
+    uint32_t expected = 0xe282ac;
+    NSError *error = nil;
+    uint32_t actual = [BSUnicodeConverter codePointFromUTF8Data:data
+                                                       errorPtr:&error];
+
+    XCTAssertNil(error);
+    XCTAssertEqual(expected, actual);
+}
+
 @end
