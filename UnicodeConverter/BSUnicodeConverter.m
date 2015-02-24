@@ -18,8 +18,24 @@ typedef enum BSUnicodeConverterError : NSUInteger {
     BSUnicodeConverterError2 = 2,
 } BSUnicodeConverterError;
 
-// void* is a pointer to any type
-void *buffer;
+uint8_t codeUnit0 = 0;
+uint8_t codeUnit1 = 0;
+uint8_t codeUnit2 = 0;
+uint8_t codeUnit3 = 0;
+
+// replacement character "�" (U+FFFD)
+//const uint32_t kReplacementCharacter = 0x0000fffd;
+uint32_t const kReplacementCharacter = 0x0000fffd;
+
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        //self.buffer = nil;
+        self.buffer = malloc(4);
+    }
+    return self;
+}
 
 + (NSData*)dataFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
     // http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
@@ -36,6 +52,14 @@ void *buffer;
     // Can we assume bytes are null terminated? Otherwise need to pass length?
     uint8_t *bytePtr = (uint8_t*)[data bytes];
     return bytePtr;
+}
+
+/**
+ @return uint8_t
+ */
++ (uint8_t)firstByteFromData:(NSData*)data {
+    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
+    return bytePtr[0];
 }
 
 + (uint8_t*)bytesFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
@@ -60,33 +84,115 @@ void *buffer;
     }
 }
 
-+ (uint32_t)codePointFromUTF8Data:(NSData*)data errorPtr:(NSError**)errorPtr {
++ (BOOL)isValidFirstByteForSingleByteCodePoint:(UInt8)byte {
+    // most significant bit is 0
+    return ((byte >> 7) == 0x0);
+}
+
++ (BOOL)isValidFirstByteForTwoByteCodePoint:(UInt8)byte {
+    // 3 most significant bits are 110
+    return ((byte >> 5) == 0x6);
+}
+
++ (BOOL)isValidFirstByteForThreeByteCodePoint:(UInt8)byte {
+    // 4 most significant bits are 1110
+    return ((byte >> 4) == 0xe);
+}
+
++ (BOOL)isValidFirstByteForFourByteCodePoint:(UInt8)byte {
+    // 5 most significant bits are 11110
+    return ((byte >> 3) == 0x1e);
+}
+
++ (BOOL)isValidFirstByteForMultiByteCodePoint:(UInt8)byte {
+    return ([BSUnicodeConverter isValidFirstByteForTwoByteCodePoint:byte]
+            || [BSUnicodeConverter isValidFirstByteForThreeByteCodePoint:byte]
+            || [BSUnicodeConverter isValidFirstByteForFourByteCodePoint:byte]);
+}
+
++ (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(UInt8)byte {
+    // 2 most significant bits are 10
+    return ((byte >> 6) == 0x10);
+}
+
+// TODO: implement and use this
++ (BOOL)isWellFormedUTF8ByteSequence:(UInt8*)bytes {
+    return NO;
+}
+
+// TODO: shorten this method by extracting methods
+- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
+                               errorPtr:(NSError**)errorPtr {
     // https://en.wikipedia.org/wiki/UTF-8
     // http://www.ios-developer.net/iphone-ipad-programmer/development/nsdata/nsdata-general
+
+    NSMutableData *utf32Data = [[NSMutableData alloc] init];
 
     if (0 == data.length) {
         *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
                                         code:BSUnicodeConverterError0
                                     userInfo:nil];
-        return 0;
+        return nil;
     }
 
-    NSUInteger kNumberOfBytesToGet = [BSUnicodeConverter numberOfBytesToGet:data];
-    NSData *codeUnitData = [data subdataWithRange:NSMakeRange(0, kNumberOfBytesToGet)];
-    const int *codeUnitBytes = [codeUnitData bytes];
-    
-    if (1 == codeUnitData.length) {
-        if (codeUnitBytes[0] < 0x80) {
-            return codeUnitBytes[0];
+    // const int *dataBytes = [data bytes];
+
+    for (NSUInteger index = 0; index < data.length; index++) {
+
+        NSData *firstData = [data subdataWithRange:NSMakeRange(index, 1)];
+        UInt8 firstByte = [BSUnicodeConverter firstByteFromData:firstData];
+
+        if ([BSUnicodeConverter
+             isValidFirstByteForSingleByteCodePoint:firstByte]) {
+             [utf32Data appendData:firstData];
+
+        } else if (![BSUnicodeConverter
+                     isValidFirstByteForMultiByteCodePoint:firstByte]) {
+            //if (self.buffer) {
+                //free(self.buffer);
+                //self.buffer = nil;
+            //}
+            //self.buffer = malloc(1);
+            //if (!self.buffer) {
+                // memory allocation failed
+            //    NSLog(@"memory allocation failed");
+            //    return utf32Data;
+            //} else {
+                self.buffer = (void *)&kReplacementCharacter;
+                NSData *replacementCharacterData = [NSData dataWithBytes:self.buffer
+                                                                  length:4];
+                [utf32Data appendData:replacementCharacterData];
+            //}
+
+        } else {
+
+            if (data.length >= 2) {
+                NSData *secondData = [data subdataWithRange:NSMakeRange(index+1, 1)];
+                UInt8 secondByte = [BSUnicodeConverter firstByteFromData:secondData];
+                if (![BSUnicodeConverter isValidSecondThirdOrFourthByteInCodePoint:secondByte]) {
+                    // TODO:
+                    // if well formed append bytes
+                    // if not, append replacement character and increment index by 1 byte
+                }
+                
+            }
         }
+        
     }
-    // return euro sign
-    return 0xe282ac;
-
+    // append euro sign
+    int euroSign = 0x000020ac;
+    self.buffer = &euroSign;
+    NSData *euroSignData = [NSData dataWithBytes:self.buffer length:4];
+    [utf32Data appendData:euroSignData];
+    return utf32Data;
+    
     // TODO: finish implementation for additional bytes and errors
 }
 
 // reference implementation from Wikipedia UTF-8
+// probably this is correct, but who knows?
+// plan to reimplement and then check against this
+//
 //    unsigned read_code_point_from_utf8()
 //    {
 //        int code_unit1, code_unit2, code_unit3, code_unit4;
@@ -154,8 +260,8 @@ void *buffer;
     NSUInteger numberOfBytes = [string lengthOfBytesUsingEncoding:encoding];
 
     // ARC doesn't automatically manage malloc memory. In dealloc call free.
-    buffer = malloc(numberOfBytes);
-    if (!buffer) {
+    self.buffer = malloc(numberOfBytes);
+    if (!self.buffer) {
         // memory allocation failed
         return nil;
     }
@@ -164,7 +270,7 @@ void *buffer;
     // NSRange range = NSRangeFromString(message);
     NSRange range = NSMakeRange(0, [string length]);
     
-    BOOL result = [string getBytes:buffer
+    BOOL result = [string getBytes:self.buffer
                          maxLength:numberOfBytes
                         usedLength:&usedLength
                           encoding:encoding
@@ -175,13 +281,16 @@ void *buffer;
     if (!result) {
         return nil;
     } else {
-        return buffer;
+        return self.buffer;
     }
 }
 
 - (void)dealloc {
-    // free any malloc'ed memory
-    free(buffer);
+    if (self.buffer) {
+        // free any malloc'ed memory
+        //free(self.buffer);
+        self.buffer = nil;
+    }
 }
     
 @end
