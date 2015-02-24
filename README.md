@@ -27,7 +27,7 @@ Write a method to convert NSString to NSData or array of UTF-8 encoded bytes.
 
 #### Decode UTF-8 string to Unicode code points
 Implement a custom decoder.
-Test convert strings containing characters that convert to 1, 2, and 3 byte lengths. 
+Test convert strings containing characters that convert to 1, 2, 3 and 4 byte lengths. 
 
 ### UTF-32 
 Implement an encoder that converts Unicode code points to UTF-32.
@@ -57,6 +57,8 @@ http://www.objc.io/issue-9/unicode.html
 
 ## UTF-8
 https://en.wikipedia.org/wiki/UTF-8
+Table 3-7 Well-Formed UTF-8 Byte Sequences
+http://www.unicode.org/versions/Unicode7.0.0/ch03.pdf#G7404
 http://ratfactor.com/utf-8-to-unicode
 
 ## UTF-16
