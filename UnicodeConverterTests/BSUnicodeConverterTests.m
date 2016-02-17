@@ -28,7 +28,7 @@
 
 #pragma mark - testBytesFromString
 
-- (void)testBytesFromString {
+- (void)testBytesFromStringa {
     NSString *string = @"a";
     uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
     // as decimal
