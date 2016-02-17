@@ -43,6 +43,13 @@
     XCTAssertEqual(0x61, buffer[0]);
 }
 
+- (void)testBytesFromStringab {
+    NSString *string = @"ab";
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    XCTAssertEqual(0x61, buffer[0]);
+    XCTAssertEqual(0x62, buffer[1]);
+}
+
 #pragma mark -
 
 - (void)testBytesFromStringTwo {
