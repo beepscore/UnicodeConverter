@@ -28,6 +28,12 @@
 
 #pragma mark - testBytesFromString
 
+- (void)testBytesFromStringEmpty {
+    NSString *string = @"";
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    XCTAssertEqual(0x00, buffer[0]);
+}
+
 - (void)testBytesFromStringa {
     NSString *string = @"a";
     uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
