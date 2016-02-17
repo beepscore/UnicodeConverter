@@ -19,7 +19,7 @@ Tests can get expected values by manually looking up some values.
 Start by using standard conversion methods to gain familiarity with API.
 Then add custom methods.
 
-### UTF-8 
+### UTF-8
 
 #### Generate a UTF-8 string
 Use "standard unicode conversion faculties" to generate source UTF-8 string.
@@ -27,17 +27,17 @@ Write a method to convert NSString to NSData or array of UTF-8 encoded bytes.
 
 #### Decode UTF-8 string to Unicode code points
 Implement a custom decoder.
-Test convert strings containing characters that convert to 1, 2, 3 and 4 byte lengths. 
+Test convert strings containing characters that convert to 1, 2, 3 and 4 byte lengths.
 
-### UTF-32 
+### UTF-32
 Implement an encoder that converts Unicode code points to UTF-32.
-In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code point. 
+In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code point.
 
 ---
 
 # Appendix Background
 
-## UTF-8 
+## UTF-8
 Uses 1 to 4 bytes per code point.
 Early decoders threw errors when given bad input, and malware exploited this
 to create denial of service attacks.
