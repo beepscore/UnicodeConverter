@@ -25,13 +25,36 @@
 + (NSData*)dataFromString:(NSString*)string
                  encoding:(NSStringEncoding)encoding;
 
+#pragma mark - methods to check number of bytes in code point
+
+/**
+ * @return true if most significant bit is 0
+ */
 + (BOOL)isValidFirstByteForSingleByteCodePoint:(UInt8)byte;
+
+/**
+ * @return true if 3 most significant bits are 110
+ */
 + (BOOL)isValidFirstByteForTwoByteCodePoint:(UInt8)byte;
+
+/**
+ * @return true if 4 most significant bits are 1110
+ */
 + (BOOL)isValidFirstByteForThreeByteCodePoint:(UInt8)byte;
+
+/**
+ * @return true if 5 most significant bits are 11110
+ */
 + (BOOL)isValidFirstByteForFourByteCodePoint:(UInt8)byte;
+
+/**
+ * @return true if 2 most significant bits are 10
+ */
 + (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(UInt8)byte;
 
 + (NSUInteger)numberOfBytesToGet:(NSData *)data;
+
+#pragma mark -
 
 + (NSString*)stringFromData:(NSData*)data
                    encoding:(NSStringEncoding)encoding;

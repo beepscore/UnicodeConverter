@@ -85,22 +85,18 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (BOOL)isValidFirstByteForSingleByteCodePoint:(UInt8)byte {
-    // most significant bit is 0
     return ((byte >> 7) == 0x0);
 }
 
 + (BOOL)isValidFirstByteForTwoByteCodePoint:(UInt8)byte {
-    // 3 most significant bits are 110
     return ((byte >> 5) == 0x6);
 }
 
 + (BOOL)isValidFirstByteForThreeByteCodePoint:(UInt8)byte {
-    // 4 most significant bits are 1110
     return ((byte >> 4) == 0xe);
 }
 
 + (BOOL)isValidFirstByteForFourByteCodePoint:(UInt8)byte {
-    // 5 most significant bits are 11110
     return ((byte >> 3) == 0x1e);
 }
 
@@ -111,7 +107,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(UInt8)byte {
-    // 2 most significant bits are 10
     return ((byte >> 6) == 0x10);
 }
 
