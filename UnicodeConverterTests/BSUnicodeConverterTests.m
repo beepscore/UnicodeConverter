@@ -50,6 +50,16 @@
     XCTAssertEqual(0x62, buffer[1]);
 }
 
+- (void)testBytesFromUTF8StringEuro {
+    NSString *string = @"€";
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    // expected values from Wikipedia example
+    // https://en.wikipedia.org/wiki/UTF-8
+    XCTAssertEqual(0xe2, buffer[0]);
+    XCTAssertEqual(0x82, buffer[1]);
+    XCTAssertEqual(0xac, buffer[2]);
+}
+
 #pragma mark -
 
 - (void)testBytesFromStringTwo {
