@@ -29,18 +29,16 @@
 - (void)testBytesFromString {
     NSString *string = @"a";
     uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
-    char *charBuffer = (char*)buffer;
-    XCTAssertEqual(97, charBuffer[0]);
-    XCTAssertEqual(0x61, charBuffer[0]);
+    XCTAssertEqual(97, buffer[0]);
+    XCTAssertEqual(0x61, buffer[0]);
 }
 
 - (void)testBytesFromStringTwo {
     NSString *string = @"a";
     BSUnicodeConverter *converter = [[BSUnicodeConverter alloc] init];
     uint8_t* buffer = [converter bytesFromStringTwo:string encoding:NSUTF8StringEncoding];
-    char *charBuffer = (char*)buffer;
-    XCTAssertEqual(97, charBuffer[0]);
-    XCTAssertEqual(0x61, charBuffer[0]);
+    XCTAssertEqual(97, buffer[0]);
+    XCTAssertEqual(0x61, buffer[0]);
 }
 
 - (void)testDataFromStringBytes {
