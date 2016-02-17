@@ -18,6 +18,7 @@ Tests can get expected values by manually looking up some values.
 ## Plan
 Start by using standard conversion methods to gain familiarity with API.
 Then add custom methods.
+Use type uint8_t in preference to char.
 
 ### UTF-8
 
