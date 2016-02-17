@@ -60,6 +60,33 @@
     XCTAssertEqual(0xac, buffer[2]);
 }
 
+- (void)testBytesFromUTF8StringHwair {
+    NSString *string = @"𐍈";
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    // expected values from Wikipedia example
+    // https://en.wikipedia.org/wiki/UTF-8
+    // https://en.wikipedia.org/wiki/Hwair
+    XCTAssertEqual(0xF0, buffer[0]);
+    XCTAssertEqual(0x90, buffer[1]);
+    XCTAssertEqual(0x8D, buffer[2]);
+    XCTAssertEqual(0x88, buffer[3]);
+}
+
+- (void)testBytesFromUTF8StringEuroHwair {
+    NSString *string = @"€𐍈";
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    // expected values from Wikipedia example
+    // https://en.wikipedia.org/wiki/UTF-8
+    // https://en.wikipedia.org/wiki/Hwair
+    XCTAssertEqual(0xe2, buffer[0]);
+    XCTAssertEqual(0x82, buffer[1]);
+    XCTAssertEqual(0xac, buffer[2]);
+    XCTAssertEqual(0xF0, buffer[3]);
+    XCTAssertEqual(0x90, buffer[4]);
+    XCTAssertEqual(0x8D, buffer[5]);
+    XCTAssertEqual(0x88, buffer[6]);
+}
+
 #pragma mark -
 
 - (void)testBytesFromStringTwo {
