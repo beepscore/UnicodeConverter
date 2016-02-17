@@ -26,6 +26,8 @@
     [super tearDown];
 }
 
+#pragma mark - testBytesFromString
+
 - (void)testBytesFromString {
     NSString *string = @"a";
     uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
@@ -34,6 +36,8 @@
     // as hex
     XCTAssertEqual(0x61, buffer[0]);
 }
+
+#pragma mark -
 
 - (void)testBytesFromStringTwo {
     NSString *string = @"a";
