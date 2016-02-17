@@ -29,7 +29,9 @@
 - (void)testBytesFromString {
     NSString *string = @"a";
     uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    // as decimal
     XCTAssertEqual(97, buffer[0]);
+    // as hex
     XCTAssertEqual(0x61, buffer[0]);
 }
 
