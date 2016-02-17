@@ -15,6 +15,10 @@
 
 + (uint8_t*)bytesFromData:(NSData*)data;
 
+/**
+ * @return a pointer to an array of 8 bit bytes
+ * return 0 if string is empty @""
+ */
 + (uint8_t*)bytesFromString:(NSString*)string
                    encoding:(NSStringEncoding)encoding;
 
