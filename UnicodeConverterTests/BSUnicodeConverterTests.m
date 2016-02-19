@@ -109,6 +109,19 @@
     XCTAssertFalse([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b11111111]);
 }
 
+#pragma mark - testIsValidFirstByteForTwoByteCodePoint
+
+- (void)testIsValidFirstByteForTwoByteCodePointMostSignificantBits110 {
+    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForTwoByteCodePoint:0b11000000]);
+    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForTwoByteCodePoint:0b11011111]);
+}
+
+- (void)testIsValidFirstByteForTwoByteCodePointFalse {
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForTwoByteCodePoint:0b00000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForTwoByteCodePoint:0b10000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForTwoByteCodePoint:0b11100000]);
+}
+
 #pragma mark - testDataFromString
 
 - (void)testDataFromStringBytes {
