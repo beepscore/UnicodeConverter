@@ -207,11 +207,7 @@
         
         uint8_t *bytePtr = (uint8_t*)[data bytes];
         
-        //        NSInteger numberOfElements = [data length] / sizeof(uint8_t);
-        //        for (int i = 0 ; i < numberOfElements; i ++) {
-        //            NSLog(@"testString %@ byteIndex %d value %x",
-        //                  testString, i, bytePtr[i]);
-        //        }
+        [self logTestData:data testString:testString];
 
         int expected = [testDict[@"byteValue"] intValue];
         int byteIndex = [testDict[@"byteIndex"] intValue];
@@ -219,6 +215,20 @@
         XCTAssertEqual(expected, actual,
                        @"testString %@ byteIndex %d expected 0x%x actual 0x%x",
                        testString, byteIndex, expected, actual);
+    }
+}
+
+/**
+ * Used for diagnostic logging during development
+ */
+- (void)logTestData:(NSData *)data
+         testString:(NSString *)testString {
+
+    uint8_t *bytePtr = (uint8_t*)[data bytes];
+    NSInteger numberOfElements = [data length] / sizeof(uint8_t);
+    for (int i = 0 ; i < numberOfElements; i ++) {
+        NSLog(@"testString %@ byteIndex %d value %x",
+              testString, i, bytePtr[i]);
     }
 }
 
