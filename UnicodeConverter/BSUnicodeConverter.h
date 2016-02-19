@@ -30,27 +30,27 @@
 /**
  * @return true if most significant bit is 0
  */
-+ (BOOL)isValidFirstByteForSingleByteCodePoint:(UInt8)byte;
++ (BOOL)isValidFirstByteForSingleByteCodePoint:(uint8_t)byte;
 
 /**
  * @return true if 3 most significant bits are 110
  */
-+ (BOOL)isValidFirstByteForTwoByteCodePoint:(UInt8)byte;
++ (BOOL)isValidFirstByteForTwoByteCodePoint:(uint8_t)byte;
 
 /**
  * @return true if 4 most significant bits are 1110
  */
-+ (BOOL)isValidFirstByteForThreeByteCodePoint:(UInt8)byte;
++ (BOOL)isValidFirstByteForThreeByteCodePoint:(uint8_t)byte;
 
 /**
  * @return true if 5 most significant bits are 11110
  */
-+ (BOOL)isValidFirstByteForFourByteCodePoint:(UInt8)byte;
++ (BOOL)isValidFirstByteForFourByteCodePoint:(uint8_t)byte;
 
 /**
  * @return true if 2 most significant bits are 10
  */
-+ (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(UInt8)byte;
++ (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(uint8_t)byte;
 
 + (NSUInteger)numberOfBytesToGet:(NSData *)data;
 
