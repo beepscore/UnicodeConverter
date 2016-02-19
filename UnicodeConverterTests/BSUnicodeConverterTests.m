@@ -149,19 +149,19 @@
     XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsThreeBytesFirstByte:0b11110000]);
 }
 
-#pragma mark - testIsValidFirstByteForFourByteCodePoint
+#pragma mark - testIsValidUTF8EncodedAsFourBytesFirstByte
 
-- (void)testIsValidFirstByteForFourByteCodePointMostSignificantBits11110 {
-    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11110000]);
-    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11110111]);
+- (void)testIsValidUTF8EncodedAsFourBytesFirstByteMostSignificantBits11110 {
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:0b11110000]);
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:0b11110111]);
 }
 
-- (void)testIsValidFirstByteForFourByteCodePointFalse {
-    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b00000000]);
-    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b10000000]);
-    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11000000]);
-    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11100000]);
-    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11111000]);
+- (void)testIsValidUTF8EncodedAsFourBytesFirstByteFalse {
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:0b00000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:0b10000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:0b11000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:0b11100000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:0b11111000]);
 }
 
 #pragma mark -testDataFromStringEncodingUTF8Bytes

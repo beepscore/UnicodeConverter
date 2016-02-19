@@ -135,14 +135,14 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return ((byte >> 4) == 0b00001110);
 }
 
-+ (BOOL)isValidFirstByteForFourByteCodePoint:(uint8_t)byte {
++ (BOOL)isValidUTF8EncodedAsFourBytesFirstByte:(uint8_t)byte {
     return ((byte >> 3) == 0b00011110);
 }
 
 + (BOOL)isValidFirstByteForMultiByteCodePoint:(uint8_t)byte {
     return ([BSUnicodeConverter isValidUTF8EncodedAsTwoBytesFirstByte:byte]
             || [BSUnicodeConverter isValidUTF8EncodedAsThreeBytesFirstByte:byte]
-            || [BSUnicodeConverter isValidFirstByteForFourByteCodePoint:byte]);
+            || [BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:byte]);
 }
 
 + (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(uint8_t)byte {
