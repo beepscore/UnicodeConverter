@@ -131,7 +131,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return ((byte >> 5) == 0b00000110);
 }
 
-+ (BOOL)isValidFirstByteForThreeByteCodePoint:(uint8_t)byte {
++ (BOOL)isValidUTF8EncodedAsThreeBytesFirstByte:(uint8_t)byte {
     return ((byte >> 4) == 0b00001110);
 }
 
@@ -141,7 +141,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 + (BOOL)isValidFirstByteForMultiByteCodePoint:(uint8_t)byte {
     return ([BSUnicodeConverter isValidUTF8EncodedAsTwoBytesFirstByte:byte]
-            || [BSUnicodeConverter isValidFirstByteForThreeByteCodePoint:byte]
+            || [BSUnicodeConverter isValidUTF8EncodedAsThreeBytesFirstByte:byte]
             || [BSUnicodeConverter isValidFirstByteForFourByteCodePoint:byte]);
 }
 

@@ -47,7 +47,7 @@
 /**
  * @return true if 4 most significant bits are 1110
  */
-+ (BOOL)isValidFirstByteForThreeByteCodePoint:(uint8_t)byte;
++ (BOOL)isValidUTF8EncodedAsThreeBytesFirstByte:(uint8_t)byte;
 
 /**
  * @return true if 5 most significant bits are 11110
