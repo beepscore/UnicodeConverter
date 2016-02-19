@@ -197,8 +197,8 @@
     for (NSDictionary* testDict in testArray) {
         NSString *testString = testDict[@"testString"];
         NSData *data = [BSUnicodeConverter dataFromString:testString
-                                               encoding:NSUTF8StringEncoding];
-
+                                                 encoding:NSUTF8StringEncoding];
+        
         uint8_t *bytePtr = (uint8_t*)[data bytes];
         
         //        NSInteger numberOfElements = [data length] / sizeof(uint8_t);
@@ -210,7 +210,8 @@
         int expected = [testDict[@"byteValue"] intValue];
         int byteIndex = [testDict[@"byteIndex"] intValue];
         int actual = bytePtr[byteIndex];
-        XCTAssertEqual(expected, actual, @"testString %@ byteIndex %d expected 0x%x actual 0x%x",
+        XCTAssertEqual(expected, actual,
+                       @"testString %@ byteIndex %d expected 0x%x actual 0x%x",
                        testString, byteIndex, expected, actual);
     }
 }
