@@ -15,20 +15,23 @@ OK to use "standard unicode conversion faculties" to generate source UTF-8 strin
 OK to use "standard unicode conversion faculties" to test other code.
 Tests can get expected values by manually looking up some values.
 
+Assume code will run in an "8 bit clean" environment that allows setting high bit.
+https://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings
+
 ## Plan
 Start by using standard conversion methods to gain familiarity with API.
 Then add custom methods.
-Use type uint8_t in preference to char.
+Use type uint8_t in preference to char or OSX Cocoa platform specific UInt8.
 
 ### UTF-8
 
-#### Generate a UTF-8 string
+#### Generate a UTF-8 encoded string
 Use "standard unicode conversion faculties" to generate source UTF-8 string.
 Write a method to convert NSString to NSData or array of UTF-8 encoded bytes.
 
-#### Decode UTF-8 string to Unicode code points
+#### Decode UTF-8 encoded string to Unicode code points
 Implement a custom decoder.
-Test convert strings containing characters that convert to 1, 2, 3 and 4 byte lengths.
+Test convert strings.
 
 ### UTF-32
 Implement an encoder that converts Unicode code points to UTF-32.
@@ -40,6 +43,7 @@ In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code
 
 ## UTF-8
 Uses 1 to 4 bytes per code point.
+UTF-8 encoded strings can contain characters encoded to 1, 2, 3 and 4 byte lengths.
 Early decoders threw errors when given bad input, and malware exploited this
 to create denial of service attacks.
 If decoding fails, consider returning replacement character "�" (U+FFFD)
