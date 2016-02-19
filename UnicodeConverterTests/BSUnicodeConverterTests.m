@@ -169,33 +169,33 @@
                            // one byte
                            // character decimal hex
                            // A         65      0x41
-                           @{@"testString":@"A", @"byteIndex":@0, @"byteValue":@65},
-                           @{@"testString":@"A", @"byteIndex":@0, @"byteValue":@0x41},
+                           @{@"testString":@"A", @"index":@0, @"byteValue":@65},
+                           @{@"testString":@"A", @"index":@0, @"byteValue":@0x41},
                            // a         97      0x61
-                           @{@"testString":@"a", @"byteIndex":@0, @"byteValue":@97},
-                           @{@"testString":@"a", @"byteIndex":@0, @"byteValue":@0x61},
+                           @{@"testString":@"a", @"index":@0, @"byteValue":@97},
+                           @{@"testString":@"a", @"index":@0, @"byteValue":@0x61},
                            
                            // two bytes
-                           @{@"testString":@"ab", @"byteIndex":@0, @"byteValue":@0x61},
-                           @{@"testString":@"ab", @"byteIndex":@1, @"byteValue":@0x62},
+                           @{@"testString":@"ab", @"index":@0, @"byteValue":@0x61},
+                           @{@"testString":@"ab", @"index":@1, @"byteValue":@0x62},
 
-                           @{@"testString":@"ñ", @"byteIndex":@0, @"byteValue":@0xc3},
-                           @{@"testString":@"ñ", @"byteIndex":@1, @"byteValue":@0xb1},
+                           @{@"testString":@"ñ", @"index":@0, @"byteValue":@0xc3},
+                           @{@"testString":@"ñ", @"index":@1, @"byteValue":@0xb1},
 
-                           @{@"testString":betaString, @"byteIndex":@0, @"byteValue":@0xce},
-                           @{@"testString":betaString, @"byteIndex":@1, @"byteValue":@0xb2},
+                           @{@"testString":betaString, @"index":@0, @"byteValue":@0xce},
+                           @{@"testString":betaString, @"index":@1, @"byteValue":@0xb2},
 
-                           @{@"testString":gammaString, @"byteIndex":@0, @"byteValue":@0xce},
-                           @{@"testString":gammaString, @"byteIndex":@1, @"byteValue":@0x93},
+                           @{@"testString":gammaString, @"index":@0, @"byteValue":@0xce},
+                           @{@"testString":gammaString, @"index":@1, @"byteValue":@0x93},
 
                            // three bytes
-                           @{@"testString":@"€", @"byteIndex":@0, @"byteValue":@0xe2},
-                           @{@"testString":@"€", @"byteIndex":@1, @"byteValue":@0x82},
-                           @{@"testString":@"€", @"byteIndex":@2, @"byteValue":@0xac},
+                           @{@"testString":@"€", @"index":@0, @"byteValue":@0xe2},
+                           @{@"testString":@"€", @"index":@1, @"byteValue":@0x82},
+                           @{@"testString":@"€", @"index":@2, @"byteValue":@0xac},
 
-                           @{@"testString":@"ña", @"byteIndex":@0, @"byteValue":@0xc3},
-                           @{@"testString":@"ña", @"byteIndex":@1, @"byteValue":@0xb1},
-                           @{@"testString":@"ña", @"byteIndex":@2, @"byteValue":@0x61},
+                           @{@"testString":@"ña", @"index":@0, @"byteValue":@0xc3},
+                           @{@"testString":@"ña", @"index":@1, @"byteValue":@0xb1},
+                           @{@"testString":@"ña", @"index":@2, @"byteValue":@0x61},
                            
                            // four bytes
                            ];
@@ -210,11 +210,11 @@
         [self logTestData:data testString:testString];
 
         int expected = [testDict[@"byteValue"] intValue];
-        int byteIndex = [testDict[@"byteIndex"] intValue];
-        int actual = bytePtr[byteIndex];
+        int index = [testDict[@"index"] intValue];
+        int actual = bytePtr[index];
         XCTAssertEqual(expected, actual,
-                       @"testString %@ byteIndex %d expected 0x%x actual 0x%x",
-                       testString, byteIndex, expected, actual);
+                       @"testString %@ index %d expected 0x%x actual 0x%x",
+                       testString, index, expected, actual);
     }
 }
 
