@@ -84,6 +84,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
 }
 
+#pragma mark - methods to check number of bytes in code point
+
 + (BOOL)isValidFirstByteForSingleByteCodePoint:(UInt8)byte {
     return ((byte >> 7) == 0x0);
 }
@@ -109,6 +111,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 + (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(UInt8)byte {
     return ((byte >> 6) == 0x10);
 }
+
+#pragma mark -
 
 // TODO: implement and use this
 + (BOOL)isWellFormedUTF8ByteSequence:(UInt8*)bytes {
