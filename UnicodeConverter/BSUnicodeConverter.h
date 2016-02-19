@@ -22,6 +22,13 @@
 + (uint8_t*)bytesFromString:(NSString*)string
                    encoding:(NSStringEncoding)encoding;
 
+/** similar to bytesFromString:encoding: but with alternative implementation.
+ *  Warning: This method may be removed in release version of software.
+ *  Internal implementation is more cumbersome than bytesFromString.
+ */
+- (uint8_t*)bytesFromStringTwo:(NSString*)string
+                      encoding:(NSStringEncoding)encoding;
+
 + (NSData*)dataFromString:(NSString*)string
                  encoding:(NSStringEncoding)encoding;
 
@@ -66,11 +73,5 @@
  */
 - (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
                                errorPtr:(NSError**)errorPtr;
-
-/** Warning: This method may be removed in release version of software.
- Internal implementation is more cumbersome than bytesFromString.
-  */
-- (uint8_t*)bytesFromStringTwo:(NSString*)string
-                      encoding:(NSStringEncoding)encoding;
 
 @end

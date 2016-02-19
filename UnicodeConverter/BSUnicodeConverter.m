@@ -67,6 +67,43 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return [BSUnicodeConverter bytesFromData:data];
 }
 
+- (uint8_t*)bytesFromStringTwo:(NSString*)string encoding:(NSStringEncoding)encoding {
+    // http://stackoverflow.com/questions/8019647/how-to-use-nsstring-getbytesmaxlengthusedlengthencodingoptionsrangeremaini
+
+    // http://stackoverflow.com/questions/8021926/getting-weird-characters-when-going-from-nsstring-to-bytes-and-then-back-to-nsst?rq=1
+
+    // http://stackoverflow.com/questions/15038616/how-to-convert-between-character-and-byte-position-in-objective-c-c-c
+    //http://stackoverflow.com/questions/692564/concept-of-void-pointer-in-c-programming?rq=1
+
+    // NSString.h NSUTF16StringEncoding is an alias for NSUnicodeStringEncoding
+    NSUInteger numberOfBytes = [string lengthOfBytesUsingEncoding:encoding];
+
+    // ARC doesn't automatically manage malloc memory. In dealloc call free.
+    self.buffer = malloc(numberOfBytes);
+    if (!self.buffer) {
+        // memory allocation failed
+        return nil;
+    }
+    NSUInteger usedLength = 0;
+    // NSRangeFromString doesn't work, not sure why.
+    // NSRange range = NSRangeFromString(message);
+    NSRange range = NSMakeRange(0, [string length]);
+    
+    BOOL result = [string getBytes:self.buffer
+                         maxLength:numberOfBytes
+                        usedLength:&usedLength
+                          encoding:encoding
+                           options:0
+                             range:range
+                    remainingRange:NULL];
+    
+    if (!result) {
+        return nil;
+    } else {
+        return self.buffer;
+    }
+}
+
 + (NSString*)stringFromData:(NSData*)data encoding:(NSStringEncoding)encoding {
     // http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
     // http://iosdevelopertips.com/conversion/convert-nsdata-to-nsstring.html
@@ -245,43 +282,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return [NSError errorWithDomain:@"BSUnicodeConverterError"
                                code:BSUnicodeConverterError1
                            userInfo:nil];
-}
-
-- (uint8_t*)bytesFromStringTwo:(NSString*)string encoding:(NSStringEncoding)encoding {
-    // http://stackoverflow.com/questions/8019647/how-to-use-nsstring-getbytesmaxlengthusedlengthencodingoptionsrangeremaini
-
-    // http://stackoverflow.com/questions/8021926/getting-weird-characters-when-going-from-nsstring-to-bytes-and-then-back-to-nsst?rq=1
-
-    // http://stackoverflow.com/questions/15038616/how-to-convert-between-character-and-byte-position-in-objective-c-c-c
-    //http://stackoverflow.com/questions/692564/concept-of-void-pointer-in-c-programming?rq=1
-
-    // NSString.h NSUTF16StringEncoding is an alias for NSUnicodeStringEncoding
-    NSUInteger numberOfBytes = [string lengthOfBytesUsingEncoding:encoding];
-
-    // ARC doesn't automatically manage malloc memory. In dealloc call free.
-    self.buffer = malloc(numberOfBytes);
-    if (!self.buffer) {
-        // memory allocation failed
-        return nil;
-    }
-    NSUInteger usedLength = 0;
-    // NSRangeFromString doesn't work, not sure why.
-    // NSRange range = NSRangeFromString(message);
-    NSRange range = NSMakeRange(0, [string length]);
-    
-    BOOL result = [string getBytes:self.buffer
-                         maxLength:numberOfBytes
-                        usedLength:&usedLength
-                          encoding:encoding
-                           options:0
-                             range:range
-                    remainingRange:NULL];
-    
-    if (!result) {
-        return nil;
-    } else {
-        return self.buffer;
-    }
 }
 
 - (void)dealloc {
