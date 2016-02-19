@@ -110,16 +110,16 @@
     XCTAssertEqual(0x61, buffer[0]);
 }
 
-#pragma mark - testIsValidFirstByteForSingleByteCodePoint
+#pragma mark - testIsValidUTF8EncodedAsSingleByte
 
-- (void)testIsValidFirstByteForSingleByteCodePointMostSignificantBitZero {
-    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b00000000]);
-    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b01111111]);
+- (void)testIsValidUTF8EncodedAsSingleByteMostSignificantBitZero {
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:0b00000000]);
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:0b01111111]);
 }
 
-- (void)testIsValidFirstByteForSingleByteCodePointMostSignificantBitOne {
-    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b10000000]);
-    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b11111111]);
+- (void)testIsValidUTF8EncodedAsSingleByteMostSignificantBitOne {
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:0b10000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:0b11111111]);
 }
 
 #pragma mark - testIsValidFirstByteForTwoByteCodePoint

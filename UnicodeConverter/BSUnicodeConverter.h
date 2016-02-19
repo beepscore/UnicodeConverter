@@ -37,7 +37,7 @@
 /**
  * @return true if most significant bit is 0
  */
-+ (BOOL)isValidFirstByteForSingleByteCodePoint:(uint8_t)byte;
++ (BOOL)isValidUTF8EncodedAsSingleByte:(uint8_t)byte;
 
 /**
  * @return true if 3 most significant bits are 110

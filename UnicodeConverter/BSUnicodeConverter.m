@@ -123,7 +123,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 #pragma mark - methods to check number of bytes in code point
 
-+ (BOOL)isValidFirstByteForSingleByteCodePoint:(uint8_t)byte {
++ (BOOL)isValidUTF8EncodedAsSingleByte:(uint8_t)byte {
     return ((byte >> 7) == 0b00000000);
 }
 
@@ -179,7 +179,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         UInt8 firstByte = [BSUnicodeConverter firstByteFromData:firstData];
 
         if ([BSUnicodeConverter
-             isValidFirstByteForSingleByteCodePoint:firstByte]) {
+             isValidUTF8EncodedAsSingleByte:firstByte]) {
              [utf32Data appendData:firstData];
 
         } else if (![BSUnicodeConverter
