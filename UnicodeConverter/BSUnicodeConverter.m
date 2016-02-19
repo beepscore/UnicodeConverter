@@ -12,12 +12,6 @@
 
 @implementation BSUnicodeConverter
 
-typedef enum BSUnicodeConverterError : NSUInteger {
-    BSUnicodeConverterError0 = 0,
-    BSUnicodeConverterError1 = 1,
-    BSUnicodeConverterError2 = 2,
-} BSUnicodeConverterError;
-
 uint8_t codeUnit0 = 0;
 uint8_t codeUnit1 = 0;
 uint8_t codeUnit2 = 0;
@@ -156,74 +150,96 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return NO;
 }
 
-// TODO: shorten this method by extracting methods
-- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
-                               errorPtr:(NSError**)errorPtr {
-    // https://en.wikipedia.org/wiki/UTF-8
-    // http://www.ios-developer.net/iphone-ipad-programmer/development/nsdata/nsdata-general
++ (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
+                                errorPtr:(NSError**)errorPtr {
 
-    NSMutableData *utf32Data = [[NSMutableData alloc] init];
-
-    if (0 == data.length) {
+    if ((nil == data)
+        || (0 == data.length)) {
         *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
-                                        code:BSUnicodeConverterError0
+                                        code:BSUnicodeConverterErrorDataEmpty
                                     userInfo:nil];
         return nil;
     }
 
-    // const int *dataBytes = [data bytes];
-
-    for (NSUInteger index = 0; index < data.length; index++) {
-
-        NSData *firstData = [data subdataWithRange:NSMakeRange(index, 1)];
-        UInt8 firstByte = [BSUnicodeConverter firstByteFromData:firstData];
-
-        if ([BSUnicodeConverter
-             isValidUTF8EncodedAsSingleByte:firstByte]) {
-             [utf32Data appendData:firstData];
-
-        } else if (![BSUnicodeConverter
-                     isValidFirstByteForMultiByteCodePoint:firstByte]) {
-            //if (self.buffer) {
-                //free(self.buffer);
-                //self.buffer = nil;
-            //}
-            //self.buffer = malloc(1);
-            //if (!self.buffer) {
-                // memory allocation failed
-            //    NSLog(@"memory allocation failed");
-            //    return utf32Data;
-            //} else {
-                self.buffer = (void *)&kReplacementCharacter;
-                NSData *replacementCharacterData = [NSData dataWithBytes:self.buffer
-                                                                  length:4];
-                [utf32Data appendData:replacementCharacterData];
-            //}
-
-        } else {
-
-            if (data.length >= 2) {
-                NSData *secondData = [data subdataWithRange:NSMakeRange(index+1, 1)];
-                UInt8 secondByte = [BSUnicodeConverter firstByteFromData:secondData];
-                if (![BSUnicodeConverter isValidSecondThirdOrFourthByteInCodePoint:secondByte]) {
-                    // TODO:
-                    // if well formed append bytes
-                    // if not, append replacement character and increment index by 1 byte
-                }
-                
-            }
-        }
-        
+    NSData *firstData = [data subdataWithRange:NSMakeRange(0, 1)];
+    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:firstData];
+    if ([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:firstByte]) {
+        return firstData;
     }
-    // append euro sign
-    int euroSign = 0x000020ac;
-    self.buffer = &euroSign;
-    NSData *euroSignData = [NSData dataWithBytes:self.buffer length:4];
-    [utf32Data appendData:euroSignData];
-    return utf32Data;
     
-    // TODO: finish implementation for additional bytes and errors
+    *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
+                                    code:BSUnicodeConverterErrorDataUnknown
+                                userInfo:nil];
+    return nil;
 }
+
+// TODO: shorten this method by extracting methods
+//- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
+//                               errorPtr:(NSError**)errorPtr {
+//    // http://www.ios-developer.net/iphone-ipad-programmer/development/nsdata/nsdata-general
+//
+//    NSMutableData *utf32Data = [[NSMutableData alloc] init];
+//
+//    if (0 == data.length) {
+//        *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
+//                                        code:BSUnicodeConverterErrorDataEmpty
+//                                    userInfo:nil];
+//        return nil;
+//    }
+//
+//    // const int *dataBytes = [data bytes];
+//
+//    for (NSUInteger index = 0; index < data.length; index++) {
+//
+//        NSData *firstData = [data subdataWithRange:NSMakeRange(index, 1)];
+//        UInt8 firstByte = [BSUnicodeConverter firstByteFromData:firstData];
+//
+//        if ([BSUnicodeConverter
+//             isValidUTF8EncodedAsSingleByte:firstByte]) {
+//             [utf32Data appendData:firstData];
+//
+//        } else if (![BSUnicodeConverter
+//                     isValidFirstByteForMultiByteCodePoint:firstByte]) {
+//            //if (self.buffer) {
+//                //free(self.buffer);
+//                //self.buffer = nil;
+//            //}
+//            //self.buffer = malloc(1);
+//            //if (!self.buffer) {
+//                // memory allocation failed
+//            //    NSLog(@"memory allocation failed");
+//            //    return utf32Data;
+//            //} else {
+//                self.buffer = (void *)&kReplacementCharacter;
+//                NSData *replacementCharacterData = [NSData dataWithBytes:self.buffer
+//                                                                  length:4];
+//                [utf32Data appendData:replacementCharacterData];
+//            //}
+//
+//        } else {
+//
+//            if (data.length >= 2) {
+//                NSData *secondData = [data subdataWithRange:NSMakeRange(index+1, 1)];
+//                UInt8 secondByte = [BSUnicodeConverter firstByteFromData:secondData];
+//                if (![BSUnicodeConverter isValidSecondThirdOrFourthByteInCodePoint:secondByte]) {
+//                    // TODO:
+//                    // if well formed append bytes
+//                    // if not, append replacement character and increment index by 1 byte
+//                }
+//                
+//            }
+//        }
+//        
+//    }
+//    // append euro sign
+//    int euroSign = 0x000020ac;
+//    self.buffer = &euroSign;
+//    NSData *euroSignData = [NSData dataWithBytes:self.buffer length:4];
+//    [utf32Data appendData:euroSignData];
+//    return utf32Data;
+//    
+//    // TODO: finish implementation for additional bytes and errors
+//}
 
 // reference implementation from Wikipedia UTF-8
 // probably this is correct, but who knows?

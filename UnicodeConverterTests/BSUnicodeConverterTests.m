@@ -230,6 +230,38 @@
     }
 }
 
+#pragma mark - testUnicodeCodePointFromUTF8DataErrorPtr
+
+- (void)testUnicodeCodePointFromUTF8DataErrorPtrDataNil {
+    NSError *error;
+    XCTAssertNil([BSUnicodeConverter unicodeCodePointFromUTF8Data:nil
+                                                         errorPtr:&error]);
+    XCTAssertEqual(BSUnicodeConverterErrorDataEmpty, error.code);
+}
+
+- (void)testUnicodeCodePointFromUTF8DataErrorPtrDataEmpty {
+    NSError *error;
+    NSData *emptyData = [NSData data];
+    XCTAssertNil([BSUnicodeConverter unicodeCodePointFromUTF8Data:emptyData
+                                                         errorPtr:&error]);
+    XCTAssertEqual(BSUnicodeConverterErrorDataEmpty, error.code);
+}
+
+- (void)testUnicodeCodePointFromUTF8DataErrorPtrab {
+    NSError *error;
+    NSString *string = @"ab";
+    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:bytes length:2];
+    NSData *expected = [NSData dataWithBytes:bytes length:1];
+    XCTAssertEqualObjects(expected, [BSUnicodeConverter unicodeCodePointFromUTF8Data:data
+                                                                            errorPtr:&error]);
+    XCTAssertNil(error);
+}
+
+
+
+#pragma mark -
+
 - (void)testDataFromStringEncodingUTF8CharactersOneByte {
     NSDictionary* testDict = @{@"": @0,
                                @"a": @1,

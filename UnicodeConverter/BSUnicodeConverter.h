@@ -10,6 +10,13 @@
 
 @interface BSUnicodeConverter : NSObject
 
+typedef NS_ENUM(NSUInteger, BSUnicodeConverterError) {
+    BSUnicodeConverterErrorDataUnknown = 0,
+    BSUnicodeConverterErrorDataEmpty = 1,
+    BSUnicodeConverterError1 = 2,
+    BSUnicodeConverterError2 = 3,
+};
+
 // void* is a pointer to any type
 @property (assign) void* buffer;
 
@@ -61,6 +68,15 @@
 
 + (NSUInteger)numberOfBytesToGet:(NSData *)data;
 
+#pragma mark - decode UTF-8
+
+/**
+ * @return a single unicodeCodePoint starting at start of data
+ * return nil if error, and set error
+ */
++ (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
+                                errorPtr:(NSError**)errorPtr;
+
 #pragma mark -
 
 + (NSString*)stringFromData:(NSData*)data
@@ -71,7 +87,7 @@
  @return replacement character "�" (U+FFFD) if decoding a character fails
  errorPtr describes error types
  */
-- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
-                               errorPtr:(NSError**)errorPtr;
+//- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
+//                               errorPtr:(NSError**)errorPtr;
 
 @end
