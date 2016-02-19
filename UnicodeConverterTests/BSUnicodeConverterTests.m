@@ -97,7 +97,17 @@
     XCTAssertEqual(0x61, buffer[0]);
 }
 
-#pragma mark - testIsValidTFirstByte
+#pragma mark - testIsValidFirstByteForSingleByteCodePoint
+
+- (void)testIsValidFirstByteForSingleByteCodePointMostSignificantBitZero {
+    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b00000000]);
+    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b01111111]);
+}
+
+- (void)testIsValidFirstByteForSingleByteCodePointMostSignificantBitOne {
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b10000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForSingleByteCodePoint:0b11111111]);
+}
 
 #pragma mark - testDataFromString
 
