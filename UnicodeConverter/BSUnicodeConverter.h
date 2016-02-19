@@ -42,7 +42,7 @@
 /**
  * @return true if 3 most significant bits are 110
  */
-+ (BOOL)isValidFirstByteForTwoByteCodePoint:(uint8_t)byte;
++ (BOOL)isValidUTF8EncodedAsTwoBytesFirstByte:(uint8_t)byte;
 
 /**
  * @return true if 4 most significant bits are 1110
