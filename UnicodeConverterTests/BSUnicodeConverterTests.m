@@ -136,6 +136,21 @@
     XCTAssertFalse([BSUnicodeConverter isValidFirstByteForThreeByteCodePoint:0b11110000]);
 }
 
+#pragma mark - testIsValidFirstByteForFourByteCodePoint
+
+- (void)testIsValidFirstByteForFourByteCodePointMostSignificantBits11110 {
+    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11110000]);
+    XCTAssertTrue([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11110111]);
+}
+
+- (void)testIsValidFirstByteForFourByteCodePointFalse {
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b00000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b10000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11100000]);
+    XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11111000]);
+}
+
 #pragma mark - testDataFromString
 
 - (void)testDataFromStringBytes {
