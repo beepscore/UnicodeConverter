@@ -87,19 +87,19 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 #pragma mark - methods to check number of bytes in code point
 
 + (BOOL)isValidFirstByteForSingleByteCodePoint:(UInt8)byte {
-    return ((byte >> 7) == 0x0);
+    return ((byte >> 7) == 0b00000000);
 }
 
 + (BOOL)isValidFirstByteForTwoByteCodePoint:(UInt8)byte {
-    return ((byte >> 5) == 0x6);
+    return ((byte >> 5) == 0b00000110);
 }
 
 + (BOOL)isValidFirstByteForThreeByteCodePoint:(UInt8)byte {
-    return ((byte >> 4) == 0xe);
+    return ((byte >> 4) == 0b00001110);
 }
 
 + (BOOL)isValidFirstByteForFourByteCodePoint:(UInt8)byte {
-    return ((byte >> 3) == 0x1e);
+    return ((byte >> 3) == 0b00011110);
 }
 
 + (BOOL)isValidFirstByteForMultiByteCodePoint:(UInt8)byte {
@@ -109,7 +109,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(UInt8)byte {
-    return ((byte >> 6) == 0x10);
+    return ((byte >> 6) == 0b00000010);
 }
 
 #pragma mark -
