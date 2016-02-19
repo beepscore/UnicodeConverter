@@ -226,9 +226,9 @@
 
     uint8_t *bytePtr = (uint8_t*)[data bytes];
     NSInteger numberOfElements = [data length] / sizeof(uint8_t);
-    for (int i = 0 ; i < numberOfElements; i ++) {
-        NSLog(@"testString %@ byteIndex %d value %x",
-              testString, i, bytePtr[i]);
+    for (int index = 0 ; index < numberOfElements; index++) {
+        NSLog(@"testString %@ index %d value %x",
+              testString, index, bytePtr[index]);
     }
 }
 
