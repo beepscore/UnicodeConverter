@@ -12,6 +12,7 @@ The code should be production quality and include tests.
 
 ## Assumptions
 OK to use "standard unicode conversion faculties" to generate source UTF-8 string.
+For example ok to use NSString dataUsingEncoding:
 OK to use "standard unicode conversion faculties" to test other code.
 Tests can get expected values by manually looking up some values.
 
@@ -28,6 +29,11 @@ Use type uint8_t in preference to char or OSX Cocoa platform specific UInt8.
 #### Generate a UTF-8 encoded string
 Use "standard unicode conversion faculties" to generate source UTF-8 string.
 Write a method to convert NSString to NSData or array of UTF-8 encoded bytes.
+
+##### Byte order mark
+// https://en.wikipedia.org/wiki/UTF-8
+Some Windows programs such as Notepad add a byte order mark at the beginning.
+Check for byte order mark at beginning of string and handle it.
 
 #### Decode UTF-8 encoded string to Unicode code points
 Implement a custom decoder.
