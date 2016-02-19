@@ -201,10 +201,14 @@
                            @{@"testString":@"ña", @"index":@0, @"expected":@0xc3},
                            @{@"testString":@"ña", @"index":@1, @"expected":@0xb1},
                            @{@"testString":@"ña", @"index":@2, @"expected":@0x61},
-                           
+
                            // four bytes
+                           @{@"testString":hwairString, @"index":@0, @"expected":@0xF0},
+                           @{@"testString":hwairString, @"index":@1, @"expected":@0x90},
+                           @{@"testString":hwairString, @"index":@2, @"expected":@0x8D},
+                           @{@"testString":hwairString, @"index":@3, @"expected":@0x88},
                            ];
-    
+
     for (NSDictionary* testDict in testArray) {
 
         NSString *testString = testDict[@"testString"];
