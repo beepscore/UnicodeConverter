@@ -169,66 +169,55 @@
                            // one byte
                            // character decimal hex
                            // A         65      0x41
-                           @{@"testString":@"A", @"index":@0, @"byteValue":@65},
-                           @{@"testString":@"A", @"index":@0, @"byteValue":@0x41},
+                           @{@"testString":@"A", @"index":@0, @"expected":@65},
+                           @{@"testString":@"A", @"index":@0, @"expected":@0x41},
                            // a         97      0x61
-                           @{@"testString":@"a", @"index":@0, @"byteValue":@97},
-                           @{@"testString":@"a", @"index":@0, @"byteValue":@0x61},
+                           @{@"testString":@"a", @"index":@0, @"expected":@97},
+                           @{@"testString":@"a", @"index":@0, @"expected":@0x61},
                            
                            // two bytes
-                           @{@"testString":@"ab", @"index":@0, @"byteValue":@0x61},
-                           @{@"testString":@"ab", @"index":@1, @"byteValue":@0x62},
+                           @{@"testString":@"ab", @"index":@0, @"expected":@0x61},
+                           @{@"testString":@"ab", @"index":@1, @"expected":@0x62},
 
-                           @{@"testString":@"ñ", @"index":@0, @"byteValue":@0xc3},
-                           @{@"testString":@"ñ", @"index":@1, @"byteValue":@0xb1},
+                           @{@"testString":@"ñ", @"index":@0, @"expected":@0xc3},
+                           @{@"testString":@"ñ", @"index":@1, @"expected":@0xb1},
 
-                           @{@"testString":betaString, @"index":@0, @"byteValue":@0xce},
-                           @{@"testString":betaString, @"index":@1, @"byteValue":@0xb2},
+                           @{@"testString":betaString, @"index":@0, @"expected":@0xce},
+                           @{@"testString":betaString, @"index":@1, @"expected":@0xb2},
 
-                           @{@"testString":gammaString, @"index":@0, @"byteValue":@0xce},
-                           @{@"testString":gammaString, @"index":@1, @"byteValue":@0x93},
+                           @{@"testString":gammaString, @"index":@0, @"expected":@0xce},
+                           @{@"testString":gammaString, @"index":@1, @"expected":@0x93},
 
                            // three bytes
-                           @{@"testString":@"€", @"index":@0, @"byteValue":@0xe2},
-                           @{@"testString":@"€", @"index":@1, @"byteValue":@0x82},
-                           @{@"testString":@"€", @"index":@2, @"byteValue":@0xac},
+                           @{@"testString":@"€", @"index":@0, @"expected":@0xe2},
+                           @{@"testString":@"€", @"index":@1, @"expected":@0x82},
+                           @{@"testString":@"€", @"index":@2, @"expected":@0xac},
 
-                           @{@"testString":@"ña", @"index":@0, @"byteValue":@0xc3},
-                           @{@"testString":@"ña", @"index":@1, @"byteValue":@0xb1},
-                           @{@"testString":@"ña", @"index":@2, @"byteValue":@0x61},
+                           @{@"testString":@"ña", @"index":@0, @"expected":@0xc3},
+                           @{@"testString":@"ña", @"index":@1, @"expected":@0xb1},
+                           @{@"testString":@"ña", @"index":@2, @"expected":@0x61},
                            
                            // four bytes
                            ];
     
     for (NSDictionary* testDict in testArray) {
+
         NSString *testString = testDict[@"testString"];
+        int index = [testDict[@"index"] intValue];
+        int expected = [testDict[@"expected"] intValue];
+
         NSData *data = [BSUnicodeConverter dataFromString:testString
                                                  encoding:NSUTF8StringEncoding];
-        
         uint8_t *bytePtr = (uint8_t*)[data bytes];
-        
-        [self logTestData:data testString:testString];
-
-        int expected = [testDict[@"byteValue"] intValue];
-        int index = [testDict[@"index"] intValue];
         int actual = bytePtr[index];
+
+        // Used for diagnostic logging during development
+//        NSLog(@"testString %@ index %d expected 0x%x actual 0x%x",
+//                       testString, index, expected, actual);
+
         XCTAssertEqual(expected, actual,
                        @"testString %@ index %d expected 0x%x actual 0x%x",
                        testString, index, expected, actual);
-    }
-}
-
-/**
- * Used for diagnostic logging during development
- */
-- (void)logTestData:(NSData *)data
-         testString:(NSString *)testString {
-
-    uint8_t *bytePtr = (uint8_t*)[data bytes];
-    NSInteger numberOfElements = [data length] / sizeof(uint8_t);
-    for (int index = 0 ; index < numberOfElements; index++) {
-        NSLog(@"testString %@ index %d value %x",
-              testString, index, bytePtr[index]);
     }
 }
 
