@@ -16,6 +16,23 @@
 
 @implementation BSUnicodeConverterTests
 
+#pragma mark - constants
+    // http://justskins.com/forums/escape-sequence-for-unicode-114988.html
+    unichar const beta = 0x03b2;
+
+    // unicode escape, starts with \u or \U
+    // http://blog.ablepear.com/2010/07/objective-c-tuesdays-unicode-string.html
+    // Greek letter capital gamma Γ
+    NSString *gammaString = @"\u0393";
+
+    NSString *euroString = @"€";
+
+    // https://en.wikipedia.org/wiki/UTF-8
+    // https://en.wikipedia.org/wiki/Hwair
+    NSString *hwairString = @"𐍈";
+
+#pragma mark -
+
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -51,8 +68,7 @@
 }
 
 - (void)testBytesFromUTF8StringEuro {
-    NSString *string = @"€";
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:euroString encoding:NSUTF8StringEncoding];
     // expected values from Wikipedia example
     // https://en.wikipedia.org/wiki/UTF-8
     XCTAssertEqual(0xe2, buffer[0]);
@@ -61,11 +77,8 @@
 }
 
 - (void)testBytesFromUTF8StringHwair {
-    NSString *string = @"𐍈";
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeConverter bytesFromString:hwairString encoding:NSUTF8StringEncoding];
     // expected values from Wikipedia example
-    // https://en.wikipedia.org/wiki/UTF-8
-    // https://en.wikipedia.org/wiki/Hwair
     XCTAssertEqual(0xF0, buffer[0]);
     XCTAssertEqual(0x90, buffer[1]);
     XCTAssertEqual(0x8D, buffer[2]);
@@ -155,15 +168,7 @@
 
 - (void)testDataFromStringEncodingUTF8Bytes {
     // https://en.wikipedia.org/wiki/UTF-8
-
-    // http://justskins.com/forums/escape-sequence-for-unicode-114988.html
-    unichar beta=0x03b2;
     NSString* betaString = [NSString stringWithCharacters:&beta length:1];
-
-    // unicode escape, starts with \u or \U
-    // http://blog.ablepear.com/2010/07/objective-c-tuesdays-unicode-string.html
-    // Greek letter capital gamma Γ
-    NSString *gammaString = @"\u0393";
 
     NSArray* testArray = @[
                            // one byte
@@ -189,9 +194,9 @@
                            @{@"testString":gammaString, @"index":@1, @"expected":@0x93},
 
                            // three bytes
-                           @{@"testString":@"€", @"index":@0, @"expected":@0xe2},
-                           @{@"testString":@"€", @"index":@1, @"expected":@0x82},
-                           @{@"testString":@"€", @"index":@2, @"expected":@0xac},
+                           @{@"testString":euroString, @"index":@0, @"expected":@0xe2},
+                           @{@"testString":euroString, @"index":@1, @"expected":@0x82},
+                           @{@"testString":euroString, @"index":@2, @"expected":@0xac},
 
                            @{@"testString":@"ña", @"index":@0, @"expected":@0xc3},
                            @{@"testString":@"ña", @"index":@1, @"expected":@0xb1},
