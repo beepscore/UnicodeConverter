@@ -151,9 +151,9 @@
     XCTAssertFalse([BSUnicodeConverter isValidFirstByteForFourByteCodePoint:0b11111000]);
 }
 
-#pragma mark - testDataFromString
+#pragma mark -testDataFromStringEncodingUTF8Bytes
 
-- (void)testDataFromStringBytes {
+- (void)testDataFromStringEncodingUTF8Bytes {
     // https://en.wikipedia.org/wiki/UTF-8
 
     // http://justskins.com/forums/escape-sequence-for-unicode-114988.html
@@ -168,27 +168,33 @@
     NSArray* testArray = @[
                            // one byte
                            // character decimal hex
-                           // A         65      41
-                           // a         97      61
+                           // A         65      0x41
                            @{@"testString":@"A", @"byteIndex":@0, @"byteValue":@65},
                            @{@"testString":@"A", @"byteIndex":@0, @"byteValue":@0x41},
+                           // a         97      0x61
                            @{@"testString":@"a", @"byteIndex":@0, @"byteValue":@97},
                            @{@"testString":@"a", @"byteIndex":@0, @"byteValue":@0x61},
                            
                            // two bytes
-                           @{@"testString":@"ñ", @"byteIndex":@0, @"byteValue":@0xc3},
-                           @{@"testString":@"ñ", @"byteIndex":@1, @"byteValue":@0xb1},
-                           @{@"testString":betaString, @"byteIndex":@0, @"byteValue":@0xce},
-                           @{@"testString":betaString, @"byteIndex":@1, @"byteValue":@0xb2},
-                           @{@"testString":gammaString, @"byteIndex":@0, @"byteValue":@0xce},
-                           @{@"testString":gammaString, @"byteIndex":@1, @"byteValue":@0x93},
                            @{@"testString":@"ab", @"byteIndex":@0, @"byteValue":@0x61},
                            @{@"testString":@"ab", @"byteIndex":@1, @"byteValue":@0x62},
-                           
+
+                           @{@"testString":@"ñ", @"byteIndex":@0, @"byteValue":@0xc3},
+                           @{@"testString":@"ñ", @"byteIndex":@1, @"byteValue":@0xb1},
+
+                           @{@"testString":betaString, @"byteIndex":@0, @"byteValue":@0xce},
+                           @{@"testString":betaString, @"byteIndex":@1, @"byteValue":@0xb2},
+
+                           @{@"testString":gammaString, @"byteIndex":@0, @"byteValue":@0xce},
+                           @{@"testString":gammaString, @"byteIndex":@1, @"byteValue":@0x93},
+
                            // three bytes
                            @{@"testString":@"€", @"byteIndex":@0, @"byteValue":@0xe2},
                            @{@"testString":@"€", @"byteIndex":@1, @"byteValue":@0x82},
                            @{@"testString":@"€", @"byteIndex":@2, @"byteValue":@0xac},
+
+                           @{@"testString":@"ña", @"byteIndex":@0, @"byteValue":@0xc3},
+                           @{@"testString":@"ña", @"byteIndex":@1, @"byteValue":@0xb1},
                            @{@"testString":@"ña", @"byteIndex":@2, @"byteValue":@0x61},
                            
                            // four bytes
@@ -216,25 +222,27 @@
     }
 }
 
-- (void)testDataFromStringUTF8CharactersOneByte {
+- (void)testDataFromStringEncodingUTF8CharactersOneByte {
     NSDictionary* testDict = @{@"": @0,
                                @"a": @1,
                                @"testing": @7
                                };
     
     for (NSString* string in testDict) {
-        NSData *data = [BSUnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeConverter dataFromString:string
+                                                 encoding:NSUTF8StringEncoding];
         int expected = [testDict[string] intValue];
         XCTAssertEqual(expected, [data length], @"%@", string);
     }
 }
 
-- (void)testDataFromStringUTF8CharactersTwoByte {
+- (void)testDataFromStringEncodingUTF8CharactersTwoByte {
     NSDictionary* testDict = @{@"ñ": @2,
                                };
 
     for (NSString* string in testDict) {
-        NSData *data = [BSUnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeConverter dataFromString:string
+                                                 encoding:NSUTF8StringEncoding];
         int expected = [testDict[string] intValue];
         XCTAssertEqual(expected, [data length], @"%@", string);
     }
