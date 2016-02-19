@@ -97,6 +97,10 @@
     XCTAssertEqual(0x61, buffer[0]);
 }
 
+#pragma mark - testIsValidTFirstByte
+
+#pragma mark - testDataFromString
+
 - (void)testDataFromStringBytes {
     // https://en.wikipedia.org/wiki/UTF-8
 
@@ -182,6 +186,8 @@
         XCTAssertEqual(expected, [data length], @"%@", string);
     }
 }
+
+#pragma mark -
 
 - (void)testStringFromDataFromString {
     NSArray* testStrings = @[@"testing", @"español"];
