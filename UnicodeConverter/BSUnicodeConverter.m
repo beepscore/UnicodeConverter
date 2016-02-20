@@ -407,59 +407,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 //    // TODO: finish implementation for additional bytes and errors
 //}
 
-// reference implementation from Wikipedia UTF-8
-// probably this is correct, but who knows?
-// plan to reimplement and then check against this
-//
-//    unsigned read_code_point_from_utf8()
-//    {
-//        int code_unit1, code_unit2, code_unit3, code_unit4;
-//
-//        code_unit1 = getchar();
-//        if (code_unit1 < 0x80) {
-//            return code_unit1;
-//        } else if (code_unit1 < 0xC2) {
-//            /* continuation or overlong 2-byte sequence */
-//            goto ERROR1;
-//        } else if (code_unit1 < 0xE0) {
-//            /* 2-byte sequence */
-//            code_unit2 = getchar();
-//            if ((code_unit2 & 0xC0) != 0x80) goto ERROR2;
-//            return (code_unit1 << 6) + code_unit2 - 0x3080;
-//        } else if (code_unit1 < 0xF0) {
-//            /* 3-byte sequence */
-//            code_unit2 = getchar();
-//            if ((code_unit2 & 0xC0) != 0x80) goto ERROR2;
-//            if (code_unit1 == 0xE0 && code_unit2 < 0xA0) goto ERROR2; /* overlong */
-//            code_unit3 = getchar();
-//            if ((code_unit3 & 0xC0) != 0x80) goto ERROR3;
-//            return (code_unit1 << 12) + (code_unit2 << 6) + code_unit3 - 0xE2080;
-//        } else if (code_unit1 < 0xF5) {
-//            /* 4-byte sequence */
-//            code_unit2 = getchar();
-//            if ((code_unit2 & 0xC0) != 0x80) goto ERROR2;
-//            if (code_unit1 == 0xF0 && code_unit2 < 0x90) goto ERROR2; /* overlong */
-//            if (code_unit1 == 0xF4 && code_unit2 >= 0x90) goto ERROR2; /* > U+10FFFF */
-//            code_unit3 = getchar();
-//            if ((code_unit3 & 0xC0) != 0x80) goto ERROR3;
-//            code_unit4 = getchar();
-//            if ((code_unit4 & 0xC0) != 0x80) goto ERROR4;
-//            return (code_unit1 << 18) + (code_unit2 << 12) + (code_unit3 << 6) + code_unit4 - 0x3C82080;
-//        } else {
-//            /* > U+10FFFF */
-//            goto ERROR1;
-//        }
-//        
-//    ERROR4:
-//        ungetc(code_unit4, stdin);
-//    ERROR3:
-//        ungetc(code_unit3, stdin);
-//    ERROR2:
-//        ungetc(code_unit2, stdin);
-//    ERROR1:
-//        return code_unit1 + 0xDC00;
-//    }
-
 - (NSError*)UTF8DecodeErrorDataEmpty {
     return [NSError errorWithDomain:@"BSUTF8DecodeError"
                                code:BSUTF8DecodeErrorDataEmpty
