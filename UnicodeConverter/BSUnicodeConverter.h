@@ -18,6 +18,9 @@ typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
     BSUTF8DecodeErrorInvalidFourBytes = 4,
 };
 
+// replacement character "�" (U+FFFD)
+FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
+
 // void* is a pointer to any type
 @property (assign) void* buffer;
 

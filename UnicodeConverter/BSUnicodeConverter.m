@@ -17,10 +17,7 @@ uint8_t codeUnit1 = 0;
 uint8_t codeUnit2 = 0;
 uint8_t codeUnit3 = 0;
 
-// replacement character "�" (U+FFFD)
-//const uint32_t kReplacementCharacter = 0x0000fffd;
 uint32_t const kReplacementCharacter = 0x0000fffd;
-
 
 - (instancetype)init {
     self = [super init];
