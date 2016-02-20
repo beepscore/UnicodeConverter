@@ -187,11 +187,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
 }
 
-// TODO: implement and use this
-+ (BOOL)isWellFormedUTF8ByteSequence:(UInt8*)bytes {
-    return NO;
-}
-
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
                                 errorPtr:(NSError**)errorPtr {
 
