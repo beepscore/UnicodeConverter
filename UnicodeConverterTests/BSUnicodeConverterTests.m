@@ -122,17 +122,17 @@
     XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:0b11111111]);
 }
 
-#pragma mark - testIsValidUTF8EncodedNonFirstByte
+#pragma mark - testIsValidUTF8EncodedContinuationByte
 
-- (void)isValidUTF8EncodedNonFirstByteMostSignificantBits10 {
-    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b10000000]);
-    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b10111111]);
+- (void)testIsValidUTF8EncodedContinuationByteMostSignificantBits10 {
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedContinuationByte:0b10000000]);
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedContinuationByte:0b10111111]);
 }
 
-- (void)isValidUTF8EncodedNonFirstByteFalse {
-    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b00000000]);
-    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b01000000]);
-    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b11000000]);
+- (void)testIsValidUTF8EncodedContinuationByteFalse {
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedContinuationByte:0b00000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedContinuationByte:0b01000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedContinuationByte:0b11000000]);
 }
 
 #pragma mark - testIsValidUTF8EncodedAsTwoBytesFirstByte

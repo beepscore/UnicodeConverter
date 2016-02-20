@@ -137,7 +137,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return ((byte >> 7) == 0b00000000);
 }
 
-+ (BOOL)isValidUTF8EncodedNonFirstByte:(uint8_t)byte {
++ (BOOL)isValidUTF8EncodedContinuationByte:(uint8_t)byte {
     return ((byte >> 6) == 0b00000010);
 }
 
@@ -219,7 +219,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
     uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
     
-    if ([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:secondByte]) {
+    if ([BSUnicodeConverter isValidUTF8EncodedContinuationByte:secondByte]) {
         
         // decode
         // the unicode code point needs 11 bits
@@ -256,8 +256,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
     uint8_t thirdByte = [BSUnicodeConverter thirdByteFromData:data];
     
-    if ([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:secondByte]
-        && [BSUnicodeConverter isValidUTF8EncodedNonFirstByte:thirdByte]) {
+    if ([BSUnicodeConverter isValidUTF8EncodedContinuationByte:secondByte]
+        && [BSUnicodeConverter isValidUTF8EncodedContinuationByte:thirdByte]) {
         
         // decode
         // the unicode code point needs 16 bits

@@ -47,9 +47,11 @@ typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
 + (BOOL)isValidUTF8EncodedAsSingleByte:(uint8_t)byte;
 
 /**
+ * A continuation byte is a non-first byte in a multi-byte encoding
+ * http://stackoverflow.com/questions/9356169/utf-8-continuation-bytes
  * @return true if 2 most significant bits are 10
  */
-+ (BOOL)isValidUTF8EncodedNonFirstByte:(uint8_t)byte;
++ (BOOL)isValidUTF8EncodedContinuationByte:(uint8_t)byte;
 
 /**
  * @return true if 3 most significant bits are 110
