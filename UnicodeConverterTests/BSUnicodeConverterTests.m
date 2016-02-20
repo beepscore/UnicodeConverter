@@ -245,7 +245,7 @@
 
 #pragma mark - testunicodeCodePointFromUTF8TwoBytesErrorPtr
 
-- (void)testunicodeCodePointFromUTF8TwoBytesErrorPtr {
+- (void)testunicodeCodePointFromUTF8TwoBytesErrorPtrCent {
     NSError *error;
     // use cent sign as shown in wikipedia utf8
     NSString *string = @"¢";
@@ -259,6 +259,25 @@
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8TwoBytes:data
                                                                       errorPtr:&error]);
+    XCTAssertNil(error);
+}
+
+#pragma mark - testunicodeCodePointFromUTF8ThreeBytesErrorPtr
+
+- (void)testUnicodeCodePointFromUTF8ThreeBytesErrorPtrEuro {
+    NSError *error;
+    // use euro sign as shown in wikipedia utf8
+    NSString *string = @"€";
+    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
+                                                encoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:bytes length:3];
+    
+    // expected is the Unicode code point converted to NSData*
+    uint8_t expectedBytes[] = {0x20, 0xAC};
+    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
+    XCTAssertEqualObjects(expected,
+                          [BSUnicodeConverter unicodeCodePointFromUTF8ThreeBytes:data
+                                                                        errorPtr:&error]);
     XCTAssertNil(error);
 }
 

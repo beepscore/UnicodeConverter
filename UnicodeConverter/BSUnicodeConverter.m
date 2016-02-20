@@ -64,6 +64,14 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return bytePtr[1];
 }
 
+/**
+ @return uint8_t
+ */
++ (uint8_t)thirdByteFromData:(NSData*)data {
+    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
+    return bytePtr[2];
+}
+
 + (uint8_t*)bytesFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
     NSData *data = [string dataUsingEncoding:encoding];
     return [BSUnicodeConverter bytesFromData:data];
@@ -182,7 +190,10 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         return [self unicodeCodePointFromUTF8TwoBytes:data errorPtr:errorPtr];
     }
 
-    // TODO: three byte sequence
+    // three byte sequence
+    if ([BSUnicodeConverter isValidUTF8EncodedAsThreeBytesFirstByte:firstByte]) {
+        return [self unicodeCodePointFromUTF8ThreeBytes:data errorPtr:errorPtr];
+    }
 
     // TODO: four byte sequence
 
@@ -203,17 +214,18 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
                                     userInfo:nil];
         return nil;
     }
-    
-    //NSData *firstData = [data subdataWithRange:NSMakeRange(0, 1)];
+
+    // this utf8 sequence has 2 bytes
     uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
-    //NSData *secondData = [data subdataWithRange:NSMakeRange(1, 1)];
     uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
     
     if ([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:secondByte]) {
         
         // decode
+        // the unicode code point needs 11 bits
         uint8_t firstByteLast5Bits = firstByte & 0b00011111;
-        uint8_t unicodeFirstByte = firstByteLast5Bits >> 2;
+        uint8_t firstByteLast5BitsMostSignificant3Bits = firstByteLast5Bits >> 2;
+        uint8_t unicodeFirstByte = firstByteLast5BitsMostSignificant3Bits;
 
         uint8_t firstByteLast2Bits = firstByte & 0b00000011;
         uint8_t secondByteLast6Bits = secondByte & 0b00111111;
@@ -224,6 +236,44 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     } else {
         *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                         code:BSUTF8DecodeErrorInvalidTwoBytes
+                                    userInfo:nil];
+        return nil;
+    }
+}
+
++ (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)data
+                                      errorPtr:(NSError **)errorPtr {
+    if ((nil == data)
+        || (data.length < 3)) {
+        *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                        code:BSUTF8DecodeErrorInvalidThreeBytes
+                                    userInfo:nil];
+        return nil;
+    }
+
+    // this utf8 sequence has 3 bytes
+    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
+    uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
+    uint8_t thirdByte = [BSUnicodeConverter thirdByteFromData:data];
+    
+    if ([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:secondByte]
+        && [BSUnicodeConverter isValidUTF8EncodedNonFirstByte:thirdByte]) {
+        
+        // decode
+        // the unicode code point needs 16 bits
+        uint8_t firstByteLast4Bits = firstByte & 0b00001111;
+        uint8_t secondByteMiddle4Bits = secondByte & 0b00111100;
+        uint8_t unicodeFirstByte = (firstByteLast4Bits << 4) + (secondByteMiddle4Bits >> 2);
+
+        uint8_t secondByteLast2Bits = secondByte & 0b00000011;
+        uint8_t thirdByteLast6Bits = thirdByte & 0b00111111;
+        uint8_t unicodeSecondByte = (secondByteLast2Bits << 6) + thirdByteLast6Bits;
+        const uint8_t bytes[] = {unicodeFirstByte, unicodeSecondByte};
+        return [NSData dataWithBytes:bytes length:2];
+        
+    } else {
+        *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                        code:BSUTF8DecodeErrorInvalidThreeBytes
                                     userInfo:nil];
         return nil;
     }
