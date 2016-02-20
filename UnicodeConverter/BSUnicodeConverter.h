@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
     BSUTF8DecodeErrorDataEmpty = 1,
     BSUTF8DecodeErrorInvalidTwoBytes = 2,
     BSUTF8DecodeErrorInvalidThreeBytes = 3,
+    BSUTF8DecodeErrorInvalidFourBytes = 4,
 };
 
 // void* is a pointer to any type
