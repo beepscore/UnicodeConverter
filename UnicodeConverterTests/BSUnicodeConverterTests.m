@@ -267,8 +267,7 @@
 - (void)testUnicodeCodePointFromUTF8ThreeBytesErrorPtrEuro {
     NSError *error;
     // use euro sign as shown in wikipedia utf8
-    NSString *string = euroString;
-    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
+    uint8_t* bytes = [BSUnicodeConverter bytesFromString:euroString
                                                 encoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:bytes length:3];
     
