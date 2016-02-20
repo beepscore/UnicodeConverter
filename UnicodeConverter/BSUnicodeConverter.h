@@ -69,6 +69,12 @@ typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
  */
 + (BOOL)isValidUTF8EncodedAsFourBytesFirstByte:(uint8_t)byte;
 
+/**
+ * @return false if byte equals 0xC0, 0xC1 or is >= 0xF5
+ * https://tools.ietf.org/html/rfc3629
+ */
++ (BOOL)isValidUTF8EncodedOctet:(uint8_t)byte;
+
 + (NSUInteger)numberOfBytesToGet:(NSData *)data;
 
 #pragma mark - decode UTF-8

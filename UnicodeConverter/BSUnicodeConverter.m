@@ -144,23 +144,28 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 #pragma mark - methods to check number of bytes in code point
 
 + (BOOL)isValidUTF8EncodedAsSingleByte:(uint8_t)byte {
-    return ((byte >> 7) == 0b00000000);
+    return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
+            && ((byte >> 7) == 0b00000000));
 }
 
 + (BOOL)isValidUTF8EncodedContinuationByte:(uint8_t)byte {
-    return ((byte >> 6) == 0b00000010);
+    return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
+            && ((byte >> 6) == 0b00000010));
 }
 
 + (BOOL)isValidUTF8EncodedAsTwoBytesFirstByte:(uint8_t)byte {
-    return ((byte >> 5) == 0b00000110);
+    return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
+            && ((byte >> 5) == 0b00000110));
 }
 
 + (BOOL)isValidUTF8EncodedAsThreeBytesFirstByte:(uint8_t)byte {
-    return ((byte >> 4) == 0b00001110);
+    return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
+            && ((byte >> 4) == 0b00001110));
 }
 
 + (BOOL)isValidUTF8EncodedAsFourBytesFirstByte:(uint8_t)byte {
-    return ((byte >> 3) == 0b00011110);
+    return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
+            && ((byte >> 3) == 0b00011110));
 }
 
 + (BOOL)isValidFirstByteForMultiByteCodePoint:(uint8_t)byte {
@@ -170,6 +175,17 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 #pragma mark -
+
+/**
+ * https://tools.ietf.org/html/rfc3629
+ */
++ (BOOL)isValidUTF8EncodedOctet:(uint8_t)byte {
+    if ((byte == 0xC0) || (byte == 0xC1) || (byte >= 0xF5)) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
 
 // TODO: implement and use this
 + (BOOL)isWellFormedUTF8ByteSequence:(UInt8*)bytes {
@@ -327,6 +343,16 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         uint8_t thirdByteLast2Bits = thirdByte & 0b00000011;
         uint8_t fourthByteLast6Bits = fourthByte & 0b00111111;
         uint8_t unicodeThirdByte = (thirdByteLast2Bits << 6) + fourthByteLast6Bits;
+
+        const uint32_t unicodeMaxValue = 0x01FFFF;
+        uint32_t combinedBytes = ((uint32_t)unicodeFirstByte << 16)
+        + ((uint32_t)unicodeSecondByte << 8) + unicodeThirdByte;
+        if (combinedBytes > unicodeMaxValue) {
+            *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                            code:BSUTF8DecodeErrorInvalidFourBytes
+                                        userInfo:nil];
+            return nil;
+        }
 
         const uint8_t bytes[] = {unicodeFirstByte, unicodeSecondByte, unicodeThirdByte};
         return [NSData dataWithBytes:bytes length:3];
