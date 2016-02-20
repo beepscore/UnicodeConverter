@@ -24,7 +24,7 @@
     // http://blog.ablepear.com/2010/07/objective-c-tuesdays-unicode-string.html
     // Greek letter capital gamma Γ
     NSString *gammaString = @"\u0393";
-
+    NSString *centString = @"¢";
     NSString *euroString = @"€";
 
     // https://en.wikipedia.org/wiki/UTF-8
@@ -248,7 +248,7 @@
 - (void)testunicodeCodePointFromUTF8TwoBytesErrorPtrCent {
     NSError *error;
     // use cent sign as shown in wikipedia utf8
-    NSString *string = @"¢";
+    NSString *string = centString;
     uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
                                                 encoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:bytes length:2];
@@ -267,7 +267,7 @@
 - (void)testUnicodeCodePointFromUTF8ThreeBytesErrorPtrEuro {
     NSError *error;
     // use euro sign as shown in wikipedia utf8
-    NSString *string = @"€";
+    NSString *string = euroString;
     uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
                                                 encoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:bytes length:3];
