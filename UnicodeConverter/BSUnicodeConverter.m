@@ -72,6 +72,16 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return bytePtr[2];
 }
 
+/**
+ @return uint8_t
+ */
++ (uint8_t)fourthByteFromData:(NSData*)data {
+    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
+    return bytePtr[3];
+}
+
+#pragma mark -
+
 + (uint8_t*)bytesFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
     NSData *data = [string dataUsingEncoding:encoding];
     return [BSUnicodeConverter bytesFromData:data];
