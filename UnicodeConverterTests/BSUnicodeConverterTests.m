@@ -280,6 +280,24 @@
     XCTAssertNil(error);
 }
 
+#pragma mark - testunicodeCodePointFromUTF8FourBytesErrorPtr
+
+- (void)testUnicodeCodePointFromUTF8FourBytesErrorPtrHwair {
+    NSError *error;
+    // use hwair as shown in wikipedia utf8
+    uint8_t* bytes = [BSUnicodeConverter bytesFromString:hwairString
+                                                encoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    
+    // expected is the Unicode code point converted to NSData*
+    uint8_t expectedBytes[] = {0x01, 0x03, 0x48};
+    NSData *expected = [NSData dataWithBytes:expectedBytes length:3];
+    XCTAssertEqualObjects(expected,
+                          [BSUnicodeConverter unicodeCodePointFromUTF8FourBytes:data
+                                                                        errorPtr:&error]);
+    XCTAssertNil(error);
+}
+
 #pragma mark - testUnicodeCodePointFromUTF8DataErrorPtr
 
 - (void)testUnicodeCodePointFromUTF8DataErrorPtrDataNil {

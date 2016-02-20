@@ -205,7 +205,10 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         return [self unicodeCodePointFromUTF8ThreeBytes:data errorPtr:errorPtr];
     }
 
-    // TODO: four byte sequence
+    // four byte sequence
+    if ([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:firstByte]) {
+        return [self unicodeCodePointFromUTF8FourBytes:data errorPtr:errorPtr];
+    }
 
     // default unknown error
     *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
@@ -284,6 +287,53 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     } else {
         *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                         code:BSUTF8DecodeErrorInvalidThreeBytes
+                                    userInfo:nil];
+        return nil;
+    }
+}
+
++ (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)data
+                                      errorPtr:(NSError **)errorPtr {
+    if ((nil == data)
+        || (data.length < 4)) {
+        *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                        code:BSUTF8DecodeErrorInvalidFourBytes
+                                    userInfo:nil];
+        return nil;
+    }
+
+    // this utf8 sequence has 4 bytes
+    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
+    uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
+    uint8_t thirdByte = [BSUnicodeConverter thirdByteFromData:data];
+    uint8_t fourthByte = [BSUnicodeConverter fourthByteFromData:data];
+    
+    if ([BSUnicodeConverter isValidUTF8EncodedContinuationByte:secondByte]
+        && [BSUnicodeConverter isValidUTF8EncodedContinuationByte:thirdByte]
+        && [BSUnicodeConverter isValidUTF8EncodedContinuationByte:fourthByte]) {
+        
+        // decode
+        // the unicode code point needs 21 bits
+        uint8_t firstByteLast3Bits = firstByte & 0b00000111;
+        uint8_t secondByteLast6Bits = secondByte & 0b00111111;
+        uint8_t secondByteLast6Bits2MostSignificantBits = secondByteLast6Bits >> 4;
+        uint8_t unicodeFirstByte = (firstByteLast3Bits << 5) + secondByteLast6Bits2MostSignificantBits;
+
+        uint8_t secondByteLast4Bits = secondByte & 0b00001111;
+        uint8_t thirdByteLast6Bits = thirdByte & 0b00111111;
+        uint8_t thirdByteLast6Bits4MostSignificantBits = thirdByteLast6Bits >> 2;
+        uint8_t unicodeSecondByte = (secondByteLast4Bits << 4) + thirdByteLast6Bits4MostSignificantBits;
+
+        uint8_t thirdByteLast2Bits = thirdByte & 0b00000011;
+        uint8_t fourthByteLast6Bits = fourthByte & 0b00111111;
+        uint8_t unicodeThirdByte = (thirdByteLast2Bits << 6) + fourthByteLast6Bits;
+
+        const uint8_t bytes[] = {unicodeFirstByte, unicodeSecondByte, unicodeThirdByte};
+        return [NSData dataWithBytes:bytes length:3];
+        
+    } else {
+        *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                        code:BSUTF8DecodeErrorInvalidFourBytes
                                     userInfo:nil];
         return nil;
     }

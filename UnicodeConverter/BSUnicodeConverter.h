@@ -97,6 +97,14 @@ typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
 + (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)data
                                       errorPtr:(NSError **)errorPtr;
 
+/**
+ * @param data may be nil or empty or start with a UTF-8 encoded four byte character
+ * @return a single unicodeCodePoint starting at start of data
+ * return nil if error, and set error
+ */
++ (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)data
+                                      errorPtr:(NSError **)errorPtr;
+
 #pragma mark -
 
 + (NSString*)stringFromData:(NSData*)data
