@@ -27,7 +27,9 @@ https://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings
 
 ## Questions
 Does "standard" mean in the standard library?
-Ok to use 3rd party library like ICU?
+Ok to use 3rd party library like glib or ICU?
+http://www.opensource.apple.com/source/JavaScriptCore/JavaScriptCore-721.26/wtf/unicode/UTF8.cpp
+https://developer.gnome.org/glib/2.30/glib-Unicode-Manipulation.html
 http://icu-project.org/apiref/icu4c/index.html
 
 ## Plan
