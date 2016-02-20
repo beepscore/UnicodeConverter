@@ -357,6 +357,10 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
 }
 
++ (NSArray *)unicodeCodePointsFromUTF8Data:(NSData *)data {
+    return @[];
+}
+
 // TODO: shorten this method by extracting methods
 //- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
 //                               errorPtr:(NSError**)errorPtr {

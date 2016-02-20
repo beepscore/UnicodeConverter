@@ -114,6 +114,13 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 + (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)data
                                       errorPtr:(NSError **)errorPtr;
 
+/**
+ * @param data contains UTF-8 encoded data, may be nil or empty
+ * @return an array of unicodeCodePoint
+ * return empty array if data is nil or empty.
+ */
++ (NSArray *)unicodeCodePointsFromUTF8Data:(NSData *)data;
+
 #pragma mark -
 
 + (NSString*)stringFromData:(NSData*)data
