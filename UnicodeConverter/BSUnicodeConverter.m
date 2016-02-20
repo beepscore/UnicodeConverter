@@ -133,7 +133,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 + (NSUInteger)numberOfBytesToGet:(NSData *)data {
     // utf8 uses at most 4 bytes
     NSUInteger kNumberOfUtf8BytesMaximum = 4;
-    // use if/else instead of trinary expression, looks more readable
+    // use if/else instead of ternary operator ?:, looks more readable
     if (data.length >= kNumberOfUtf8BytesMaximum) {
         return kNumberOfUtf8BytesMaximum;
     } else {
