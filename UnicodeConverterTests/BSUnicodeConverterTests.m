@@ -268,7 +268,7 @@
     NSError *error;
     XCTAssertNil([BSUnicodeConverter unicodeCodePointFromUTF8Data:nil
                                                          errorPtr:&error]);
-    XCTAssertEqual(BSUnicodeConverterErrorDataEmpty, error.code);
+    XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
 - (void)testUnicodeCodePointFromUTF8DataErrorPtrDataEmpty {
@@ -276,7 +276,7 @@
     NSData *emptyData = [NSData data];
     XCTAssertNil([BSUnicodeConverter unicodeCodePointFromUTF8Data:emptyData
                                                          errorPtr:&error]);
-    XCTAssertEqual(BSUnicodeConverterErrorDataEmpty, error.code);
+    XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
 - (void)testUnicodeCodePointFromUTF8DataErrorPtrOneByteab {

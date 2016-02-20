@@ -10,11 +10,11 @@
 
 @interface BSUnicodeConverter : NSObject
 
-typedef NS_ENUM(NSUInteger, BSUnicodeConverterError) {
-    BSUnicodeConverterErrorDataUnknown = 0,
-    BSUnicodeConverterErrorDataEmpty = 1,
-    BSUnicodeConverterErrorInvalidTwoBytes = 2,
-    BSUnicodeConverterErrorInvalidThreeBytes = 3,
+typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
+    BSUTF8DecodeErrorDataUnknown = 0,
+    BSUTF8DecodeErrorDataEmpty = 1,
+    BSUTF8DecodeErrorInvalidTwoBytes = 2,
+    BSUTF8DecodeErrorInvalidThreeBytes = 3,
 };
 
 // void* is a pointer to any type

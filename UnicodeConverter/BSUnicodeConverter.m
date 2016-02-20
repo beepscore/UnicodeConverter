@@ -164,8 +164,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     // no bytes
     if ((nil == data)
         || (0 == data.length)) {
-        *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
-                                        code:BSUnicodeConverterErrorDataEmpty
+        *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                        code:BSUTF8DecodeErrorDataEmpty
                                     userInfo:nil];
         return nil;
     }
@@ -187,8 +187,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     // TODO: four byte sequence
 
     // default unknown error
-    *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
-                                    code:BSUnicodeConverterErrorDataUnknown
+    *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                    code:BSUTF8DecodeErrorDataUnknown
                                 userInfo:nil];
     return nil;
 }
@@ -198,8 +198,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     
     if ((nil == data)
         || (data.length < 2)) {
-        *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
-                                        code:BSUnicodeConverterErrorInvalidTwoBytes
+        *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                        code:BSUTF8DecodeErrorInvalidTwoBytes
                                     userInfo:nil];
         return nil;
     }
@@ -222,8 +222,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         return [NSData dataWithBytes:bytes length:2];
         
     } else {
-        *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
-                                        code:BSUnicodeConverterErrorInvalidTwoBytes
+        *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
+                                        code:BSUTF8DecodeErrorInvalidTwoBytes
                                     userInfo:nil];
         return nil;
     }
@@ -351,8 +351,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 //    }
 
 - (NSError*)UTF8DecodeErrorDataEmpty {
-    return [NSError errorWithDomain:@"BSUnicodeConverterError"
-                               code:BSUnicodeConverterErrorDataEmpty
+    return [NSError errorWithDomain:@"BSUTF8DecodeError"
+                               code:BSUTF8DecodeErrorDataEmpty
                            userInfo:nil];
 }
 
