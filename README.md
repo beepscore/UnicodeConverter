@@ -1,5 +1,5 @@
 # Purpose
-Convert from UTF-8 to UTF-32 without using standard "Unicode conversion faculties".
+Convert from UTF-8 to UTF-32 without using standard Unicode conversion faculties.
 
 # Results
 
@@ -11,6 +11,12 @@ It is up to you to define the input and output data types and error handling sem
 The code should be production quality and include tests.
 
 ## Assumptions
+For purposes of demonstrating coding ability I can write an implementation with tests.
+However it seems likely any new implementation (such as mine) initially will have more bugs than a library that has been used before.
+It may be better to use an existing open source library, find and fix any specifically identified bugs.
+Then submit a pull request to the owner of the library.
+Alternativley could wrap the standard conversion methods in another class that catches and fixes any specifically identified bugs.
+
 OK to use "standard unicode conversion faculties" to generate source UTF-8 string.
 For example ok to use NSString dataUsingEncoding:
 OK to use "standard unicode conversion faculties" to test other code.
@@ -18,6 +24,11 @@ Tests can get expected values by manually looking up some values.
 
 Assume code will run in an "8 bit clean" environment that allows setting high bit.
 https://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings
+
+## Questions
+Does "standard" mean in the standard library?
+Ok to use 3rd party library like ICU?
+http://icu-project.org/apiref/icu4c/index.html
 
 ## Plan
 Start by using standard conversion methods to gain familiarity with API.
