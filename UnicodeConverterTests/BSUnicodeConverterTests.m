@@ -122,6 +122,19 @@
     XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:0b11111111]);
 }
 
+#pragma mark - testIsValidUTF8EncodedNonFirstByte
+
+- (void)isValidUTF8EncodedNonFirstByteMostSignificantBits10 {
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b10000000]);
+    XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b10111111]);
+}
+
+- (void)isValidUTF8EncodedNonFirstByteFalse {
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b00000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b01000000]);
+    XCTAssertFalse([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:0b11000000]);
+}
+
 #pragma mark - testIsValidUTF8EncodedAsTwoBytesFirstByte
 
 - (void)testIsValidUTF8EncodedAsTwoBytesFirstByteMostSignificantBits110 {
@@ -247,7 +260,7 @@
     XCTAssertEqual(BSUnicodeConverterErrorDataEmpty, error.code);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataErrorPtrab {
+- (void)testUnicodeCodePointFromUTF8DataErrorPtrOneByteab {
     NSError *error;
     NSString *string = @"ab";
     uint8_t* bytes = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
@@ -258,7 +271,37 @@
     XCTAssertNil(error);
 }
 
+- (void)testUnicodeCodePointFromUTF8DataErrorPtrTwoBytes {
+    NSError *error;
+    // use cent sign as shown in wikipedia utf8
+    NSString *string = @"¢";
+    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
+                                                encoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:bytes length:2];
+    
+    // expected is the Unicode code point converted to NSData*
+    uint8_t expectedBytes[] = {0x00, 0xA2};
+    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
+    XCTAssertEqualObjects(expected, [BSUnicodeConverter unicodeCodePointFromUTF8Data:data
+                                                                            errorPtr:&error]);
+    XCTAssertNil(error);
+}
 
+- (void)testunicodeCodePointFromUTF8TwoBytesErrorPtr {
+    NSError *error;
+    // use cent sign as shown in wikipedia utf8
+    NSString *string = @"¢";
+    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
+                                                encoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:bytes length:2];
+    
+    // expected is the Unicode code point converted to NSData*
+    uint8_t expectedBytes[] = {0x00, 0xA2};
+    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
+    XCTAssertEqualObjects(expected, [BSUnicodeConverter unicodeCodePointFromUTF8TwoBytes:data
+                                                                                errorPtr:&error]);
+    XCTAssertNil(error);
+}
 
 #pragma mark -
 

@@ -56,6 +56,14 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return bytePtr[0];
 }
 
+/**
+ @return uint8_t
+ */
++ (uint8_t)secondByteFromData:(NSData*)data {
+    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
+    return bytePtr[1];
+}
+
 + (uint8_t*)bytesFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
     NSData *data = [string dataUsingEncoding:encoding];
     return [BSUnicodeConverter bytesFromData:data];
@@ -121,6 +129,10 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return ((byte >> 7) == 0b00000000);
 }
 
++ (BOOL)isValidUTF8EncodedNonFirstByte:(uint8_t)byte {
+    return ((byte >> 6) == 0b00000010);
+}
+
 + (BOOL)isValidUTF8EncodedAsTwoBytesFirstByte:(uint8_t)byte {
     return ((byte >> 5) == 0b00000110);
 }
@@ -139,10 +151,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
             || [BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:byte]);
 }
 
-+ (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(uint8_t)byte {
-    return ((byte >> 6) == 0b00000010);
-}
-
 #pragma mark -
 
 // TODO: implement and use this
@@ -153,6 +161,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
                                 errorPtr:(NSError**)errorPtr {
 
+    // no bytes
     if ((nil == data)
         || (0 == data.length)) {
         *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
@@ -161,16 +170,63 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         return nil;
     }
 
+    // one byte
     NSData *firstData = [data subdataWithRange:NSMakeRange(0, 1)];
     uint8_t firstByte = [BSUnicodeConverter firstByteFromData:firstData];
     if ([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:firstByte]) {
         return firstData;
     }
-    
+
+    // two byte sequence
+    if ([BSUnicodeConverter isValidUTF8EncodedAsTwoBytesFirstByte:firstByte]) {
+        return [self unicodeCodePointFromUTF8TwoBytes:data errorPtr:errorPtr];
+    }
+
+    // TODO: three byte sequence
+
+    // TODO: four byte sequence
+
+    // default unknown error
     *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
                                     code:BSUnicodeConverterErrorDataUnknown
                                 userInfo:nil];
     return nil;
+}
+
++ (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)data
+                                    errorPtr:(NSError **)errorPtr {
+    
+    if ((nil == data)
+        || (data.length < 2)) {
+        *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
+                                        code:BSUnicodeConverterErrorInvalidTwoBytes
+                                    userInfo:nil];
+        return nil;
+    }
+    
+    //NSData *firstData = [data subdataWithRange:NSMakeRange(0, 1)];
+    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
+    //NSData *secondData = [data subdataWithRange:NSMakeRange(1, 1)];
+    uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
+    
+    if ([BSUnicodeConverter isValidUTF8EncodedNonFirstByte:secondByte]) {
+        
+        // decode
+        uint8_t firstByteLast5Bits = firstByte & 0b00011111;
+        uint8_t unicodeFirstByte = firstByteLast5Bits >> 2;
+
+        uint8_t firstByteLast2Bits = firstByte & 0b00000011;
+        uint8_t secondByteLast6Bits = secondByte & 0b00111111;
+        uint8_t unicodeSecondByte = (firstByteLast2Bits << 6) + secondByteLast6Bits;
+        const uint8_t bytes[] = {unicodeFirstByte, unicodeSecondByte};
+        return [NSData dataWithBytes:bytes length:2];
+        
+    } else {
+        *errorPtr = [NSError errorWithDomain:@"UTF8DecodeError"
+                                        code:BSUnicodeConverterErrorInvalidTwoBytes
+                                    userInfo:nil];
+        return nil;
+    }
 }
 
 // TODO: shorten this method by extracting methods
@@ -294,9 +350,9 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 //        return code_unit1 + 0xDC00;
 //    }
 
-- (NSError*)utf8DecodeError1 {
+- (NSError*)UTF8DecodeErrorDataEmpty {
     return [NSError errorWithDomain:@"BSUnicodeConverterError"
-                               code:BSUnicodeConverterError1
+                               code:BSUnicodeConverterErrorDataEmpty
                            userInfo:nil];
 }
 

@@ -13,8 +13,8 @@
 typedef NS_ENUM(NSUInteger, BSUnicodeConverterError) {
     BSUnicodeConverterErrorDataUnknown = 0,
     BSUnicodeConverterErrorDataEmpty = 1,
-    BSUnicodeConverterError1 = 2,
-    BSUnicodeConverterError2 = 3,
+    BSUnicodeConverterErrorInvalidTwoBytes = 2,
+    BSUnicodeConverterErrorInvalidThreeBytes = 3,
 };
 
 // void* is a pointer to any type
@@ -47,6 +47,11 @@ typedef NS_ENUM(NSUInteger, BSUnicodeConverterError) {
 + (BOOL)isValidUTF8EncodedAsSingleByte:(uint8_t)byte;
 
 /**
+ * @return true if 2 most significant bits are 10
+ */
++ (BOOL)isValidUTF8EncodedNonFirstByte:(uint8_t)byte;
+
+/**
  * @return true if 3 most significant bits are 110
  */
 + (BOOL)isValidUTF8EncodedAsTwoBytesFirstByte:(uint8_t)byte;
@@ -61,21 +66,25 @@ typedef NS_ENUM(NSUInteger, BSUnicodeConverterError) {
  */
 + (BOOL)isValidUTF8EncodedAsFourBytesFirstByte:(uint8_t)byte;
 
-/**
- * @return true if 2 most significant bits are 10
- */
-+ (BOOL)isValidSecondThirdOrFourthByteInCodePoint:(uint8_t)byte;
-
 + (NSUInteger)numberOfBytesToGet:(NSData *)data;
 
 #pragma mark - decode UTF-8
 
 /**
+ * @param data may be nil or empty or contain one or more UTF-8 encoded characters
  * @return a single unicodeCodePoint starting at start of data
  * return nil if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
                                 errorPtr:(NSError**)errorPtr;
+
+/**
+ * @param data may be nil or empty or start with a UTF-8 encoded two byte character
+ * @return a single unicodeCodePoint starting at start of data
+ * return nil if error, and set error
+ */
++ (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)data
+                                    errorPtr:(NSError **)errorPtr;
 
 #pragma mark -
 
