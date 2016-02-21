@@ -66,29 +66,29 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 #pragma mark - methods to check number of bytes in code point
 
 /**
- * @return true if most significant bit is 0
+ * @return true if isValidUTF8EncodedOctet and most significant bit is 0
  */
 + (BOOL)isValidUTF8EncodedAsSingleByte:(uint8_t)byte;
 
 /**
  * A continuation byte is a non-first byte in a multi-byte encoding
  * http://stackoverflow.com/questions/9356169/utf-8-continuation-bytes
- * @return true if 2 most significant bits are 10
+ * @return true if isValidUTF8EncodedOctet and 2 most significant bits are 10
  */
 + (BOOL)isValidUTF8EncodedContinuationByte:(uint8_t)byte;
 
 /**
- * @return true if 3 most significant bits are 110
+ * @return true if isValidUTF8EncodedOctet and 3 most significant bits are 110
  */
 + (BOOL)isValidUTF8EncodedAsTwoBytesFirstByte:(uint8_t)byte;
 
 /**
- * @return true if 4 most significant bits are 1110
+ * @return true if isValidUTF8EncodedOctet and 4 most significant bits are 1110
  */
 + (BOOL)isValidUTF8EncodedAsThreeBytesFirstByte:(uint8_t)byte;
 
 /**
- * @return true if 5 most significant bits are 11110
+ * @return true if isValidUTF8EncodedOctet and 5 most significant bits are 11110
  */
 + (BOOL)isValidUTF8EncodedAsFourBytesFirstByte:(uint8_t)byte;
 
