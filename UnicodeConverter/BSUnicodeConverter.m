@@ -33,13 +33,13 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return self;
 }
 
-+ (NSData*)dataFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
++ (NSData*)dataFromString:(NSString *)string encoding:(NSStringEncoding)encoding {
     // http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
     // http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
     return [string dataUsingEncoding:encoding];
 }
 
-+ (uint8_t*)bytesFromData:(NSData*)data {
++ (uint8_t*)bytesFromData:(NSData *)data {
     // http://stackoverflow.com/questions/724086/how-to-convert-nsdata-to-byte-array-in-iphone
     // Use uint8_t to get individual bytes.
     // You may choose any other data type, e.g. uint16, int32, char, uchar, ... .
@@ -54,9 +54,9 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
  * @return uint8_t
  * return 0 and set error if index is out of range of data
  */
-+ (uint8_t)byteFromData:(NSData*)data
++ (uint8_t)byteFromData:(NSData *)data
                 atIndex:(NSInteger)index
-               errorPtr:(NSError**)errorPtr {
+               errorPtr:(NSError **)errorPtr {
     if ((0 == data.length)
         || (index > (data.length - 1))) {
         *errorPtr = [NSError errorWithDomain:@"BSDataError"
@@ -71,7 +71,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 #pragma mark -
 
-+ (uint8_t*)bytesFromString:(NSString*)string encoding:(NSStringEncoding)encoding {
++ (uint8_t*)bytesFromString:(NSString *)string encoding:(NSStringEncoding)encoding {
     NSData *data = [string dataUsingEncoding:encoding];
     return [BSUnicodeConverter bytesFromData:data];
 }
@@ -113,7 +113,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
 }
 
-+ (NSString*)stringFromData:(NSData*)data encoding:(NSStringEncoding)encoding {
++ (NSString*)stringFromData:(NSData *)data encoding:(NSStringEncoding)encoding {
     // http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
     // http://iosdevelopertips.com/conversion/convert-nsdata-to-nsstring.html
     return [[NSString alloc] initWithData:data encoding:encoding];
@@ -177,7 +177,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
-                                errorPtr:(NSError**)errorPtr {
+                                errorPtr:(NSError **)errorPtr {
 
     // no bytes
     if ((nil == data)

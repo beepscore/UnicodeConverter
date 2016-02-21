@@ -36,31 +36,31 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 // void* is a pointer to any type
 @property (assign) void* buffer;
 
-+ (uint8_t*)bytesFromData:(NSData*)data;
++ (uint8_t*)bytesFromData:(NSData *)data;
 
 /**
  * @return uint8_t
  * return 0 and set error if index is out of range of data
  */
-+ (uint8_t)byteFromData:(NSData*)data
++ (uint8_t)byteFromData:(NSData *)data
                 atIndex:(NSInteger)index
-               errorPtr:(NSError**)errorPtr;
+               errorPtr:(NSError **)errorPtr;
 
 /**
  * @return a pointer to an array of 8 bit bytes
  * return 0 if string is empty @""
  */
-+ (uint8_t*)bytesFromString:(NSString*)string
++ (uint8_t*)bytesFromString:(NSString *)string
                    encoding:(NSStringEncoding)encoding;
 
 /** similar to bytesFromString:encoding: but with alternative implementation.
  *  Warning: This method may be removed in release version of software.
  *  Internal implementation is more cumbersome than bytesFromString.
  */
-- (uint8_t*)bytesFromStringTwo:(NSString*)string
+- (uint8_t*)bytesFromStringTwo:(NSString *)string
                       encoding:(NSStringEncoding)encoding;
 
-+ (NSData*)dataFromString:(NSString*)string
++ (NSData*)dataFromString:(NSString *)string
                  encoding:(NSStringEncoding)encoding;
 
 #pragma mark - methods to check number of bytes in code point
@@ -108,7 +108,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
-                                errorPtr:(NSError**)errorPtr;
+                                errorPtr:(NSError **)errorPtr;
 
 /**
  * @param data may be nil or empty or start with a UTF-8 encoded two byte character
@@ -143,7 +143,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 
 #pragma mark -
 
-+ (NSString*)stringFromData:(NSData*)data
++ (NSString*)stringFromData:(NSData *)data
                    encoding:(NSStringEncoding)encoding;
 
 /**

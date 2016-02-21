@@ -190,7 +190,7 @@
     XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedOctet:0xF4]);
 }
 
-#pragma mark -testDataFromStringEncodingUTF8Bytes
+#pragma mark - testDataFromStringEncodingUTF8Bytes
 
 - (void)testDataFromStringEncodingUTF8Bytes {
     // https://en.wikipedia.org/wiki/UTF-8
@@ -387,7 +387,7 @@
     }
 }
 
-#pragma mark -testUTF32EncodedCodePointFromUnicodeDataErrorPtr
+#pragma mark - testUTF32EncodedCodePointFromUnicodeDataErrorPtr
 
 - (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrNil {
     NSError *error;
