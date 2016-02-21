@@ -283,43 +283,4 @@
     }
 }
 
-
-//- (void)testUTF32DataFromUTF8DataA {
-//    // set up
-//    BSUnicodeConverter *converter = [[BSUnicodeConverter alloc] init];
-//    NSString* testString = @"A";
-//    NSData *utf8data = [BSUnicodeConverter dataFromString:testString
-//                                             encoding:NSUTF8StringEncoding];
-//    uint32_t expectedUTF32 = 0x00000041;
-//    uint32_t *buffer = &expectedUTF32;
-//    NSData *expected = [NSData dataWithBytes:buffer length:4];
-//    NSError *error = nil;
-//
-//    // call method under test
-//    NSMutableData* actual = [converter UTF32DataFromUTF8Data:utf8data
-//                                                    errorPtr:&error];
-//    XCTAssertNil(error);
-//    XCTAssertEqualObjects(expected, actual, @"expected %@", expected);
-//}
-
-//- (void)testCodePointFromUTF8DataEuro {
-//    BSUnicodeConverter *converter = [[BSUnicodeConverter alloc] init];
-//    // euro sign U+20AC
-//    NSString* testString = @"€";
-//    NSData *utf8data = [BSUnicodeConverter dataFromString:testString
-//                                             encoding:NSUTF8StringEncoding];
-//
-//    uint32_t expectedUTF32 = 0x000020ac;
-//    uint32_t *buffer = &expectedUTF32;
-//    NSData *expected = [NSData dataWithBytes:buffer length:4];
-//
-//    NSError *error = nil;
-//
-//    // call method under test
-//    NSMutableData* actual = [converter UTF32DataFromUTF8Data:utf8data
-//                                                    errorPtr:&error];
-//    XCTAssertNil(error);
-//    XCTAssertEqualObjects(expected, actual, @"expected %@", expected);
-//}
-
 @end
