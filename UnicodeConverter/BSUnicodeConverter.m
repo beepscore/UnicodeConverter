@@ -46,35 +46,40 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 /**
+ * Caution caller should check index is not out of range of data
+ @return uint8_t
+ */
++ (uint8_t)byteFromData:(NSData*)data atIndex:(NSInteger)index {
+        uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
+        return bytePtr[index];
+}
+
+/**
  @return uint8_t
  */
 + (uint8_t)firstByteFromData:(NSData*)data {
-    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
-    return bytePtr[0];
+    return [BSUnicodeConverter byteFromData:data atIndex:0];
 }
 
 /**
  @return uint8_t
  */
 + (uint8_t)secondByteFromData:(NSData*)data {
-    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
-    return bytePtr[1];
+    return [BSUnicodeConverter byteFromData:data atIndex:1];
 }
 
 /**
  @return uint8_t
  */
 + (uint8_t)thirdByteFromData:(NSData*)data {
-    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
-    return bytePtr[2];
+    return [BSUnicodeConverter byteFromData:data atIndex:2];
 }
 
 /**
  @return uint8_t
  */
 + (uint8_t)fourthByteFromData:(NSData*)data {
-    uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
-    return bytePtr[3];
+    return [BSUnicodeConverter byteFromData:data atIndex:3];
 }
 
 #pragma mark -
