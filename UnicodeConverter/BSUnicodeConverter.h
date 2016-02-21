@@ -107,7 +107,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
++ (NSData *)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
                                 errorPtr:(NSError **)errorPtr;
 
 /**
@@ -115,7 +115,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)data
++ (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)UTF8Data
                                     errorPtr:(NSError **)errorPtr;
 
 /**
@@ -123,7 +123,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)data
++ (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)UTF8Data
                                       errorPtr:(NSError **)errorPtr;
 
 /**
@@ -131,7 +131,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)data
++ (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)UTF8Data
                                       errorPtr:(NSError **)errorPtr;
 
 /**
@@ -139,7 +139,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  * @return an array of unicodeCodePoint
  * return empty array if data is nil or empty.
  */
-+ (NSArray *)unicodeCodePointsFromUTF8Data:(NSData *)data;
++ (NSArray *)unicodeCodePointsFromUTF8Data:(NSData *)UTF8Data;
 
 #pragma mark -
 
