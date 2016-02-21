@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE14D0621C79A60300B0BE26 /* BSUnicodeConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63260E1A9870E100095504 /* BSUnicodeConverter.m */; };
 		DE381A6A1A9717F40008B492 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A691A9717F40008B492 /* main.m */; };
 		DE381A6D1A9717F40008B492 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A6C1A9717F40008B492 /* AppDelegate.m */; };
 		DE381A701A9717F40008B492 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A6F1A9717F40008B492 /* ViewController.m */; };
@@ -240,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE381A841A9717F60008B492 /* BSUnicodeConverterTests.m in Sources */,
+				DE14D0621C79A60300B0BE26 /* BSUnicodeConverter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
