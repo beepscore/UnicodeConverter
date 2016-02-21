@@ -24,21 +24,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return [NSData dataWithBytes:bytes length:2];
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        //self.buffer = nil;
-        self.buffer = malloc(4);
-    }
-    return self;
-}
-
-+ (NSData*)dataFromString:(NSString *)string encoding:(NSStringEncoding)encoding {
-    // http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
-    // http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
-    return [string dataUsingEncoding:encoding];
-}
-
 + (uint8_t*)bytesFromData:(NSData *)data {
     // http://stackoverflow.com/questions/724086/how-to-convert-nsdata-to-byte-array-in-iphone
     // Use uint8_t to get individual bytes.
@@ -70,48 +55,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 #pragma mark -
-
-+ (uint8_t*)bytesFromString:(NSString *)string encoding:(NSStringEncoding)encoding {
-    NSData *data = [string dataUsingEncoding:encoding];
-    return [BSUnicodeConverter bytesFromData:data];
-}
-
-- (uint8_t*)bytesFromStringTwo:(NSString*)string encoding:(NSStringEncoding)encoding {
-    // http://stackoverflow.com/questions/8019647/how-to-use-nsstring-getbytesmaxlengthusedlengthencodingoptionsrangeremaini
-
-    // http://stackoverflow.com/questions/8021926/getting-weird-characters-when-going-from-nsstring-to-bytes-and-then-back-to-nsst?rq=1
-
-    // http://stackoverflow.com/questions/15038616/how-to-convert-between-character-and-byte-position-in-objective-c-c-c
-    //http://stackoverflow.com/questions/692564/concept-of-void-pointer-in-c-programming?rq=1
-
-    // NSString.h NSUTF16StringEncoding is an alias for NSUnicodeStringEncoding
-    NSUInteger numberOfBytes = [string lengthOfBytesUsingEncoding:encoding];
-
-    // ARC doesn't automatically manage malloc memory. In dealloc call free.
-    self.buffer = malloc(numberOfBytes);
-    if (!self.buffer) {
-        // memory allocation failed
-        return nil;
-    }
-    NSUInteger usedLength = 0;
-    // NSRangeFromString doesn't work, not sure why.
-    // NSRange range = NSRangeFromString(message);
-    NSRange range = NSMakeRange(0, [string length]);
-    
-    BOOL result = [string getBytes:self.buffer
-                         maxLength:numberOfBytes
-                        usedLength:&usedLength
-                          encoding:encoding
-                           options:0
-                             range:range
-                    remainingRange:NULL];
-    
-    if (!result) {
-        return nil;
-    } else {
-        return self.buffer;
-    }
-}
 
 + (NSString*)stringFromData:(NSData *)data encoding:(NSStringEncoding)encoding {
     // http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
@@ -498,12 +441,4 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
                            userInfo:nil];
 }
 
-- (void)dealloc {
-    if (self.buffer) {
-        // free any malloc'ed memory
-        //free(self.buffer);
-        self.buffer = nil;
-    }
-}
-    
 @end

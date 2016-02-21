@@ -33,9 +33,6 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  */
 + (NSData *)kReplacementCharacterData;
 
-// void* is a pointer to any type
-@property (assign) void* buffer;
-
 + (uint8_t*)bytesFromData:(NSData *)data;
 
 /**
@@ -45,23 +42,6 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 + (uint8_t)byteFromData:(NSData *)data
                 atIndex:(NSInteger)index
                errorPtr:(NSError **)errorPtr;
-
-/**
- * @return a pointer to an array of 8 bit bytes
- * return 0 if string is empty @""
- */
-+ (uint8_t*)bytesFromString:(NSString *)string
-                   encoding:(NSStringEncoding)encoding;
-
-/** similar to bytesFromString:encoding: but with alternative implementation.
- *  Warning: This method may be removed in release version of software.
- *  Internal implementation is more cumbersome than bytesFromString.
- */
-- (uint8_t*)bytesFromStringTwo:(NSString *)string
-                      encoding:(NSStringEncoding)encoding;
-
-+ (NSData*)dataFromString:(NSString *)string
-                 encoding:(NSStringEncoding)encoding;
 
 #pragma mark - methods to check number of bytes in code point
 

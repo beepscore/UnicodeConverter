@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DE14D0621C79A60300B0BE26 /* BSUnicodeConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63260E1A9870E100095504 /* BSUnicodeConverter.m */; };
 		DE381A6A1A9717F40008B492 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A691A9717F40008B492 /* main.m */; };
 		DE381A6D1A9717F40008B492 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A6C1A9717F40008B492 /* AppDelegate.m */; };
 		DE381A701A9717F40008B492 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A6F1A9717F40008B492 /* ViewController.m */; };
@@ -16,6 +15,8 @@
 		DE381A781A9717F50008B492 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE381A761A9717F50008B492 /* LaunchScreen.xib */; };
 		DE381A841A9717F60008B492 /* BSUnicodeConverterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE381A831A9717F60008B492 /* BSUnicodeConverterTests.m */; };
 		DE63260F1A9870E100095504 /* BSUnicodeConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63260E1A9870E100095504 /* BSUnicodeConverter.m */; };
+		DEF260AC1C7A7CF6002E5178 /* BSUnicodeConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63260E1A9870E100095504 /* BSUnicodeConverter.m */; };
+		DEF260AD1C7A7D00002E5178 /* BSUnicodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF260AA1C7A761D002E5178 /* BSUnicodeHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,11 +42,13 @@
 		DE381A771A9717F50008B492 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		DE381A7D1A9717F50008B492 /* UnicodeConverterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnicodeConverterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE381A821A9717F50008B492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DE381A831A9717F60008B492 /* BSUnicodeConverterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSUnicodeConverterTests.m; sourceTree = "<group>"; };
+		DE381A831A9717F60008B492 /* BSUnicodeConverterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BSUnicodeConverterTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DE63260D1A9870E100095504 /* BSUnicodeConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSUnicodeConverter.h; path = UnicodeConverter/BSUnicodeConverter.h; sourceTree = "<group>"; };
 		DE63260E1A9870E100095504 /* BSUnicodeConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSUnicodeConverter.m; path = UnicodeConverter/BSUnicodeConverter.m; sourceTree = "<group>"; };
 		DE8E95941A971BCD0099DD6E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DED333321A971ABF00D8E2B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DEF260A91C7A761D002E5178 /* BSUnicodeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = BSUnicodeHelper.h; path = UnicodeConverterTests/BSUnicodeHelper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DEF260AA1C7A761D002E5178 /* BSUnicodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSUnicodeHelper.m; path = UnicodeConverterTests/BSUnicodeHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,8 @@
 			children = (
 				DE63260D1A9870E100095504 /* BSUnicodeConverter.h */,
 				DE63260E1A9870E100095504 /* BSUnicodeConverter.m */,
+				DEF260A91C7A761D002E5178 /* BSUnicodeHelper.h */,
+				DEF260AA1C7A761D002E5178 /* BSUnicodeHelper.m */,
 				DED333321A971ABF00D8E2B2 /* README.md */,
 				DE8E95941A971BCD0099DD6E /* LICENSE */,
 				DE381A661A9717F40008B492 /* UnicodeConverter */,
@@ -230,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE63260F1A9870E100095504 /* BSUnicodeConverter.m in Sources */,
+				DEF260AD1C7A7D00002E5178 /* BSUnicodeHelper.m in Sources */,
 				DE381A701A9717F40008B492 /* ViewController.m in Sources */,
 				DE381A6D1A9717F40008B492 /* AppDelegate.m in Sources */,
 				DE381A6A1A9717F40008B492 /* main.m in Sources */,
@@ -240,8 +246,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEF260AC1C7A7CF6002E5178 /* BSUnicodeConverter.m in Sources */,
 				DE381A841A9717F60008B492 /* BSUnicodeConverterTests.m in Sources */,
-				DE14D0621C79A60300B0BE26 /* BSUnicodeConverter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

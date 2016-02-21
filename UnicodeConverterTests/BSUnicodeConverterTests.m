@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "BSUnicodeHelper.h"
 #import "BSUnicodeConverter.h"
 
 @interface BSUnicodeConverterTests : XCTestCase
@@ -47,13 +48,13 @@
 
 - (void)testBytesFromStringEmpty {
     NSString *string = @"";
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeHelper bytesFromString:string encoding:NSUTF8StringEncoding];
     XCTAssertEqual(0x00, buffer[0]);
 }
 
 - (void)testBytesFromStringa {
     NSString *string = @"a";
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeHelper bytesFromString:string encoding:NSUTF8StringEncoding];
     // as decimal
     XCTAssertEqual(97, buffer[0]);
     // as hex
@@ -62,13 +63,13 @@
 
 - (void)testBytesFromStringab {
     NSString *string = @"ab";
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeHelper bytesFromString:string encoding:NSUTF8StringEncoding];
     XCTAssertEqual(0x61, buffer[0]);
     XCTAssertEqual(0x62, buffer[1]);
 }
 
 - (void)testBytesFromUTF8StringEuro {
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:euroString encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeHelper bytesFromString:euroString encoding:NSUTF8StringEncoding];
     // expected values from Wikipedia example
     // https://en.wikipedia.org/wiki/UTF-8
     XCTAssertEqual(0xe2, buffer[0]);
@@ -77,7 +78,7 @@
 }
 
 - (void)testBytesFromUTF8StringHwair {
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:hwairString encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeHelper bytesFromString:hwairString encoding:NSUTF8StringEncoding];
     // expected values from Wikipedia example
     XCTAssertEqual(0xF0, buffer[0]);
     XCTAssertEqual(0x90, buffer[1]);
@@ -87,7 +88,7 @@
 
 - (void)testBytesFromUTF8StringEuroHwair {
     NSString *string = @"€𐍈";
-    uint8_t* buffer = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* buffer = [BSUnicodeHelper bytesFromString:string encoding:NSUTF8StringEncoding];
     // expected values from Wikipedia example
     // https://en.wikipedia.org/wiki/UTF-8
     // https://en.wikipedia.org/wiki/Hwair
@@ -104,7 +105,7 @@
 
 - (void)testBytesFromStringTwo {
     NSString *string = @"a";
-    BSUnicodeConverter *converter = [[BSUnicodeConverter alloc] init];
+    BSUnicodeHelper *converter = [[BSUnicodeHelper alloc] init];
     uint8_t* buffer = [converter bytesFromStringTwo:string encoding:NSUTF8StringEncoding];
     XCTAssertEqual(97, buffer[0]);
     XCTAssertEqual(0x61, buffer[0]);
@@ -241,8 +242,8 @@
         int index = [testDict[@"index"] intValue];
         int expected = [testDict[@"expected"] intValue];
 
-        NSData *data = [BSUnicodeConverter dataFromString:testString
-                                                 encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeHelper dataFromString:testString
+                                                  encoding:NSUTF8StringEncoding];
         uint8_t *bytePtr = (uint8_t*)[data bytes];
         int actual = bytePtr[index];
 
@@ -262,8 +263,8 @@
     NSError *error;
     // use cent sign as shown in wikipedia utf8
     NSString *string = centString;
-    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
-                                                encoding:NSUTF8StringEncoding];
+    uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
+                                                 encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
     
     // expected is the Unicode code point converted to NSData*
@@ -280,8 +281,8 @@
 - (void)testUnicodeCodePointFromUTF8ThreeBytesErrorPtrEuro {
     NSError *error;
     // use euro sign as shown in wikipedia utf8
-    uint8_t* bytes = [BSUnicodeConverter bytesFromString:euroString
-                                                encoding:NSUTF8StringEncoding];
+    uint8_t* bytes = [BSUnicodeHelper bytesFromString:euroString
+                                                 encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:3];
     
     // expected is the Unicode code point converted to NSData*
@@ -298,7 +299,7 @@
 - (void)testUnicodeCodePointFromUTF8FourBytesErrorPtrHwair {
     NSError *error;
     // use hwair as shown in wikipedia utf8
-    uint8_t* bytes = [BSUnicodeConverter bytesFromString:hwairString
+    uint8_t* bytes = [BSUnicodeHelper bytesFromString:hwairString
                                                 encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:4];
     
@@ -333,7 +334,8 @@
 - (void)testUnicodeCodePointFromUTF8DataErrorPtrOneByteab {
     NSError *error;
     NSString *string = @"ab";
-    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string encoding:NSUTF8StringEncoding];
+    uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
+                                                 encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
     NSData *expected = [NSData dataWithBytes:bytes length:1];
     XCTAssertEqualObjects(expected,
@@ -346,8 +348,8 @@
     NSError *error;
     // use cent sign as shown in wikipedia utf8
     NSString *string = @"¢";
-    uint8_t* bytes = [BSUnicodeConverter bytesFromString:string
-                                                encoding:NSUTF8StringEncoding];
+    uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
+                                                 encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
     
     // expected is the Unicode code point converted to NSData*
@@ -368,8 +370,8 @@
                                };
     
     for (NSString* string in testDict) {
-        NSData *data = [BSUnicodeConverter dataFromString:string
-                                                 encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeHelper dataFromString:string
+                                                  encoding:NSUTF8StringEncoding];
         int expected = [testDict[string] intValue];
         XCTAssertEqual(expected, [data length], @"%@", string);
     }
@@ -380,7 +382,7 @@
                                };
 
     for (NSString* string in testDict) {
-        NSData *data = [BSUnicodeConverter dataFromString:string
+        NSData *data = [BSUnicodeHelper dataFromString:string
                                                  encoding:NSUTF8StringEncoding];
         int expected = [testDict[string] intValue];
         XCTAssertEqual(expected, [data length], @"%@", string);
@@ -448,8 +450,10 @@
     NSArray* testStrings = @[@"testing", @"español"];
     
     for (NSString* string in testStrings) {
-        NSData *data = [BSUnicodeConverter dataFromString:string encoding:NSUTF8StringEncoding];
-        NSString *actual = [BSUnicodeConverter stringFromData:data encoding:NSUTF8StringEncoding];
+        NSData *data = [BSUnicodeHelper dataFromString:string
+                                                  encoding:NSUTF8StringEncoding];
+        NSString *actual = [BSUnicodeConverter stringFromData:data
+                                                     encoding:NSUTF8StringEncoding];
         XCTAssertEqualObjects(string, actual);
     }
 }
