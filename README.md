@@ -69,9 +69,9 @@ If decoding fails, consider returning replacement character "�" (U+FFFD)
 https://en.wikipedia.org/wiki/UTF-8
 
 ## UTF-32
+"The UTF-32 form of a code point is a direct representation of that code point's numerical value."
 Uses fixed length 4 bytes per code point.
 UTF-32 may be big-endian UTF-32BE or little endian UTF-32LE.
-In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code point. 
 
 ---
 
