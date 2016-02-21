@@ -409,6 +409,21 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return @[];
 }
 
+#pragma mark - encode UTF-32
+
++ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)data {
+    NSError *error;
+    NSData *unicodeData = [BSUnicodeConverter unicodeCodePointFromUTF8Data:data
+                                                           errorPtr:&error];
+    uint32_t utf32 = 0;
+    for (NSInteger index = 0; index < unicodeData.length; index++) {
+        uint8_t byte = [BSUnicodeConverter byteFromData:unicodeData atIndex:index errorPtr:&error];
+        NSInteger powerOfTwo = 8 * ((unicodeData.length - 1) - index);
+        utf32 = utf32 + (((uint32_t)byte) << powerOfTwo);
+    }
+    return utf32;
+}
+
 // TODO: shorten this method by extracting methods
 //- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
 //                               errorPtr:(NSError**)errorPtr {

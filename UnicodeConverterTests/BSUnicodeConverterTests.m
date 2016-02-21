@@ -387,6 +387,27 @@
     }
 }
 
+#pragma mark -testUTF32EncodedCodePointFromUnicodeData
+
+- (void)testUTF32EncodedCodePointFromUnicodeDataNil {
+    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:nil];
+    XCTAssertEqual(kReplacementCharacter, actual);
+}
+
+- (void)testUTF32EncodedCodePointFromUnicodeDataEmpty {
+    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:[NSData data]];
+    XCTAssertEqual(kReplacementCharacter, actual);
+}
+
+- (void)testUTF32EncodedCodePointFromUnicodeData61 {
+    // character "a"
+    uint8_t a = 0x61;
+    uint8_t bytes[] = {a};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:data];
+    XCTAssertEqual(a, actual);
+}
+
 #pragma mark -
 
 - (void)testStringFromDataFromString {
@@ -398,6 +419,7 @@
         XCTAssertEqualObjects(string, actual);
     }
 }
+
 
 //- (void)testUTF32DataFromUTF8DataA {
 //    // set up

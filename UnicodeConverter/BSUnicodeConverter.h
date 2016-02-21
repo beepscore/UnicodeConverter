@@ -147,10 +147,19 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
                    encoding:(NSStringEncoding)encoding;
 
 /**
- @return UTF-32 encoded data
  @return replacement character "�" (U+FFFD) if decoding a character fails
  errorPtr describes error types
  */
+
+#pragma mark - encode UTF-32
+
+/**
+ * @param data may be nil or empty or contain one or more UTF-8 encoded characters
+ * @return a single UTF-32 encoded value starting at start of data
+ * return substitution character if error
+ */
++ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)data;
+
 //- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
 //                               errorPtr:(NSError**)errorPtr;
 
