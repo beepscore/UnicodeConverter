@@ -15,7 +15,12 @@ typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
     BSUTF8DecodeErrorDataEmpty = 1,
     BSUTF8DecodeErrorInvalidTwoBytes = 2,
     BSUTF8DecodeErrorInvalidThreeBytes = 3,
-    BSUTF8DecodeErrorInvalidFourBytes = 4,
+    BSUTF8DecodeErrorInvalidFourBytes = 4
+};
+
+typedef NS_ENUM(NSUInteger, BSDataError) {
+    BSDataErrorUnknown = 0,
+    BSDataErrorOutOfBounds = 1
 };
 
 // replacement character "�" (U+FFFD)
@@ -25,6 +30,14 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 @property (assign) void* buffer;
 
 + (uint8_t*)bytesFromData:(NSData*)data;
+
+/**
+ * @return uint8_t
+ * return 0 and set error if index is out of range of data
+ */
++ (uint8_t)byteFromData:(NSData*)data
+                atIndex:(NSInteger)index
+               errorPtr:(NSError**)errorPtr;
 
 /**
  * @return a pointer to an array of 8 bit bytes

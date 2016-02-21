@@ -46,40 +46,21 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 /**
- * Caution caller should check index is not out of range of data
- @return uint8_t
+ * @return uint8_t
+ * return 0 and set error if index is out of range of data
  */
-+ (uint8_t)byteFromData:(NSData*)data atIndex:(NSInteger)index {
++ (uint8_t)byteFromData:(NSData*)data
+                atIndex:(NSInteger)index
+               errorPtr:(NSError**)errorPtr {
+    if (index > (data.length - 1)) {
+        *errorPtr = [NSError errorWithDomain:@"BSDataError"
+                                        code:BSDataErrorOutOfBounds
+                                    userInfo:nil];
+        return 0;
+    } else {
         uint8_t *bytePtr = [BSUnicodeConverter bytesFromData:data];
         return bytePtr[index];
-}
-
-/**
- @return uint8_t
- */
-+ (uint8_t)firstByteFromData:(NSData*)data {
-    return [BSUnicodeConverter byteFromData:data atIndex:0];
-}
-
-/**
- @return uint8_t
- */
-+ (uint8_t)secondByteFromData:(NSData*)data {
-    return [BSUnicodeConverter byteFromData:data atIndex:1];
-}
-
-/**
- @return uint8_t
- */
-+ (uint8_t)thirdByteFromData:(NSData*)data {
-    return [BSUnicodeConverter byteFromData:data atIndex:2];
-}
-
-/**
- @return uint8_t
- */
-+ (uint8_t)fourthByteFromData:(NSData*)data {
-    return [BSUnicodeConverter byteFromData:data atIndex:3];
+    }
 }
 
 #pragma mark -
@@ -200,10 +181,16 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
                                     userInfo:nil];
         return nil;
     }
-
+    
     // one byte
     NSData *firstData = [data subdataWithRange:NSMakeRange(0, 1)];
-    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:firstData];
+    uint8_t firstByte  = [BSUnicodeConverter byteFromData:data
+                                                  atIndex:0
+                                                 errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
     if ([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:firstByte]) {
         return firstData;
     }
@@ -240,11 +227,22 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
                                     userInfo:nil];
         return nil;
     }
-
-    // this utf8 sequence has 2 bytes
-    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
-    uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
     
+    // this utf8 sequence has 2 bytes
+    uint8_t firstByte  = [BSUnicodeConverter byteFromData:data
+                                                  atIndex:0
+                                                 errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
+    uint8_t secondByte  = [BSUnicodeConverter byteFromData:data
+                                                   atIndex:1
+                                                  errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
     if ([BSUnicodeConverter isValidUTF8EncodedContinuationByte:secondByte]) {
         
         // decode
@@ -278,10 +276,27 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
 
     // this utf8 sequence has 3 bytes
-    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
-    uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
-    uint8_t thirdByte = [BSUnicodeConverter thirdByteFromData:data];
-    
+    uint8_t firstByte  = [BSUnicodeConverter byteFromData:data
+                                                  atIndex:0
+                                                 errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
+    uint8_t secondByte  = [BSUnicodeConverter byteFromData:data
+                                                   atIndex:1
+                                                  errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
+    uint8_t thirdByte = [BSUnicodeConverter byteFromData:data
+                                                 atIndex:2
+                                                errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
     if ([BSUnicodeConverter isValidUTF8EncodedContinuationByte:secondByte]
         && [BSUnicodeConverter isValidUTF8EncodedContinuationByte:thirdByte]) {
         
@@ -316,10 +331,33 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
 
     // this utf8 sequence has 4 bytes
-    uint8_t firstByte = [BSUnicodeConverter firstByteFromData:data];
-    uint8_t secondByte = [BSUnicodeConverter secondByteFromData:data];
-    uint8_t thirdByte = [BSUnicodeConverter thirdByteFromData:data];
-    uint8_t fourthByte = [BSUnicodeConverter fourthByteFromData:data];
+    uint8_t firstByte  = [BSUnicodeConverter byteFromData:data
+                                                  atIndex:0
+                                                 errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
+    uint8_t secondByte  = [BSUnicodeConverter byteFromData:data
+                                                   atIndex:1
+                                                  errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
+    uint8_t thirdByte = [BSUnicodeConverter byteFromData:data
+                                                 atIndex:2
+                                                errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
+
+    uint8_t fourthByte = [BSUnicodeConverter byteFromData:data
+                                                  atIndex:3
+                                                 errorPtr:errorPtr];
+    if (*errorPtr) {
+        return nil;
+    }
     
     if ([BSUnicodeConverter isValidUTF8EncodedContinuationByte:secondByte]
         && [BSUnicodeConverter isValidUTF8EncodedContinuationByte:thirdByte]
