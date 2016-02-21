@@ -57,7 +57,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 + (uint8_t)byteFromData:(NSData*)data
                 atIndex:(NSInteger)index
                errorPtr:(NSError**)errorPtr {
-    if (index > (data.length - 1)) {
+    if ((0 == data.length)
+        || (index > (data.length - 1))) {
         *errorPtr = [NSError errorWithDomain:@"BSDataError"
                                         code:BSDataErrorOutOfBounds
                                     userInfo:nil];
@@ -411,14 +412,13 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 #pragma mark - encode UTF-32
 
-+ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)data {
-    NSError *error;
-    NSData *unicodeData = [BSUnicodeConverter unicodeCodePointFromUTF8Data:data
-                                                           errorPtr:&error];
++ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)unicodeData
+                                        errorPtr:(NSError **)errorPtr {
+    const NSInteger unicodeCodePointNumberOfBytes = 4;
     uint32_t utf32 = 0;
-    for (NSInteger index = 0; index < unicodeData.length; index++) {
-        uint8_t byte = [BSUnicodeConverter byteFromData:unicodeData atIndex:index errorPtr:&error];
-        NSInteger powerOfTwo = 8 * ((unicodeData.length - 1) - index);
+    for (NSInteger index = 0; index < unicodeCodePointNumberOfBytes; index++) {
+        uint8_t byte = [BSUnicodeConverter byteFromData:unicodeData atIndex:index errorPtr:errorPtr];
+        NSInteger powerOfTwo = 8 * ((unicodeCodePointNumberOfBytes - 1) - index);
         utf32 = utf32 + (((uint32_t)byte) << powerOfTwo);
     }
     return utf32;

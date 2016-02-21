@@ -387,25 +387,59 @@
     }
 }
 
-#pragma mark -testUTF32EncodedCodePointFromUnicodeData
+#pragma mark -testUTF32EncodedCodePointFromUnicodeDataErrorPtr
 
-- (void)testUTF32EncodedCodePointFromUnicodeDataNil {
-    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:nil];
-    XCTAssertEqual(kReplacementCharacter, actual);
+- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrNil {
+    NSError *error;
+    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:nil
+                                                                      errorPtr:&error];
+    XCTAssertEqual(0, actual);
+    XCTAssertNotNil(error);
+    XCTAssertEqual(@"BSDataError", error.domain);
+    XCTAssertEqual(BSDataErrorOutOfBounds, error.code);
 }
 
-- (void)testUTF32EncodedCodePointFromUnicodeDataEmpty {
-    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:[NSData data]];
-    XCTAssertEqual(kReplacementCharacter, actual);
+- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrEmpty {
+    NSError *error;
+    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:[NSData data]
+                                                                      errorPtr:&error];
+    XCTAssertEqual(0, actual);
+    XCTAssertNotNil(error);
+    XCTAssertEqual(@"BSDataError", error.domain);
+    XCTAssertEqual(BSDataErrorOutOfBounds, error.code);
 }
 
-- (void)testUTF32EncodedCodePointFromUnicodeData61 {
+- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtra {
+    NSError *error;
     // character "a"
-    uint8_t a = 0x61;
-    uint8_t bytes[] = {a};
+    uint32_t expected = 0x000061;
+    uint8_t byte0 = 0x00;
+    uint8_t byte1 = 0x00;
+    uint8_t byte2 = 0x00;
+    uint8_t byte3 = 0x61;
+    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
     NSData *data = [NSData dataWithBytes:bytes length:4];
-    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:data];
-    XCTAssertEqual(a, actual);
+    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:data
+                                                                      errorPtr:&error];
+    XCTAssertEqual(expected, actual);
+    XCTAssertNil(error);
+}
+
+- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrHwair {
+    NSError *error;
+    // expected values from Wikipedia example
+    uint32_t expected = 0x10348;
+
+    uint8_t byte0 = 0x00;
+    uint8_t byte1 = 0x01;
+    uint8_t byte2 = 0x03;
+    uint8_t byte3 = 0x48;
+    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:data
+                                                                      errorPtr:&error];
+    XCTAssertEqual(expected, actual);
+    XCTAssertNil(error);
 }
 
 #pragma mark -

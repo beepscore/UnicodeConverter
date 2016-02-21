@@ -154,11 +154,12 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 #pragma mark - encode UTF-32
 
 /**
- * @param data may be nil or empty or contain one or more UTF-8 encoded characters
+ * @param data may be nil or empty or contain one or more unicode code points
  * @return a single UTF-32 encoded value starting at start of data
  * return substitution character if error
  */
-+ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)data;
++ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)unicodeData
+                                        errorPtr:(NSError **)errorPtr;
 
 //- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
 //                               errorPtr:(NSError**)errorPtr;
