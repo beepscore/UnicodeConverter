@@ -103,7 +103,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 #pragma mark - decode UTF-8
 
 /**
- * @param data may be nil or empty or contain one or more UTF-8 encoded characters
+ * @param UTF8Data may be nil or empty or contain one or more UTF-8 encoded characters
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
@@ -111,7 +111,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
                                 errorPtr:(NSError **)errorPtr;
 
 /**
- * @param data may be nil or empty or start with a UTF-8 encoded two byte character
+ * @param UTF8Data may be nil or empty or start with a UTF-8 encoded two byte character
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
@@ -119,7 +119,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
                                     errorPtr:(NSError **)errorPtr;
 
 /**
- * @param data may be nil or empty or start with a UTF-8 encoded three byte character
+ * @param UTF8Data may be nil or empty or start with a UTF-8 encoded three byte character
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
@@ -127,7 +127,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
                                       errorPtr:(NSError **)errorPtr;
 
 /**
- * @param data may be nil or empty or start with a UTF-8 encoded four byte character
+ * @param UTF8Data may be nil or empty or start with a UTF-8 encoded four byte character
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
@@ -135,7 +135,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
                                       errorPtr:(NSError **)errorPtr;
 
 /**
- * @param data contains UTF-8 encoded data, may be nil or empty
+ * @param UTF8Data contains UTF-8 encoded data, may be nil or empty
  * @return an array of unicodeCodePoint
  * return empty array if data is nil or empty.
  */
@@ -154,7 +154,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 #pragma mark - encode UTF-32
 
 /**
- * @param data may be nil or empty or contain one or more unicode code points
+ * @param unicodeData may be nil or empty or contain one or more unicode code points
  * @return a single UTF-32 encoded value starting at start of data
  * return substitution character if error
  */
