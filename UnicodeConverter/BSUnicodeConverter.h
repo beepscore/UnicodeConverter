@@ -26,6 +26,13 @@ typedef NS_ENUM(NSUInteger, BSDataError) {
 // replacement character "�" (U+FFFD)
 FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 
+/**
+ * replacement character is "�" (U+FFFD)
+ * @return data containing 2 bytes {0xFF, 0xFD}
+ * http://stackoverflow.com/questions/6143107/compiler-error-initializer-element-is-not-a-compile-time-constant#6143271
+ */
++ (NSData *)kReplacementCharacterData;
+
 // void* is a pointer to any type
 @property (assign) void* buffer;
 
@@ -98,7 +105,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 /**
  * @param data may be nil or empty or contain one or more UTF-8 encoded characters
  * @return a single unicodeCodePoint starting at start of data
- * return nil if error, and set error
+ * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)data
                                 errorPtr:(NSError**)errorPtr;
@@ -106,7 +113,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 /**
  * @param data may be nil or empty or start with a UTF-8 encoded two byte character
  * @return a single unicodeCodePoint starting at start of data
- * return nil if error, and set error
+ * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)data
                                     errorPtr:(NSError **)errorPtr;
@@ -114,7 +121,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 /**
  * @param data may be nil or empty or start with a UTF-8 encoded three byte character
  * @return a single unicodeCodePoint starting at start of data
- * return nil if error, and set error
+ * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)data
                                       errorPtr:(NSError **)errorPtr;
@@ -122,7 +129,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 /**
  * @param data may be nil or empty or start with a UTF-8 encoded four byte character
  * @return a single unicodeCodePoint starting at start of data
- * return nil if error, and set error
+ * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)data
                                       errorPtr:(NSError **)errorPtr;
