@@ -27,12 +27,6 @@
     }
 }
 
-+ (NSData*)dataFromString:(NSString *)string encoding:(NSStringEncoding)encoding {
-    // http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
-    // http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
-    return [string dataUsingEncoding:encoding];
-}
-
 + (uint8_t*)bytesFromString:(NSString *)string encoding:(NSStringEncoding)encoding {
     NSData *data = [string dataUsingEncoding:encoding];
     return [BSUnicodeConverter bytesFromData:data];

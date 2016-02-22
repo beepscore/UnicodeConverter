@@ -20,9 +20,6 @@
 // void* is a pointer to any type
 @property (assign) void* buffer;
 
-+ (NSData*)dataFromString:(NSString *)string
-                 encoding:(NSStringEncoding)encoding;
-
 /**
  * @return a pointer to an array of 8 bit bytes
  * return 0 if string is empty @""

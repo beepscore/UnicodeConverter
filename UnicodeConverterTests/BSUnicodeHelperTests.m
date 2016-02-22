@@ -83,9 +83,14 @@
     XCTAssertEqual(0x61, buffer[0]);
 }
 
-#pragma mark - testDataFromStringEncodingUTF8Bytes
+#pragma mark - testStringDataUsingEncoding
+// iOS NSString dataUsingEncoding: is a framework method.
+// In general, developers don't need to test Apple's code.
+// Use these tests to practice using the API.
+// http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
+// http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
 
-- (void)testDataFromStringEncodingUTF8Bytes {
+- (void)testStringDataUsingEncodingEncodingUTF8Bytes {
     // https://en.wikipedia.org/wiki/UTF-8
     NSString* betaString = [NSString stringWithCharacters:&beta length:1];
 
@@ -134,8 +139,7 @@
         int index = [testDict[@"index"] intValue];
         int expected = [testDict[@"expected"] intValue];
 
-        NSData *data = [BSUnicodeHelper dataFromString:testString
-                                              encoding:NSUTF8StringEncoding];
+        NSData *data = [testString dataUsingEncoding:NSUTF8StringEncoding];
         uint8_t *bytePtr = (uint8_t*)[data bytes];
         int actual = bytePtr[index];
 
@@ -149,33 +153,29 @@
     }
 }
 
-#pragma mark -
-
-- (void)testDataFromStringEncodingUTF8CharactersOneByte {
+- (void)testStringDataUsingEncodingUTF8CharactersOneByte {
     NSDictionary* testDict = @{@"": @0,
                                @"a": @1,
                                @"testing": @7
                                };
     
     for (NSString* string in testDict) {
-        NSData *data = [BSUnicodeHelper dataFromString:string
-                                                  encoding:NSUTF8StringEncoding];
+        NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
         int expected = [testDict[string] intValue];
         XCTAssertEqual(expected, [data length], @"%@", string);
     }
 }
 
-- (void)testDataFromStringEncodingUTF8enye {
+- (void)testStringDataUsingEncodingUTF8enye {
     NSString *testString = @"ñ";
     uint8_t expectedUTF8Bytes[] = {0xc3, 0xb1};
     NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:2];
 
-    NSData *actualUTF8Data = [BSUnicodeHelper dataFromString:testString
-                                                    encoding:NSUTF8StringEncoding];
+    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
-- (void)testDataFromStringEncodingUTF8abcHwairEurof {
+- (void)testStringDataUsingEncodingUTF8abcHwairEurof {
     NSString *testString = @"abc𐍈€f";
     uint8_t expectedUTF8Bytes[] = {0x61, 0x62, 0x63,
         0xf0, 0x90, 0x8d, 0x88,
@@ -183,8 +183,7 @@
         0x66};
     NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:11];
 
-    NSData *actualUTF8Data = [BSUnicodeHelper dataFromString:testString
-                                                    encoding:NSUTF8StringEncoding];
+    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
