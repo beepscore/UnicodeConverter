@@ -33,6 +33,14 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  */
 + (NSData *)kReplacementCharacterData;
 
+/**
+ * http://stackoverflow.com/questions/724086/how-to-convert-nsdata-to-byte-array-in-iphone
+ * @return pointer to uint8_t to get individual bytes.
+ * Use uint8_t to get individual bytes.
+ * You may choose any other data type, e.g. uint16, int32, char, uchar, ... .
+ * @param data should have at least the number of bytes that a single element needs.
+ * e.g. for uint32_t, data.length must be >= 4 bytes
+ */
 + (uint8_t*)bytesFromData:(NSData *)data;
 
 /**
@@ -83,6 +91,8 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 #pragma mark - decode UTF-8
 
 /**
+ * NSData provides object oriented wrapper for a byte buffer.
+ * NSData has helpful property data.length to help avoid accessing beyond range.
  * @param UTF8Data may be nil or empty or contain one or more UTF-8 encoded characters
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error

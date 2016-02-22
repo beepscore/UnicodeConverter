@@ -25,12 +25,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (uint8_t*)bytesFromData:(NSData *)data {
-    // http://stackoverflow.com/questions/724086/how-to-convert-nsdata-to-byte-array-in-iphone
-    // Use uint8_t to get individual bytes.
-    // You may choose any other data type, e.g. uint16, int32, char, uchar, ... .
-    // Make sure data has at least number of bytes that a single element needs.
-    // e.g. for int32, data length must be >= 4 bytes
-    // Can we assume bytes are null terminated? Otherwise need to pass length?
     uint8_t *bytePtr = (uint8_t*)[data bytes];
     return bytePtr;
 }
