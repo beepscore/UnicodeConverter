@@ -149,6 +149,18 @@
     }
 }
 
+- (void)testDataFromStringEncodingUTF8abcHwairEurof {
+    NSString *testString = @"abc𐍈€f";
+    NSData *actualUTF8Data = [BSUnicodeHelper dataFromString:testString
+                                            encoding:NSUTF8StringEncoding];
+    uint8_t expectedUTF8Bytes[] = {0x61, 0x62, 0x63,
+        0xf0, 0x90, 0x8d, 0x88,
+        0xe2, 0x82, 0xac,
+        0x66};
+    NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:11];
+    XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
+}
+
 #pragma mark -
 
 - (void)testDataFromStringEncodingUTF8CharactersOneByte {
