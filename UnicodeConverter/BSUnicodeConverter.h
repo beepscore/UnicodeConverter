@@ -94,14 +94,18 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  * NSData provides object oriented wrapper for a byte buffer.
  * NSData has helpful property data.length to help avoid accessing beyond range.
  * @param UTF8Data may be nil or empty or contain one or more UTF-8 encoded characters
+ * @param errorPtr points to an error with an error.domain and error.code
+ * error is nil if no error
  * @return a single unicodeCodePoint starting at start of data
- * return substitution character if error, and set error
+ * return replacement character "�" (U+FFFD) if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
                                 errorPtr:(NSError **)errorPtr;
 
 /**
  * @param UTF8Data may be nil or empty or start with a UTF-8 encoded two byte character
+ * @param errorPtr points to an error with an error.domain and error.code
+ * error is nil if no error
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
@@ -110,6 +114,8 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 
 /**
  * @param UTF8Data may be nil or empty or start with a UTF-8 encoded three byte character
+ * @param errorPtr points to an error with an error.domain and error.code
+ * error is nil if no error
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
@@ -118,6 +124,8 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 
 /**
  * @param UTF8Data may be nil or empty or start with a UTF-8 encoded four byte character
+ * @param errorPtr points to an error with an error.domain and error.code
+ * error is nil if no error
  * @return a single unicodeCodePoint starting at start of data
  * return substitution character if error, and set error
  */
@@ -136,15 +144,12 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 + (NSString*)stringFromData:(NSData *)data
                    encoding:(NSStringEncoding)encoding;
 
-/**
- @return replacement character "�" (U+FFFD) if decoding a character fails
- errorPtr describes error types
- */
-
 #pragma mark - encode UTF-32
 
 /**
  * @param unicodeData may be nil or empty or contain one or more unicode code points
+ * @param errorPtr points to an error with an error.domain and error.code
+ * error is nil if no error
  * @return a single UTF-32 encoded value starting at start of data
  * return substitution character if error
  */
