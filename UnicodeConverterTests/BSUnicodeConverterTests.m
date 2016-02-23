@@ -11,6 +11,7 @@
 #import "BSUnicodeConstants.h"
 #import "BSUnicodeHelper.h"
 #import "BSUnicodeConverter.h"
+#import "BSUnicodeConverterPrivate.h"
 
 @interface BSUnicodeConverterTests : XCTestCase
 

@@ -9,6 +9,7 @@
 // e.g. can change from standard encoding faculties to custom.
 
 #import "BSUnicodeConverter.h"
+#import "BSUnicodeConverterPrivate.h"
 
 @implementation BSUnicodeConverter
 

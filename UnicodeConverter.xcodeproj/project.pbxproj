@@ -46,6 +46,7 @@
 		DE381A7D1A9717F50008B492 /* UnicodeConverterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnicodeConverterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE381A821A9717F50008B492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE381A831A9717F60008B492 /* BSUnicodeConverterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BSUnicodeConverterTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		DE5BB17E1C7CCCC700FDEF3F /* BSUnicodeConverterPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BSUnicodeConverterPrivate.h; path = UnicodeConverter/BSUnicodeConverterPrivate.h; sourceTree = "<group>"; };
 		DE63260D1A9870E100095504 /* BSUnicodeConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSUnicodeConverter.h; path = UnicodeConverter/BSUnicodeConverter.h; sourceTree = "<group>"; };
 		DE63260E1A9870E100095504 /* BSUnicodeConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSUnicodeConverter.m; path = UnicodeConverter/BSUnicodeConverter.m; sourceTree = "<group>"; };
 		DE8E95941A971BCD0099DD6E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				DE63260D1A9870E100095504 /* BSUnicodeConverter.h */,
+				DE5BB17E1C7CCCC700FDEF3F /* BSUnicodeConverterPrivate.h */,
 				DE63260E1A9870E100095504 /* BSUnicodeConverter.m */,
 				DEF260A91C7A761D002E5178 /* BSUnicodeHelper.h */,
 				DEF260AA1C7A761D002E5178 /* BSUnicodeHelper.m */,

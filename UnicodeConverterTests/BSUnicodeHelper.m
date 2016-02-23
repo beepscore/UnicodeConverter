@@ -7,6 +7,7 @@
 //
 
 #import "BSUnicodeHelper.h"
+#import "BSUnicodeConverterPrivate.h"
 
 @implementation BSUnicodeHelper
 
