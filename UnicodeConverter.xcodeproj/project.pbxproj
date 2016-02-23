@@ -17,7 +17,7 @@
 		DE63260F1A9870E100095504 /* BSUnicodeConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63260E1A9870E100095504 /* BSUnicodeConverter.m */; };
 		DEF260AC1C7A7CF6002E5178 /* BSUnicodeConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE63260E1A9870E100095504 /* BSUnicodeConverter.m */; };
 		DEF260AD1C7A7D00002E5178 /* BSUnicodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF260AA1C7A761D002E5178 /* BSUnicodeHelper.m */; };
-		DEF8D6901C7AD27300642209 /* BSStringDataUsingEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF8D68F1C7AD27300642209 /* BSStringDataUsingEncodingTests.m */; };
+		DEF8D6901C7AD27300642209 /* BSStringDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF8D68F1C7AD27300642209 /* BSStringDataTests.m */; };
 		DEFF998F1C7A7DFE00BD782E /* BSUnicodeHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFF998E1C7A7DFE00BD782E /* BSUnicodeHelperTests.m */; };
 		DEFF99921C7A7FF300BD782E /* BSUnicodeConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFF99911C7A7FF300BD782E /* BSUnicodeConstants.m */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,7 @@
 		DED333321A971ABF00D8E2B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DEF260A91C7A761D002E5178 /* BSUnicodeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = BSUnicodeHelper.h; path = UnicodeConverterTests/BSUnicodeHelper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DEF260AA1C7A761D002E5178 /* BSUnicodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSUnicodeHelper.m; path = UnicodeConverterTests/BSUnicodeHelper.m; sourceTree = "<group>"; };
-		DEF8D68F1C7AD27300642209 /* BSStringDataUsingEncodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSStringDataUsingEncodingTests.m; sourceTree = "<group>"; };
+		DEF8D68F1C7AD27300642209 /* BSStringDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSStringDataTests.m; sourceTree = "<group>"; };
 		DEFF998E1C7A7DFE00BD782E /* BSUnicodeHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSUnicodeHelperTests.m; sourceTree = "<group>"; };
 		DEFF99901C7A7FF300BD782E /* BSUnicodeConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSUnicodeConstants.h; sourceTree = "<group>"; };
 		DEFF99911C7A7FF300BD782E /* BSUnicodeConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSUnicodeConstants.m; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 		DE381A801A9717F50008B492 /* UnicodeConverterTests */ = {
 			isa = PBXGroup;
 			children = (
-				DEF8D68F1C7AD27300642209 /* BSStringDataUsingEncodingTests.m */,
+				DEF8D68F1C7AD27300642209 /* BSStringDataTests.m */,
 				DEFF99901C7A7FF300BD782E /* BSUnicodeConstants.h */,
 				DEFF99911C7A7FF300BD782E /* BSUnicodeConstants.m */,
 				DE381A831A9717F60008B492 /* BSUnicodeConverterTests.m */,
@@ -257,7 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEF8D6901C7AD27300642209 /* BSStringDataUsingEncodingTests.m in Sources */,
+				DEF8D6901C7AD27300642209 /* BSStringDataTests.m in Sources */,
 				DEFF99921C7A7FF300BD782E /* BSUnicodeConstants.m in Sources */,
 				DEF260AC1C7A7CF6002E5178 /* BSUnicodeConverter.m in Sources */,
 				DE381A841A9717F60008B492 /* BSUnicodeConverterTests.m in Sources */,

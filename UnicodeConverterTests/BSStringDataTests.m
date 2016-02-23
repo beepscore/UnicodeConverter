@@ -1,5 +1,5 @@
 //
-//  BSStringDataUsingEncodingTests.m
+//  BSStringDataTests.m
 //  UnicodeConverter
 //
 //  Created by Steve Baker on 2/21/16.
@@ -9,17 +9,19 @@
 #import <XCTest/XCTest.h>
 #import "BSUnicodeConstants.h"
 
-/** iOS NSString dataUsingEncoding: is an Apple Cocoa framework method.
+/** This class uses Apple Cocoa framework methods.
  * In general, developers don't need to test Apple's code.
  * Use these tests to practice using the API.
  * http://stackoverflow.com/questions/901357/how-do-i-convert-an-nsstring-value-to-nsdata?rq=1
  * http://iosdevelopertips.com/conversion/convert-nsstring-to-nsdata.html
  */
-@interface BSStringDataUsingEncodingTests : XCTestCase
+@interface BSStringDataTests : XCTestCase
 
 @end
 
-@implementation BSStringDataUsingEncodingTests
+@implementation BSStringDataTests
+
+#pragma mark - testStringDataUsingEncoding
 
 - (void)testStringDataUsingEncodingEncodingUTF8Bytes {
     // https://en.wikipedia.org/wiki/UTF-8
