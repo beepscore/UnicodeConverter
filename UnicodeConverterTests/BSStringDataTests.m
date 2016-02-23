@@ -130,9 +130,31 @@
         0x66};
     // Expected length is 13 bytes, not 6 characters * 3 bytes/character = 18 bytes
     NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:13];
-    
+
+    // encode string to UTF-8
     NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
+
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
+}
+
+- (void)testStringDataUsingEncodingUnicodeaBetaCentHwairEurof {
+    NSString *testString = @"aβ¢𐍈€f";
+    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+        0x61, 0x00,
+        0xb2, 0x03,
+        0xa2, 0x00,
+        0x00, 0xd8, 0x48,
+        0xdf, 0xac, 0x20,
+        0x66, 0x00};
+    // Expected length is less than 6 characters * 3 bytes/character = 18 bytes
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:16];
+
+    // encode string to Unicode
+    // acutal prepends BOM byte order marker?
+    // little endian?
+    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
 }
 
 #pragma mark - testStringInitWithDataEncoding
