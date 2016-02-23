@@ -120,4 +120,26 @@
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
+#pragma mark - testStringInitWithDataEncoding
+
+/**
+ * http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
+ * http://iosdevelopertips.com/conversion/convert-nsdata-to-nsstring.html
+ */
+- (void)testStringInitWithDataEncoding {
+    NSArray* testStrings = @[@"testing",
+                             @"español"];
+    
+    for (NSString* string in testStrings) {
+
+        // encode NSString to data
+        NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+        // decode data back to NSString
+        NSString *actual = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+        XCTAssertEqualObjects(string, actual);
+    }
+}
+
 @end

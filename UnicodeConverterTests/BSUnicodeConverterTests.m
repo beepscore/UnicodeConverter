@@ -269,18 +269,4 @@
     XCTAssertNil(error);
 }
 
-#pragma mark - testStringFromData
-
-- (void)testStringFromData {
-    NSArray* testStrings = @[@"testing",
-                             @"español"];
-    
-    for (NSString* string in testStrings) {
-        NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *actual = [BSUnicodeConverter stringFromData:data
-                                                     encoding:NSUTF8StringEncoding];
-        XCTAssertEqualObjects(string, actual);
-    }
-}
-
 @end

@@ -50,12 +50,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 #pragma mark -
 
-+ (NSString*)stringFromData:(NSData *)data encoding:(NSStringEncoding)encoding {
-    // http://stackoverflow.com/questions/2467844/convert-utf-8-encoded-nsdata-to-nsstring?lq=1
-    // http://iosdevelopertips.com/conversion/convert-nsdata-to-nsstring.html
-    return [[NSString alloc] initWithData:data encoding:encoding];
-}
-
 + (NSUInteger)numberOfBytesToGet:(NSData *)data {
     // utf8 uses at most 4 bytes
     NSUInteger kNumberOfUtf8BytesMaximum = 4;

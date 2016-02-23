@@ -139,11 +139,6 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  */
 + (NSArray *)unicodeCodePointsFromUTF8Data:(NSData *)UTF8Data;
 
-#pragma mark -
-
-+ (NSString*)stringFromData:(NSData *)data
-                   encoding:(NSStringEncoding)encoding;
-
 #pragma mark - encode UTF-32
 
 /**
