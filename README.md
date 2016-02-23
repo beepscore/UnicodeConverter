@@ -25,6 +25,8 @@ Should code have an option to export UTF-16 as either little endian or big endia
 ## Assumptions
 For purposes of demonstrating coding ability and learning more about Unicode I am writing an implementation with tests.
 However it seems likely any new implementation (such as mine) initially will have more bugs than a library that has been widely used.
+Also memory space and time performance probably will be worse, but that may be acceptable.
+
 It may be better to use an existing open source library, find and fix any specifically identified bugs.
 Then submit a pull request to the owner of the library.
 Alternativley could wrap the standard conversion methods in another class that catches and fixes any specifically identified bugs.
