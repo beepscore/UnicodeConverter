@@ -120,6 +120,21 @@
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
+- (void)testStringDataUsingEncodingUTF8aBetaCentHwairEurof {
+    NSString *testString = @"aβ¢𐍈€f";
+    uint8_t expectedUTF8Bytes[] = {0x61,
+        0xce, 0xb2,
+        0xc2, 0xa2,
+        0xf0, 0x90, 0x8d, 0x88,
+        0xe2, 0x82, 0xac,
+        0x66};
+    // Expected length is 13 bytes, not 6 characters * 3 bytes/character = 18 bytes
+    NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:13];
+    
+    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
+    XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
+}
+
 #pragma mark - testStringInitWithDataEncoding
 
 /**
