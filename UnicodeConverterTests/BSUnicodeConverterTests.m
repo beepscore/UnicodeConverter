@@ -113,7 +113,7 @@
 
 #pragma mark - testunicodeCodePointFromUTF8TwoBytesErrorPtr
 
-- (void)testunicodeCodePointFromUTF8TwoBytesErrorPtrCent {
+- (void)testunicodeCodePointFromUTF8TwoBytesAtIndexErrorPtrCent {
     NSError *error;
     // use cent sign as shown in wikipedia utf8
     NSString *string = centString;
@@ -133,7 +133,7 @@
 
 #pragma mark - testunicodeCodePointFromUTF8ThreeBytesErrorPtr
 
-- (void)testUnicodeCodePointFromUTF8ThreeBytesErrorPtrEuro {
+- (void)testUnicodeCodePointFromUTF8ThreeBytesAtIndexErrorPtrEuro {
     NSError *error;
     // use euro sign as shown in wikipedia utf8
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:euroString
@@ -152,7 +152,7 @@
 
 #pragma mark - testunicodeCodePointFromUTF8FourBytesErrorPtr
 
-- (void)testUnicodeCodePointFromUTF8FourBytesErrorPtrHwair {
+- (void)testUnicodeCodePointFromUTF8FourBytesAtIndexErrorPtrHwair {
     NSError *error;
     // use hwair as shown in wikipedia utf8
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:hwairString
@@ -171,7 +171,7 @@
 
 #pragma mark - testUnicodeCodePointFromUTF8DataErrorPtr
 
-- (void)testUnicodeCodePointFromUTF8DataErrorPtrDataNil {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrDataNil {
     NSError *error;
     XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:nil
@@ -180,7 +180,7 @@
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataErrorPtrDataEmpty {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrDataEmpty {
     NSError *error;
     NSData *emptyData = [NSData data];
     XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
@@ -190,7 +190,7 @@
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataErrorPtrOneByteab {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrOneByteab {
     NSError *error;
     NSString *string = @"ab";
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
@@ -204,7 +204,7 @@
     XCTAssertNil(error);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataErrorPtrTwoBytes {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrTwoBytes {
     NSError *error;
     // use cent sign as shown in wikipedia utf8
     NSString *string = @"¢";
