@@ -214,6 +214,18 @@
     XCTAssertNil(error);
 }
 
+#pragma mark - testUnicodeCodePointsFromUTF8Data
+
+- (void)testUnicodeCodePointsFromUTF8DataNil {
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:nil];
+    XCTAssertEqualObjects([NSData data], actual);
+}
+
+- (void)testUnicodeCodePointsFromUTF8DataEmpty {
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:[NSData data]];
+    XCTAssertEqualObjects([NSData data], actual);
+}
+
 #pragma mark - testUTF32EncodedCodePointFromUnicodeDataErrorPtr
 
 - (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrNil {
