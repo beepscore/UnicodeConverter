@@ -31,7 +31,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 
 /**
  * replacement character is "�" (U+FFFD)
- * @return data containing 2 bytes {0xFF, 0xFD}
+ * @return data containing 3 bytes {0x00, 0xFF, 0xFD}
  * http://stackoverflow.com/questions/6143107/compiler-error-initializer-element-is-not-a-compile-time-constant#6143271
  */
 + (NSData *)kReplacementCharacterData;

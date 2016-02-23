@@ -85,6 +85,7 @@
  * return replacement character "�" (U+FFFD) if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
+                                 atIndex:(NSInteger)index
                                 errorPtr:(NSError **)errorPtr;
 
 /**
@@ -95,6 +96,7 @@
  * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)UTF8Data
+                                     atIndex:(NSInteger)index
                                     errorPtr:(NSError **)errorPtr;
 
 /**
@@ -105,6 +107,7 @@
  * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)UTF8Data
+                                       atIndex:(NSInteger)index
                                       errorPtr:(NSError **)errorPtr;
 
 /**
@@ -115,6 +118,7 @@
  * return substitution character if error, and set error
  */
 + (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)UTF8Data
-                                      errorPtr:(NSError **)errorPtr;
+                                      atIndex:(NSInteger)index
+                                     errorPtr:(NSError **)errorPtr;
 
 @end

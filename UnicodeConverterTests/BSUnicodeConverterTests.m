@@ -126,6 +126,7 @@
     NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8TwoBytes:UTF8Data
+                                                                       atIndex:0
                                                                       errorPtr:&error]);
     XCTAssertNil(error);
 }
@@ -144,6 +145,7 @@
     NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8ThreeBytes:UTF8Data
+                                                                         atIndex:0
                                                                         errorPtr:&error]);
     XCTAssertNil(error);
 }
@@ -162,6 +164,7 @@
     NSData *expected = [NSData dataWithBytes:expectedBytes length:3];
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8FourBytes:UTF8Data
+                                                                        atIndex:0
                                                                        errorPtr:&error]);
     XCTAssertNil(error);
 }
@@ -172,7 +175,8 @@
     NSError *error;
     XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:nil
-                                                         errorPtr:&error]);
+                                                                   atIndex:0
+                                                                  errorPtr:&error]);
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
@@ -181,6 +185,7 @@
     NSData *emptyData = [NSData data];
     XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:emptyData
+                                                                   atIndex:0
                                                                   errorPtr:&error]);
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
@@ -194,6 +199,7 @@
     NSData *expected = [NSData dataWithBytes:bytes length:1];
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                                   atIndex:0
                                                                   errorPtr:&error]);
     XCTAssertNil(error);
 }
@@ -211,6 +217,7 @@
     NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                                   atIndex:0
                                                                   errorPtr:&error]);
     XCTAssertNil(error);
 }

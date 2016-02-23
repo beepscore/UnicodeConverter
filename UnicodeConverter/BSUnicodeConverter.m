@@ -24,8 +24,8 @@ uint8_t codeUnit3 = 0;
 uint32_t const kReplacementCharacter = 0x0000fffd;
 
 + (NSData *)kReplacementCharacterData {
-    const uint8_t bytes[] = {0xFF, 0xFD};
-    return [NSData dataWithBytes:bytes length:2];
+    const uint8_t bytes[] = {0x00, 0xFF, 0xFD};
+    return [NSData dataWithBytes:bytes length:3];
 }
 
 + (uint8_t*)bytesFromData:(NSData *)data {
@@ -112,6 +112,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
+                                 atIndex:(NSInteger)index
                                 errorPtr:(NSError **)errorPtr {
 
     // no bytes
@@ -124,9 +125,9 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
     
     // one byte
-    NSData *firstData = [UTF8Data subdataWithRange:NSMakeRange(0, 1)];
+    NSData *firstData = [UTF8Data subdataWithRange:NSMakeRange(index, 1)];
     uint8_t firstByte  = [BSUnicodeConverter byteFromData:UTF8Data
-                                                  atIndex:0
+                                                  atIndex:index
                                                  errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
@@ -138,17 +139,23 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
     // two byte sequence
     if ([BSUnicodeConverter isValidUTF8EncodedAsTwoBytesFirstByte:firstByte]) {
-        return [self unicodeCodePointFromUTF8TwoBytes:UTF8Data errorPtr:errorPtr];
+        return [self unicodeCodePointFromUTF8TwoBytes:UTF8Data
+                                              atIndex:index
+                                             errorPtr:errorPtr];
     }
 
     // three byte sequence
     if ([BSUnicodeConverter isValidUTF8EncodedAsThreeBytesFirstByte:firstByte]) {
-        return [self unicodeCodePointFromUTF8ThreeBytes:UTF8Data errorPtr:errorPtr];
+        return [self unicodeCodePointFromUTF8ThreeBytes:UTF8Data
+                                                atIndex:index
+                                               errorPtr:errorPtr];
     }
 
     // four byte sequence
     if ([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:firstByte]) {
-        return [self unicodeCodePointFromUTF8FourBytes:UTF8Data errorPtr:errorPtr];
+        return [self unicodeCodePointFromUTF8FourBytes:UTF8Data
+                                               atIndex:index
+                                              errorPtr:errorPtr];
     }
 
     // default unknown error
@@ -159,10 +166,10 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)UTF8Data
+                                     atIndex:(NSInteger)index
                                     errorPtr:(NSError **)errorPtr {
-    
     if ((nil == UTF8Data)
-        || (UTF8Data.length < 2)) {
+        || ((index + 2) > UTF8Data.length)) {
         *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                         code:BSUTF8DecodeErrorInvalidTwoBytes
                                     userInfo:nil];
@@ -171,14 +178,14 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     
     // this utf8 sequence has 2 bytes
     uint8_t firstByte  = [BSUnicodeConverter byteFromData:UTF8Data
-                                                  atIndex:0
+                                                  atIndex:index
                                                  errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
     }
 
     uint8_t secondByte  = [BSUnicodeConverter byteFromData:UTF8Data
-                                                   atIndex:1
+                                                   atIndex:index + 1
                                                   errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
@@ -207,9 +214,10 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)UTF8Data
+                                       atIndex:(NSInteger)index
                                       errorPtr:(NSError **)errorPtr {
     if ((nil == UTF8Data)
-        || (UTF8Data.length < 3)) {
+        || ((index + 3) > UTF8Data.length)) {
         *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                         code:BSUTF8DecodeErrorInvalidThreeBytes
                                     userInfo:nil];
@@ -218,21 +226,21 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
     // this utf8 sequence has 3 bytes
     uint8_t firstByte  = [BSUnicodeConverter byteFromData:UTF8Data
-                                                  atIndex:0
+                                                  atIndex:index
                                                  errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
     }
 
     uint8_t secondByte  = [BSUnicodeConverter byteFromData:UTF8Data
-                                                   atIndex:1
+                                                   atIndex:index + 1
                                                   errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
     }
 
     uint8_t thirdByte = [BSUnicodeConverter byteFromData:UTF8Data
-                                                 atIndex:2
+                                                 atIndex:index + 2
                                                 errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
@@ -262,9 +270,10 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)UTF8Data
+                                      atIndex:(NSInteger)index
                                       errorPtr:(NSError **)errorPtr {
     if ((nil == UTF8Data)
-        || (UTF8Data.length < 4)) {
+        || ((index + 4) > UTF8Data.length)) {
         *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                         code:BSUTF8DecodeErrorInvalidFourBytes
                                     userInfo:nil];
@@ -273,28 +282,28 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
     // this utf8 sequence has 4 bytes
     uint8_t firstByte  = [BSUnicodeConverter byteFromData:UTF8Data
-                                                  atIndex:0
+                                                  atIndex:index
                                                  errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
     }
 
     uint8_t secondByte  = [BSUnicodeConverter byteFromData:UTF8Data
-                                                   atIndex:1
+                                                   atIndex:index + 1
                                                   errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
     }
 
     uint8_t thirdByte = [BSUnicodeConverter byteFromData:UTF8Data
-                                                 atIndex:2
+                                                 atIndex:index + 2
                                                 errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
     }
 
     uint8_t fourthByte = [BSUnicodeConverter byteFromData:UTF8Data
-                                                  atIndex:3
+                                                  atIndex:index + 3
                                                  errorPtr:errorPtr];
     if (*errorPtr) {
         return [BSUnicodeConverter kReplacementCharacterData];
