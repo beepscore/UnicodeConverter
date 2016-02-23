@@ -76,6 +76,7 @@ https://en.wikipedia.org/wiki/UTF-8
 "The UTF-32 form of a code point is a direct representation of that code point's numerical value."
 Uses fixed length 4 bytes per code point.
 UTF-32 may be big-endian UTF-32BE or little endian UTF-32LE.
+For big endian encoding, first byte is always 0?
 Uses Byte Order Mark BOM at beginning of string?
 
 # Appendix References
