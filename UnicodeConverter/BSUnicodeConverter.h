@@ -151,7 +151,4 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 + (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)unicodeData
                                         errorPtr:(NSError **)errorPtr;
 
-//- (NSMutableData*)UTF32DataFromUTF8Data:(NSData*)data
-//                               errorPtr:(NSError**)errorPtr;
-
 @end
