@@ -134,10 +134,10 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 
 /**
  * @param UTF8Data contains UTF-8 encoded data, may be nil or empty
- * @return an array of unicodeCodePoint
- * return empty array if data is nil or empty.
+ * @return an NSData of unicodeCodePoint
+ * return empty data if UTF8Data is nil or empty.
  */
-+ (NSArray *)unicodeCodePointsFromUTF8Data:(NSData *)UTF8Data;
++ (NSData *)unicodeCodePointsFromUTF8Data:(NSData *)UTF8Data;
 
 #pragma mark - encode UTF-32
 

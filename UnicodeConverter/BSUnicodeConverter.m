@@ -337,8 +337,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     }
 }
 
-+ (NSArray *)unicodeCodePointsFromUTF8Data:(NSData *)UTF8Data {
-    return @[];
++ (NSData *)unicodeCodePointsFromUTF8Data:(NSData *)UTF8Data {
+    return [NSData data];
 }
 
 #pragma mark - encode UTF-32
