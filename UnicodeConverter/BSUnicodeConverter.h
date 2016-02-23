@@ -10,6 +10,9 @@
 
 @interface BSUnicodeConverter : NSObject
 
+FOUNDATION_EXPORT NSInteger const unicodeCodePointNumberOfBytes;
+FOUNDATION_EXPORT NSInteger const UTF32NumberOfBytes;
+
 typedef NS_ENUM(NSUInteger, BSUTF8DecodeError) {
     BSUTF8DecodeErrorDataUnknown = 0,
     BSUTF8DecodeErrorDataEmpty = 1,
@@ -46,6 +49,7 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 
 /**
  * @param unicodeData may be nil or empty or contain one or more unicode code points
+ * each unicode code point is 3 bytes long
  * @param errorPtr points to an error with an error.domain and error.code
  * error is nil if no error
  * @return a single UTF-32 encoded value starting at start of data

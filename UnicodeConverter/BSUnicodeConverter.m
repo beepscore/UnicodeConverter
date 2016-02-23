@@ -13,6 +13,9 @@
 
 @implementation BSUnicodeConverter
 
+NSInteger const unicodeCodePointNumberOfBytes = 3;
+NSInteger const UTF32NumberOfBytes = 4;
+
 uint8_t codeUnit0 = 0;
 uint8_t codeUnit1 = 0;
 uint8_t codeUnit2 = 0;
@@ -346,8 +349,9 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 + (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)unicodeData
                                         errorPtr:(NSError **)errorPtr {
-    const NSInteger unicodeCodePointNumberOfBytes = 4;
+    // for big endian, first byte will always be 0
     uint32_t utf32 = 0;
+    // set following 3 bytes
     for (NSInteger index = 0; index < unicodeCodePointNumberOfBytes; index++) {
         uint8_t byte = [BSUnicodeConverter byteFromData:unicodeData atIndex:index errorPtr:errorPtr];
         NSInteger powerOfTwo = 8 * ((unicodeCodePointNumberOfBytes - 1) - index);

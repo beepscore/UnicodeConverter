@@ -252,12 +252,11 @@
 - (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtra {
     NSError *error;
     // character "a"
-    uint32_t expected = 0x000061;
-    uint8_t byte0 = 0x00;
+    uint32_t expected = 0x00000061;
     uint8_t byte1 = 0x00;
     uint8_t byte2 = 0x00;
     uint8_t byte3 = 0x61;
-    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    uint8_t bytes[] = {byte1, byte2, byte3};
     NSData *unicodeData = [NSData dataWithBytes:bytes length:4];
     uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:unicodeData
                                                                       errorPtr:&error];
@@ -270,11 +269,10 @@
     // expected values from Wikipedia example
     uint32_t expected = 0x10348;
 
-    uint8_t byte0 = 0x00;
     uint8_t byte1 = 0x01;
     uint8_t byte2 = 0x03;
     uint8_t byte3 = 0x48;
-    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    uint8_t bytes[] = {byte1, byte2, byte3};
     NSData *unicodeData = [NSData dataWithBytes:bytes length:4];
     uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:unicodeData
                                                                       errorPtr:&error];
