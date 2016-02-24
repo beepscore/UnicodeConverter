@@ -66,7 +66,8 @@ In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code
 # Appendix Background
 
 ## Unicode
-Highest code point is 0x10FFFF, which fits in 3 bytes.
+Uses 21 bits, fits in 3 bytes.
+Highest code point is 0x10FFFF.
 
 ## UTF-8
 Uses 1 to 4 bytes per code point.
@@ -88,6 +89,9 @@ Uses Byte Order Mark BOM at beginning of string?
 ## Problem statement
 MobileSDE-CodingProblem-Smartsheet.pdf by Smartsheet
 http://www.objc.io/issue-9/unicode.html
+
+## Unicode
+https://www.objc.io/issues/9-strings/unicode/
 
 ## UTF-8
 https://en.wikipedia.org/wiki/UTF-8
