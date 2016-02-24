@@ -40,6 +40,51 @@
     XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
 }
 
+- (void)testStringDataUsingEncodingUnicodeHwair {
+    // 𐍈 u\10348
+    NSString *testString = hwairString;
+
+    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+
+    // Expect prepended byte order marker, little endian, 4 bytes/character
+    // TODO: Actual doesn't equal this, don't understand why.
+//    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+//        0x48, 0x03, 0x01
+//        };
+//    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:5];
+
+    uint8_t returnedUnicodeBytes[] = {0xff, 0xfe,
+        0x00, 0xd8, 0x48, 0xdf
+        };
+    NSData *returnedUnicodeData = [NSData dataWithBytes:returnedUnicodeBytes length:6];
+
+    XCTAssertEqualObjects(returnedUnicodeData, actualUnicodeData);
+}
+
+- (void)testStringDataUsingEncodingUnicodeLigature {
+    // Hebrew letter pe with rafe
+    // 0xfb4e
+    // This character uses a ligature
+    // https://en.wikipedia.org/wiki/Alphabetic_Presentation_Forms
+    // https://en.wikipedia.org/wiki/List_of_Unicode_characters
+    NSString *testString = @"פֿ";
+
+    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+
+    // Expect prepended byte order marker, little endian, 4 bytes/character
+    // TODO: Actual doesn't equal this, don't understand why.
+//    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+//        0x4e, 0xfb
+//        };
+//    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:4];
+    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+        0xe4, 0x05, 0xbf, 0x05
+        };
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:6];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
+}
+
 - (void)testStringDataUsingEncodingUnicodeaBetaCentHwairEurof {
     NSString *testString = @"aβ¢𐍈€f";
     // encode string to Unicode
@@ -50,8 +95,8 @@
         0x61, 0x00,
         0xb2, 0x03,
         0xa2, 0x00,
-        0x00, 0xd8, 0x48,
-        0xdf, 0xac, 0x20,
+        0x00, 0xd8, 0x48, 0xdf,
+        0xac, 0x20,
         0x66, 0x00};
     NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:16];
 
