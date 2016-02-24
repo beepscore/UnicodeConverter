@@ -65,6 +65,12 @@ In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code
 
 # Appendix Background
 
+## NSString
+Says Objective C NSString stores string as UTF-16 code units.
+https://www.mikeash.com/pyblog/friday-qa-2015-11-06-why-is-swifts-string-api-so-hard.html
+
+http://stackoverflow.com/questions/11796892/how-do-i-convert-a-unicode-code-point-range-into-an-nsstring-character-range#11805222
+
 ## Unicode
 Uses 21 bits, fits in 3 bytes.
 Highest code point is 0x10FFFF.
