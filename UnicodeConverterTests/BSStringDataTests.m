@@ -23,6 +23,55 @@
 
 #pragma mark - testStringDataUsingEncoding
 
+#pragma mark - encode as Unicode
+
+- (void)testStringDataUsingEncodingUnicodeabc {
+    NSString *testString = @"abc";
+    // encode string to Unicode
+    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+
+    // Expect prepended byte order marker, little endian, 2 bytes/character
+    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+        0x61, 0x00,
+        0x62, 0x00,
+        0x63, 0x00};
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:8];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
+}
+
+- (void)testStringDataUsingEncodingUnicodeaBetaCentHwairEurof {
+    NSString *testString = @"aβ¢𐍈€f";
+    // encode string to Unicode
+    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+
+    // Expect prepended byte order marker, little endian, 2 or 3 bytes/character
+    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+        0x61, 0x00,
+        0xb2, 0x03,
+        0xa2, 0x00,
+        0x00, 0xd8, 0x48,
+        0xdf, 0xac, 0x20,
+        0x66, 0x00};
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:16];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
+}
+
+#pragma mark - encode as UTF-8
+
+- (void)testStringDataUsingEncodingUTF8abc {
+    NSString *testString = @"abc";
+    // encode string to UTF-8
+    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
+
+    uint8_t expectedUTF8Bytes[] = {0x61, 0x62, 0x63};
+    // Expected length is (3 characters * 1 byte/character) = 3 bytes
+    NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:3];
+
+    XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
+}
+
 - (void)testStringDataUsingEncodingEncodingUTF8Bytes {
     // https://en.wikipedia.org/wiki/UTF-8
     NSString* betaString = [NSString stringWithCharacters:&beta length:1];
@@ -101,60 +150,92 @@
 
 - (void)testStringDataUsingEncodingUTF8enye {
     NSString *testString = @"ñ";
+    // encode string to UTF-8
+    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
+
     uint8_t expectedUTF8Bytes[] = {0xc3, 0xb1};
     NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:2];
 
-    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
 - (void)testStringDataUsingEncodingUTF8abcHwairEurof {
     NSString *testString = @"abc𐍈€f";
+    // encode string to UTF-8
+    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
+
     uint8_t expectedUTF8Bytes[] = {0x61, 0x62, 0x63,
         0xf0, 0x90, 0x8d, 0x88,
         0xe2, 0x82, 0xac,
         0x66};
     NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:11];
 
-    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
 - (void)testStringDataUsingEncodingUTF8aBetaCentHwairEurof {
     NSString *testString = @"aβ¢𐍈€f";
+    // encode string to UTF-8
+    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
+
+    // Expect no byte order marker, 2 to 4 bytes/character
     uint8_t expectedUTF8Bytes[] = {0x61,
         0xce, 0xb2,
         0xc2, 0xa2,
         0xf0, 0x90, 0x8d, 0x88,
         0xe2, 0x82, 0xac,
         0x66};
-    // Expected length is 13 bytes, not 6 characters * 3 bytes/character = 18 bytes
     NSData *expectedUTF8Data = [NSData dataWithBytes:expectedUTF8Bytes length:13];
-
-    // encode string to UTF-8
-    NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
 
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
-- (void)testStringDataUsingEncodingUnicodeaBetaCentHwairEurof {
-    NSString *testString = @"aβ¢𐍈€f";
-    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
-        0x61, 0x00,
-        0xb2, 0x03,
-        0xa2, 0x00,
-        0x00, 0xd8, 0x48,
-        0xdf, 0xac, 0x20,
-        0x66, 0x00};
-    // Expected length is less than 6 characters * 3 bytes/character = 18 bytes
-    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:16];
+#pragma mark - encode as UTF-32
 
-    // encode string to Unicode
-    // acutal prepends BOM byte order marker?
-    // little endian?
-    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+- (void)testStringDataUsingEncodingUTF32abc {
+    NSString *testString = @"abc";
+    // encode string to UTF-32, don't specify endianness
+    NSData *actualUTF32Data = [testString dataUsingEncoding:NSUTF32StringEncoding];
 
-    XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
+    // Expect BOM little endian 4 bytes + (3 characters * 4 bytes/character) = 16 bytes
+    uint8_t expectedUTF32Bytes[] = {0xff, 0xfe, 0x00, 0x00,
+        0x61, 0x00, 0x00, 0x00,
+        0x62, 0x00, 0x00, 0x00,
+        0x63, 0x00, 0x00, 0x00
+    };
+    NSData *expectedUTF32Data = [NSData dataWithBytes:expectedUTF32Bytes length:16];
+
+    XCTAssertEqualObjects(expectedUTF32Data, actualUTF32Data);
+}
+
+- (void)testStringDataUsingEncodingUTF32BigEndianabc {
+    NSString *testString = @"abc";
+    NSData *actualUTF32DataBigEndian = [testString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
+
+    // Expect no prepended byte order marker, big endian (3 characters * 4 bytes/character)
+    uint8_t expectedUTF32Bytes[] = {
+        0x00, 0x00, 0x00, 0x061,
+        0x00, 0x00, 0x00, 0x062,
+        0x00, 0x00, 0x00, 0x063
+    };
+    NSData *expectedUTF32Data = [NSData dataWithBytes:expectedUTF32Bytes length:12];
+
+    XCTAssertEqualObjects(expectedUTF32Data, actualUTF32DataBigEndian);
+}
+
+- (void)testStringDataUsingEncodingUTF32LittleEndianabc {
+    NSString *testString = @"abc";
+    NSData *actualUTF32DataLittleEndian = [testString dataUsingEncoding:NSUTF32LittleEndianStringEncoding];
+
+    // Expect no prepended byte order marker, little endian (3 characters * 4 bytes/character)
+    uint8_t expectedUTF32Bytes[] = {
+        0x61, 0x00, 0x00, 0x00,
+        0x62, 0x00, 0x00, 0x00,
+        0x63, 0x00, 0x00, 0x00
+    };
+    NSData *expectedUTF32Data = [NSData dataWithBytes:expectedUTF32Bytes length:12];
+
+    XCTAssertEqualObjects(expectedUTF32Data, actualUTF32DataLittleEndian);
 }
 
 #pragma mark - testStringInitWithDataEncoding
@@ -169,10 +250,10 @@
     
     for (NSString* string in testStrings) {
 
-        // encode NSString to data
+        // encode NSString to UTF-8 data
         NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
 
-        // decode data back to NSString
+        // decode UTF-8 data back to NSString
         NSString *actual = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
         XCTAssertEqualObjects(string, actual);
