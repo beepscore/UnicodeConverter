@@ -25,6 +25,33 @@
 
 #pragma mark - encode as Unicode
 
+- (void)testStringDataUsingEncodingUnicodea {
+    NSString *testString = @"a";
+    // encode string to Unicode
+    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+
+    // Expect prepended byte order marker, little endian, 2 bytes/character
+    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+        0x61, 0x00};
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:4];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
+}
+
+- (void)testStringDataUsingEncodingUnicodeab {
+    NSString *testString = @"ab";
+    // encode string to Unicode
+    NSData *actualUnicodeData = [testString dataUsingEncoding:NSUnicodeStringEncoding];
+
+    // Expect prepended byte order marker, little endian, 2 bytes/character
+    uint8_t expectedUnicodeBytes[] = {0xff, 0xfe,
+        0x61, 0x00,
+        0x62, 0x00};
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:6];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actualUnicodeData);
+}
+
 - (void)testStringDataUsingEncodingUnicodeabc {
     NSString *testString = @"abc";
     // encode string to Unicode
@@ -236,6 +263,21 @@
 }
 
 #pragma mark - encode as UTF-32
+
+- (void)testStringDataUsingEncodingUTF32Hwair {
+    // 𐍈 u\10348
+    NSString *testString = hwairString;
+    // encode string to UTF-32, don't specify endianness
+    NSData *actualUTF32Data = [testString dataUsingEncoding:NSUTF32StringEncoding];
+
+    // Expect prepended byte order marker, little endian, 4 bytes/character
+    uint8_t expectedUTF32Bytes[] = {0xff, 0xfe, 0x00, 0x00,
+        0x48, 0x03, 0x01, 0x00
+    };
+    NSData *expectedUTF32Data = [NSData dataWithBytes:expectedUTF32Bytes length:8];
+
+    XCTAssertEqualObjects(expectedUTF32Data, actualUTF32Data);
+}
 
 - (void)testStringDataUsingEncodingUTF32abc {
     NSString *testString = @"abc";
