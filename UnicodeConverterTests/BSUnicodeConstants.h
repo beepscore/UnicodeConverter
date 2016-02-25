@@ -13,7 +13,7 @@
  */
 @interface BSUnicodeConstants : NSObject
 
-// U+03b2 Greek letter beta β
+// U+03b2 Greek letter beta β UTF-8 0xceb2
 // http://justskins.com/forums/escape-sequence-for-unicode-114988.html
 extern unichar const beta;
 
