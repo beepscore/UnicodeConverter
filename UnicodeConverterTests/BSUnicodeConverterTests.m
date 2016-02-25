@@ -123,15 +123,12 @@
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
 
     // <00a2>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8TwoBytes:UTF8Data
-                                                                  atIndex:0
-                                                                 errorPtr:&error];
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8TwoBytes:UTF8Data
+                                                                   atIndex:0
+                                                                  errorPtr:&error];
+    uint32_t expected = 0x00a2;
 
-    // expected is the Unicode code point converted to NSData*
-    uint8_t expectedBytes[] = {0x00, 0xA2};
-    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
-
-    XCTAssertEqualObjects(expected, actual);
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -146,14 +143,12 @@
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:3];
 
     // <20ac>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8ThreeBytes:UTF8Data
-                                                                    atIndex:0
-                                                                   errorPtr:&error];
-    // expected is the Unicode code point converted to NSData*
-    uint8_t expectedBytes[] = {0x20, 0xAC};
-    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8ThreeBytes:UTF8Data
+                                                                     atIndex:0
+                                                                    errorPtr:&error];
+    uint32_t expected = 0x20ac;
 
-    XCTAssertEqualObjects(expected, actual);
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -168,14 +163,12 @@
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:4];
 
     // <010348>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8FourBytes:UTF8Data
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8FourBytes:UTF8Data
                                                                    atIndex:0
                                                                   errorPtr:&error];
-    // expected is the Unicode code point converted to NSData*
-    uint8_t expectedBytes[] = {0x01, 0x03, 0x48};
-    NSData *expected = [NSData dataWithBytes:expectedBytes length:3];
+    uint32_t expected = 0x010348;
 
-    XCTAssertEqualObjects(expected, actual);
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -184,11 +177,12 @@
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrDataNil {
     NSNumber *numberOfBytesRead;
     NSError *error;
-    XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
-                          [BSUnicodeConverter unicodeCodePointFromUTF8Data:nil
-                                                                   atIndex:0
-                                                      numberOfBytesReadPtr:&numberOfBytesRead
-                                                                  errorPtr:&error]);
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:nil
+                                                               atIndex:0
+                                                  numberOfBytesReadPtr:&numberOfBytesRead
+                                                              errorPtr:&error];
+    uint32_t expected = kReplacementCharacter;
+    XCTAssertEqual(expected, actual);
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
@@ -196,11 +190,14 @@
     NSNumber *numberOfBytesRead;
     NSError *error;
     NSData *emptyData = [NSData data];
-    XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
-                          [BSUnicodeConverter unicodeCodePointFromUTF8Data:emptyData
-                                                                   atIndex:0
-                                                      numberOfBytesReadPtr:&numberOfBytesRead
-                                                                  errorPtr:&error]);
+
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:emptyData
+                                                               atIndex:0
+                                                  numberOfBytesReadPtr:&numberOfBytesRead
+                                                              errorPtr:&error];
+    uint32_t expected = kReplacementCharacter;
+
+    XCTAssertEqual(expected, actual);
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
@@ -211,12 +208,14 @@
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
                                              encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
-    NSData *expected = [NSData dataWithBytes:bytes length:1];
-    XCTAssertEqualObjects(expected,
-                          [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
-                                                                   atIndex:0
-                                                      numberOfBytesReadPtr:&numberOfBytesRead
-                                                                  errorPtr:&error]);
+
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                               atIndex:0
+                                                  numberOfBytesReadPtr:&numberOfBytesRead
+                                                              errorPtr:&error];
+    uint32_t expected = 0x61;
+
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -228,15 +227,12 @@
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
                                              encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
-    
-    // expected is the Unicode code point converted to NSData*
-    uint8_t expectedBytes[] = {0x00, 0xA2};
-    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
-    XCTAssertEqualObjects(expected,
-                          [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
-                                                                   atIndex:0
-                                                      numberOfBytesReadPtr:&numberOfBytesRead
-                                                                  errorPtr:&error]);
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                               atIndex:0
+                                                  numberOfBytesReadPtr:&numberOfBytesRead
+                                                              errorPtr:&error];
+    uint32_t expected = 0x00A2;
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -251,16 +247,13 @@
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:3];
 
     // <20ac>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
-                                                              atIndex:0
-                                                 numberOfBytesReadPtr:&numberOfBytesRead
-                                                             errorPtr:&error];
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                               atIndex:0
+                                                  numberOfBytesReadPtr:&numberOfBytesRead
+                                                              errorPtr:&error];
+    uint32_t expected = 0x20AC;
 
-    // expected is the Unicode code point converted to NSData*
-    uint8_t expectedBytes[] = {0x20, 0xAC};
-    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
-
-    XCTAssertEqualObjects(expected, actual);
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -275,16 +268,13 @@
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:4];
 
     // <010348>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
-                                                              atIndex:0
-                                                 numberOfBytesReadPtr:&numberOfBytesRead
-                                                             errorPtr:&error];
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                               atIndex:0
+                                                  numberOfBytesReadPtr:&numberOfBytesRead
+                                                              errorPtr:&error];
+    uint32_t expected = 0x010348;
 
-    // expected is the Unicode code point converted to NSData*
-    uint8_t expectedBytes[] = {0x01, 0x03, 0x48};
-    NSData *expected = [NSData dataWithBytes:expectedBytes length:3];
-
-    XCTAssertEqualObjects(expected, actual);
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -297,29 +287,26 @@
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
 
     // first character after byte order marker
-    NSData *dataAtIndex0 = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
-                                                                    atIndex:0
-                                                       numberOfBytesReadPtr:&numberOfBytesRead
-                                                                   errorPtr:&error];
+    uint32_t actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                               atIndex:0
+                                                  numberOfBytesReadPtr:&numberOfBytesRead
+                                                              errorPtr:&error];
+    uint32_t expected = 0x61;
 
-    uint8_t expectedUnicodeBytes[] = {0x61};
-    NSData *expectedDataAtIndex0 = [NSData dataWithBytes:expectedUnicodeBytes
-                                                  length:1];
-
-    XCTAssertEqualObjects(expectedDataAtIndex0, dataAtIndex0);
+    XCTAssertEqual(expected, actual);
     XCTAssertNil(error);
 }
 
 #pragma mark - testUnicodeCodePointsFromUTF8Data
 
 - (void)testUnicodeCodePointsFromUTF8DataNil {
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:nil];
-    XCTAssertEqualObjects([NSData data], actual);
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:nil];
+    XCTAssertEqualObjects([NSArray array], actual);
 }
 
 - (void)testUnicodeCodePointsFromUTF8DataEmpty {
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:[NSData data]];
-    XCTAssertEqualObjects([NSData data], actual);
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:[NSData data]];
+    XCTAssertEqualObjects([NSArray array], actual);
 }
 
 - (void)testUnicodeCodePointsFromUTF8Dataabc {
@@ -328,10 +315,9 @@
     // For purposes of testing, use framework method to get UTF8Data.
     // <616263>
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
-    uint8_t expectedUnicodeBytes[] = {0x61, 0x62, 0x63};
-    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:3];
+    NSArray *expected = @[@0x61, @0x62, @0x63];
 
     XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
@@ -343,12 +329,9 @@
     // For purposes of testing, use framework method to get UTF8Data.
     // po UTF8Data <ceb2>
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
-    // po actual <03b2>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
-
-    uint8_t expectedUnicodeBytes[] = {0x03, 0xb2};
-    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:2];
+    NSArray *expected = @[@0x03b2];
 
     XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
@@ -361,12 +344,9 @@
     // For purposes of testing, use framework method to get UTF8Data.
     // po UTF8Data <c2a2>
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
-    // po actual <00a2>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
-
-    uint8_t expectedUnicodeBytes[] = {0x00, 0xa2};
-    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:2];
+    NSArray *expected = @[@0x00a2];
 
     XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
@@ -379,12 +359,9 @@
     // For purposes of testing, use framework method to get UTF8Data.
     // po UTF8Data <61ceb2>
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
-    // po actual <6103b2>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
-
-    uint8_t expectedUnicodeBytes[] = {0x61, 0x03, 0xb2};
-    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:3];
+    NSArray *expected = @[@0x61, @0x03b2];
 
     XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
@@ -397,14 +374,11 @@
     // For purposes of testing, use framework method to get UTF8Data.
     // <e282ac>
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
-    // <20ac>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+    NSArray *expected = @[@0x20ac];
 
-    uint8_t expectedUnicodeBytes[] = {0x20, 0xac};
-    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:2];
-
-    XCTAssertEqualObjects(expectedUnicodeData, actual);
+    XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -415,14 +389,11 @@
     // For purposes of testing, use framework method to get UTF8Data.
     // po UTF8Data <f0908d88> (4 bytes)
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
-    // <010348>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+    NSArray *expected = @[@0x010348];
 
-    uint8_t expectedUnicodeBytes[] = {0x01, 0x03, 0x48};
-    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:3];
-
-    XCTAssertEqualObjects(expectedUnicodeData, actual);
+    XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
 }
 
@@ -433,8 +404,8 @@
     // po UTF8Data <61ceb2c2 a2f0908d 88e282ac 66>
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
 
-    // po actual <6103b200 a2010348 20ac66>
-    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+    // po actual (97, 946, 162, 66376, 8364, 102)
+    NSArray *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
     // According to some references, NSString dataUsingEncoding:NSUnicodeStringEncoding
     // returns something more like UTF-16 than Unicode
@@ -443,17 +414,9 @@
     // <fffe6100 b203a200 00d848df ac206600>
     // NSData *expectedUnicodeData = [string dataUsingEncoding:NSUnicodeStringEncoding];
 
-    // Change expected to match actual.
-    uint8_t expectedUnicodeBytes[] = {0x61,
-        0x03, 0xb2,
-        0x00, 0xa2,
-        0x01, 0x03, 0x48,
-        0x20, 0xac,
-        0x66
-    };
-    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:11];
+    NSArray *expected = @[@0x61, @0x03b2, @0x00a2, @0x010348, @0x20ac, @0x66];
 
-    XCTAssertEqualObjects(expectedUnicodeData, actual);
+    XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
 }
 

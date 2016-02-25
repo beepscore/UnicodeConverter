@@ -82,10 +82,10 @@
  * @param numberOfBytesReadPtr points to the number of bytes read to get the returned code point
  * @param errorPtr points to an error with an error.domain and error.code
  * error is nil if no error
- * @return a single unicodeCodePoint starting at start of data
+ * @return a single unicodeCodePoint starting at index
  * return replacement character "�" (U+FFFD) if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
++ (uint32_t)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
                                  atIndex:(NSInteger)index
                     numberOfBytesReadPtr:(NSNumber **)numberOfBytesReadPtr
                                 errorPtr:(NSError **)errorPtr;
@@ -94,10 +94,10 @@
  * @param UTF8Data may be nil or empty or start with a UTF-8 encoded two byte character
  * @param errorPtr points to an error with an error.domain and error.code
  * error is nil if no error
- * @return a single unicodeCodePoint starting at start of data
+ * @return a single unicodeCodePoint starting at index
  * return substitution character if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8TwoBytes:(NSData *)UTF8Data
++ (uint32_t)unicodeCodePointFromUTF8TwoBytes:(NSData *)UTF8Data
                                      atIndex:(NSInteger)index
                                     errorPtr:(NSError **)errorPtr;
 
@@ -105,10 +105,10 @@
  * @param UTF8Data may be nil or empty or start with a UTF-8 encoded three byte character
  * @param errorPtr points to an error with an error.domain and error.code
  * error is nil if no error
- * @return a single unicodeCodePoint starting at start of data
+ * @return a single unicodeCodePoint starting at index
  * return substitution character if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8ThreeBytes:(NSData *)UTF8Data
++ (uint32_t)unicodeCodePointFromUTF8ThreeBytes:(NSData *)UTF8Data
                                        atIndex:(NSInteger)index
                                       errorPtr:(NSError **)errorPtr;
 
@@ -116,10 +116,10 @@
  * @param UTF8Data may be nil or empty or start with a UTF-8 encoded four byte character
  * @param errorPtr points to an error with an error.domain and error.code
  * error is nil if no error
- * @return a single unicodeCodePoint starting at start of data
+ * @return a single unicodeCodePoint starting at index
  * return substitution character if error, and set error
  */
-+ (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)UTF8Data
++ (uint32_t)unicodeCodePointFromUTF8FourBytes:(NSData *)UTF8Data
                                       atIndex:(NSInteger)index
                                      errorPtr:(NSError **)errorPtr;
 
