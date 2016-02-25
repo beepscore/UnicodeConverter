@@ -23,6 +23,11 @@ uint8_t codeUnit3 = 0;
 
 uint32_t const kReplacementCharacter = 0x0000fffd;
 
++ (NSData *)kByteOrderMarkerLittleEndianData {
+    const uint8_t bytes[] = {0xFF, 0xFE};
+    return [NSData dataWithBytes:bytes length:2];
+}
+
 + (NSData *)kReplacementCharacterData {
     const uint8_t bytes[] = {0x00, 0xFF, 0xFD};
     return [NSData dataWithBytes:bytes length:3];
