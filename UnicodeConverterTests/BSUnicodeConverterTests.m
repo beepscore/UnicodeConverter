@@ -217,7 +217,7 @@
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrCent {
     NSError *error;
     // U+00A2 cent ¢ UTF-8 0xc2a2
-    NSString *string = @"¢";
+    NSString *string = centString;
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
                                              encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
@@ -235,7 +235,7 @@
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrEuro {
     NSError *error;
     // U+20AC Euro € UTF-8 0xe282ac
-    NSString *string = @"€";
+    NSString *string = euroString;
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
                                              encoding:NSUTF8StringEncoding];
     // <e282ac>
@@ -257,7 +257,7 @@
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrHwair {
     NSError *error;
     // U+10348 hwair 𐍈 UTF-8 0xf0908d88
-    NSString *string = @"𐍈";
+    NSString *string = hwairString;
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
                                              encoding:NSUTF8StringEncoding];
     // <f0908d88>
