@@ -200,7 +200,7 @@
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrOneByteab {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrab {
     NSError *error;
     NSString *string = @"ab";
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
@@ -214,7 +214,7 @@
     XCTAssertNil(error);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrTwoBytes {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrCent {
     NSError *error;
     // U+00A2 cent ¢ UTF-8 0xc2a2
     NSString *string = @"¢";
@@ -232,7 +232,7 @@
     XCTAssertNil(error);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrThreeBytes {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrEuro {
     NSError *error;
     // U+20AC Euro € UTF-8 0xe282ac
     NSString *string = @"€";
@@ -254,7 +254,7 @@
     XCTAssertNil(error);
 }
 
-- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrFourBytes {
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrHwair {
     NSError *error;
     // U+10348 hwair 𐍈 UTF-8 0xf0908d88
     NSString *string = @"𐍈";
