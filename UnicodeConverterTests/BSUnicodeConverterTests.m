@@ -222,6 +222,28 @@
     XCTAssertNil(error);
 }
 
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrThreeBytes {
+    NSError *error;
+    // U+20AC Euro € UTF-8 0xe282ac
+    NSString *string = @"€";
+    uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
+                                                 encoding:NSUTF8StringEncoding];
+    // <e282ac>
+    NSData *UTF8Data = [NSData dataWithBytes:bytes length:3];
+
+    // <20ac>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                              atIndex:0
+                                                             errorPtr:&error];
+
+    // expected is the Unicode code point converted to NSData*
+    uint8_t expectedBytes[] = {0x20, 0xAC};
+    NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
+
+    XCTAssertEqualObjects(expected, actual);
+    XCTAssertNil(error);
+}
+
 - (void)testUnicodeCodePointFromUTF8DataAtIndex {
     NSError *error;
     NSString *string = @"aβ¢𐍈€f";
