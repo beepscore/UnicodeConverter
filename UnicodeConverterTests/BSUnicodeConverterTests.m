@@ -244,6 +244,28 @@
     XCTAssertNil(error);
 }
 
+- (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrFourBytes {
+    NSError *error;
+    // U+10348 hwair 𐍈 UTF-8 0xf0908d88
+    NSString *string = @"𐍈";
+    uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
+                                             encoding:NSUTF8StringEncoding];
+    // <f0908d88>
+    NSData *UTF8Data = [NSData dataWithBytes:bytes length:4];
+
+    // <010348>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                              atIndex:0
+                                                             errorPtr:&error];
+
+    // expected is the Unicode code point converted to NSData*
+    uint8_t expectedBytes[] = {0x01, 0x03, 0x48};
+    NSData *expected = [NSData dataWithBytes:expectedBytes length:3];
+
+    XCTAssertEqualObjects(expected, actual);
+    XCTAssertNil(error);
+}
+
 - (void)testUnicodeCodePointFromUTF8DataAtIndex {
     NSError *error;
     NSString *string = @"aβ¢𐍈€f";
