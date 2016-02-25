@@ -512,6 +512,21 @@
 
 #pragma mark - testUTF32BigEndianFromUnicodeCodePoint
 
+- (void)testUTF32BigEndianFromUnicodeCodePoint0 {
+    uint32_t unicodeCodePoint = 0x0;
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoint:unicodeCodePoint];
+    
+    uint8_t byte0 = 0x00;
+    uint8_t byte1 = 0x00;
+    uint8_t byte2 = 0x00;
+    uint8_t byte3 = 0x00;
+    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
 - (void)testUTF32BigEndianFromUnicodeCodePointa {
     uint32_t unicodeCodePoint = 0x61;
 
