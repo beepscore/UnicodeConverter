@@ -295,6 +295,8 @@
     XCTAssertEqualObjects(expectedUTF32Data, actualUTF32Data);
 }
 
+#pragma mark - encode as UTF-32 big endian
+
 - (void)testStringDataUsingEncodingUTF32BigEndianabc {
     NSString *testString = @"abc";
     NSData *actualUTF32DataBigEndian = [testString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
@@ -309,6 +311,8 @@
 
     XCTAssertEqualObjects(expectedUTF32Data, actualUTF32DataBigEndian);
 }
+
+#pragma mark - encode as UTF-32 little endian
 
 - (void)testStringDataUsingEncodingUTF32LittleEndianabc {
     NSString *testString = @"abc";
