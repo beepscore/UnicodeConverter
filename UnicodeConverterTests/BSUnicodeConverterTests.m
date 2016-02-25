@@ -213,7 +213,7 @@
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrTwoBytes {
     NSError *error;
-    // use cent sign as shown in wikipedia utf8
+    // U+00A2 cent ¢ UTF-8 0xc2a2
     NSString *string = @"¢";
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
                                              encoding:NSUTF8StringEncoding];
