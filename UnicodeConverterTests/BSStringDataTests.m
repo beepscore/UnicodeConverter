@@ -248,6 +248,7 @@
 - (void)testStringDataUsingEncodingUTF8aBetaCentHwairEurof {
     NSString *testString = @"aβ¢𐍈€f";
     // encode string to UTF-8
+    // <61ceb2c2 a2f0908d 88e282ac 66>
     NSData *actualUTF8Data = [testString dataUsingEncoding:NSUTF8StringEncoding];
 
     // Expect no byte order marker, 2 to 4 bytes/character
@@ -301,7 +302,7 @@
     NSString *testString = @"abc";
     NSData *actualUTF32DataBigEndian = [testString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
 
-    // Expect no prepended byte order marker, big endian (3 characters * 4 bytes/character)
+    // Expect UTF-32 no prepended byte order marker, big endian 4 bytes/character)
     uint8_t expectedUTF32Bytes[] = {
         0x00, 0x00, 0x00, 0x061,
         0x00, 0x00, 0x00, 0x062,
@@ -318,7 +319,7 @@
     // <00000061 000003b2 000000a2 00010348 000020ac 00000066>
     NSData *actual = [testString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
 
-    // Expect no byte order marker, 4 bytes/character
+    // Expect UTF-32 no prepended byte order marker, big endian 4 bytes/character)
     uint8_t expectedBytes[] = {0x00, 0x00, 0x00, 0x61,
         0x00, 0x00, 0x03, 0xb2,
         0x00, 0x00, 0x00, 0xa2,
