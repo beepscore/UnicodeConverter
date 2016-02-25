@@ -144,7 +144,7 @@
     XCTAssertEqualObjects(expectedUTF8Data, actualUTF8Data);
 }
 
-- (void)testStringDataUsingEncodingEncodingUTF8Bytes {
+- (void)testStringDataUsingEncodingUTF8Bytes {
     // https://en.wikipedia.org/wiki/UTF-8
     NSString* betaString = [NSString stringWithCharacters:&beta length:1];
 
@@ -310,6 +310,24 @@
     NSData *expectedUTF32Data = [NSData dataWithBytes:expectedUTF32Bytes length:12];
 
     XCTAssertEqualObjects(expectedUTF32Data, actualUTF32DataBigEndian);
+}
+
+- (void)testStringDataUsingEncodingUTF32BigEndianaBetaCentHwairEurof {
+    NSString *testString = @"aβ¢𐍈€f";
+
+    // <00000061 000003b2 000000a2 00010348 000020ac 00000066>
+    NSData *actual = [testString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
+
+    // Expect no byte order marker, 4 bytes/character
+    uint8_t expectedBytes[] = {0x00, 0x00, 0x00, 0x61,
+        0x00, 0x00, 0x03, 0xb2,
+        0x00, 0x00, 0x00, 0xa2,
+        0x00, 0x01, 0x03, 0x48,
+        0x00, 0x00, 0x20, 0xac,
+        0x00, 0x00, 0x00, 0x66};
+    NSData *expected = [NSData dataWithBytes:expectedBytes length:24];
+
+    XCTAssertEqualObjects(expected, actual);
 }
 
 #pragma mark - encode as UTF-32 little endian
