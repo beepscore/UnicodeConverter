@@ -399,19 +399,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 #pragma mark - encode UTF-32
 
-+ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)unicodeData
-                                        errorPtr:(NSError **)errorPtr {
-    // for big endian, first byte will always be 0
-    uint32_t utf32 = 0;
-    // set following 3 bytes
-    for (NSInteger index = 0; index < unicodeCodePointNumberOfBytes; index++) {
-        uint8_t byte = [BSUnicodeConverter byteFromData:unicodeData atIndex:index errorPtr:errorPtr];
-        NSInteger powerOfTwo = 8 * ((unicodeCodePointNumberOfBytes - 1) - index);
-        utf32 = utf32 + (((uint32_t)byte) << powerOfTwo);
-    }
-    return utf32;
-}
-
 + (NSData *)UTF32BigEndianFromUnicodeCodePoint:(uint32_t)unicodeCodePoint {
 
     NSMutableData* UTF32Data = [NSMutableData data];
@@ -423,6 +410,20 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         uint8_t currentByte = (unicodeCodePoint >> powerOfTwo);
         uint8_t bytes[] = {currentByte};
         [UTF32Data appendBytes:bytes length:1];
+    }
+    // NSMutableData is not thread safe, so copy to NSData
+    return [NSData dataWithData:UTF32Data];
+}
+
++ (NSData *)UTF32BigEndianFromUnicodeCodePoints:(NSArray *)unicodeCodePoints {
+
+    NSMutableData* UTF32Data = [NSMutableData data];
+
+    for (NSNumber *unicodeCodePointNumber in unicodeCodePoints) {
+
+        uint32_t unicodeCodePoint = (uint32_t)[unicodeCodePointNumber integerValue];
+        NSData *data = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoint:unicodeCodePoint];
+        [UTF32Data appendData:data];
     }
     // NSMutableData is not thread safe, so copy to NSData
     return [NSData dataWithData:UTF32Data];

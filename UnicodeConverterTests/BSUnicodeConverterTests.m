@@ -420,59 +420,6 @@
     XCTAssertNil(error);
 }
 
-#pragma mark - testUTF32EncodedCodePointFromUnicodeDataErrorPtr
-
-- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrNil {
-    NSError *error;
-    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:nil
-                                                                      errorPtr:&error];
-    XCTAssertEqual(0, actual);
-    XCTAssertNotNil(error);
-    XCTAssertEqual(@"BSDataError", error.domain);
-    XCTAssertEqual(BSDataErrorOutOfBounds, error.code);
-}
-
-- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrEmpty {
-    NSError *error;
-    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:[NSData data]
-                                                                      errorPtr:&error];
-    XCTAssertEqual(0, actual);
-    XCTAssertNotNil(error);
-    XCTAssertEqual(@"BSDataError", error.domain);
-    XCTAssertEqual(BSDataErrorOutOfBounds, error.code);
-}
-
-- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtra {
-    NSError *error;
-    // character "a"
-    uint32_t expected = 0x00000061;
-    uint8_t byte1 = 0x00;
-    uint8_t byte2 = 0x00;
-    uint8_t byte3 = 0x61;
-    uint8_t bytes[] = {byte1, byte2, byte3};
-    NSData *unicodeData = [NSData dataWithBytes:bytes length:4];
-    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:unicodeData
-                                                                      errorPtr:&error];
-    XCTAssertEqual(expected, actual);
-    XCTAssertNil(error);
-}
-
-- (void)testUTF32EncodedCodePointFromUnicodeDataErrorPtrHwair {
-    NSError *error;
-    // expected values from Wikipedia example
-    uint32_t expected = 0x10348;
-
-    uint8_t byte1 = 0x01;
-    uint8_t byte2 = 0x03;
-    uint8_t byte3 = 0x48;
-    uint8_t bytes[] = {byte1, byte2, byte3};
-    NSData *unicodeData = [NSData dataWithBytes:bytes length:4];
-    uint32_t actual = [BSUnicodeConverter UTF32EncodedCodePointFromUnicodeData:unicodeData
-                                                                      errorPtr:&error];
-    XCTAssertEqual(expected, actual);
-    XCTAssertNil(error);
-}
-
 #pragma mark - testUTF32BigEndianFromUnicodeCodePoint
 
 - (void)testUTF32BigEndianFromUnicodeCodePoint0 {
@@ -549,6 +496,64 @@
     uint8_t byte3 = 0x48;
     uint8_t bytes[] = {byte0, byte1, byte2, byte3};
     NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
+#pragma mark - testUTF32BigEndianFromUnicodeCodePoints
+
+- (void)testUTF32BigEndianFromUnicodeCodePoints0 {
+    uint32_t unicodeCodePoint = 0x0;
+    NSArray *unicodeCodePoints = [NSArray
+                                  arrayWithObjects:[NSNumber numberWithUnsignedInt:unicodeCodePoint], nil];
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
+    
+    uint8_t bytes[] = {0x00, 0x00, 0x00, 0x00};
+    NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testUTF32BigEndianFromUnicodeCodePointsEmpty {
+    NSArray *emptyArray = [NSArray array];
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoints:emptyArray];
+
+    // empty data
+    NSData *expected = [NSData data];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testUTF32BigEndianFromUnicodeCodePointsHwair {
+    // U+10348 hwair 𐍈 UTF-8 0xf0908d88
+    uint32_t unicodeCodePoint = 0x10348;
+    NSArray *unicodeCodePoints = [NSArray
+                                  arrayWithObjects:[NSNumber numberWithUnsignedInt:unicodeCodePoint], nil];
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
+    
+    uint8_t bytes[] = {0x00, 0x01, 0x03, 0x48};
+    NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testUTF32BigEndianFromUnicodeCodePointsaHwair {
+    uint32_t unicodea = 0x61;
+    // U+10348 hwair 𐍈 UTF-8 0xf0908d88
+    uint32_t unicodeHwair = 0x10348;
+    NSArray *unicodeCodePoints = [NSArray arrayWithObjects:
+                                  [NSNumber numberWithUnsignedInt:unicodea],
+                                  [NSNumber numberWithUnsignedInt:unicodeHwair],
+                                  nil];
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
+    
+    uint8_t bytes[] = {0x00, 0x00, 0x00, 0x61,
+        0x00, 0x01, 0x03, 0x48};
+    NSData *expected = [NSData dataWithBytes:bytes length:8];
     
     XCTAssertEqualObjects(expected, actual);
 }

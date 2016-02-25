@@ -53,16 +53,12 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
 #pragma mark - encode UTF-32
 
 /**
- * @param unicodeData may be nil or empty or contain one or more unicode code points
- * each unicode code point is 1-3 bytes long
- * @param errorPtr points to an error with an error.domain and error.code
- * error is nil if no error
- * @return a single UTF-32 encoded value starting at start of data
+ * @param unicodeCodePoints may be nil or empty or contain one or more unicode code points
+ * each unicodeCodePoint is NSNumber NSUInteger from uint32_t
+ * @return an NSData wrapping a buffer of UTF-32 encoded bytes
  * format is big endian without byte order marker
  * This matches format of NSString dataUsingEncoding:NSUTF32BigEndianStringEncoding
- * return substitution character if error
  */
-+ (uint32_t)UTF32EncodedCodePointFromUnicodeData:(NSData *)unicodeData
-                                        errorPtr:(NSError **)errorPtr;
++ (NSData *)UTF32BigEndianFromUnicodeCodePoints:(NSArray *)unicodeCodePoints;
 
 @end
