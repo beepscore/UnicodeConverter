@@ -161,18 +161,21 @@
 
 - (void)testUnicodeCodePointFromUTF8FourBytesAtIndexErrorPtrHwair {
     NSError *error;
-    // use hwair as shown in wikipedia utf8
+    // U+10348 hwair 𐍈 UTF-8 0xf0908d88
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:hwairString
                                              encoding:NSUTF8StringEncoding];
+    // <f0908d88>
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:4];
-    
+
+    // <010348>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8FourBytes:UTF8Data
+                                                                   atIndex:0
+                                                                  errorPtr:&error];
     // expected is the Unicode code point converted to NSData*
     uint8_t expectedBytes[] = {0x01, 0x03, 0x48};
     NSData *expected = [NSData dataWithBytes:expectedBytes length:3];
-    XCTAssertEqualObjects(expected,
-                          [BSUnicodeConverter unicodeCodePointFromUTF8FourBytes:UTF8Data
-                                                                        atIndex:0
-                                                                       errorPtr:&error]);
+
+    XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
 }
 
