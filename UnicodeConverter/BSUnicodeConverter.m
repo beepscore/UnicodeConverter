@@ -120,6 +120,9 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
                                  atIndex:(NSInteger)index
                                 errorPtr:(NSError **)errorPtr {
 
+// TODO: Consider change all methods that return unicode code point
+// return type from NSData to uint32_t 21 bit
+
     // no bytes
     if ((nil == UTF8Data)
         || (0 == UTF8Data.length)) {
@@ -356,7 +359,30 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (NSData *)unicodeCodePointsFromUTF8Data:(NSData *)UTF8Data {
-    return [NSData data];
+    if ((nil == UTF8Data) || (0 == UTF8Data.length)) {
+        return [NSData data];
+    }
+
+    NSError *error;
+    NSMutableData* unicodeData = [NSMutableData data];
+
+    for (NSInteger index = 0; index < UTF8Data.length; index++) {
+        NSData *data = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                                atIndex:index
+                                                               errorPtr:&error];
+        if (error) {
+            [unicodeData appendData:[BSUnicodeConverter kReplacementCharacterData]];
+            error = nil;
+            // loop will increment index by 1 byte
+        } else {
+            [unicodeData appendData:data];
+            // for next iteration, increment index by data.length
+            // use (data.length - 1) here because loop control will increment index by 1
+            index = index + (data.length - 1);
+        }
+    }
+    // NSMutableData is not thread safe, so copy to NSData
+    return [NSData dataWithData:unicodeData];
 }
 
 #pragma mark - encode UTF-32

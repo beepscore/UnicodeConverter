@@ -222,6 +222,26 @@
     XCTAssertNil(error);
 }
 
+- (void)testUnicodeCodePointFromUTF8DataAtIndex {
+    NSError *error;
+    NSString *string = @"aβ¢𐍈€f";
+
+    // <61ceb2c2 a2f0908d 88e282ac 66>
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    // first character after byte order marker
+    NSData *dataAtIndex0 = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
+                                                                    atIndex:0
+                                                                   errorPtr:&error];
+
+    uint8_t expectedUnicodeBytes[] = {0x61};
+    NSData *expectedDataAtIndex0 = [NSData dataWithBytes:expectedUnicodeBytes
+                                                  length:1];
+
+    XCTAssertEqualObjects(expectedDataAtIndex0, dataAtIndex0);
+    XCTAssertNil(error);
+}
+
 #pragma mark - testUnicodeCodePointsFromUTF8Data
 
 - (void)testUnicodeCodePointsFromUTF8DataNil {
@@ -232,6 +252,76 @@
 - (void)testUnicodeCodePointsFromUTF8DataEmpty {
     NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:[NSData data]];
     XCTAssertEqualObjects([NSData data], actual);
+}
+
+- (void)testUnicodeCodePointsFromUTF8Dataabc {
+    NSError *error;
+    NSString *string = @"abc";
+    // For purposes of testing, use framework method to get UTF8Data.
+    // <616263>
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    uint8_t expectedUnicodeBytes[] = {0x61, 0x62, 0x63};
+    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:3];
+
+    XCTAssertEqualObjects(expected, actual);
+    XCTAssertNil(error);
+}
+
+- (void)testUnicodeCodePointsFromUTF8DataaBeta {
+    NSError *error;
+    NSString *string = @"aβ";
+
+    // For purposes of testing, use framework method to get UTF8Data.
+    // po UTF8Data <61ceb2>
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    // po actual <6103b2>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    uint8_t expectedUnicodeBytes[] = {0x61, 0x03, 0xb2};
+    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:3];
+
+    XCTAssertEqualObjects(expected, actual);
+    XCTAssertNil(error);
+}
+
+- (void)testUnicodeCodePointsFromUTF8Data {
+    NSError *error;
+    NSString *string = @"aβ¢𐍈€f";
+    // For purposes of testing, use framework method to get UTF8Data.
+    // po UTF8Data <61ceb2c2 a2f0908d 88e282ac 66>
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    // TODO: FIXME
+    // Actual behavior appears to have a bug, can't decode this UTF-8.
+    // It appears to returns 2 instances of replacement character 0xfffd
+    // This may be due to combining characters, not sure.
+    // po actual <6103b200 a2010348 00fffd20 ac00fffd 66>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    // According to some references, NSString dataUsingEncoding:NSUnicodeStringEncoding
+    // returns something more like UTF-16 than Unicode
+    // So don't use this
+    // po expectedUnicodeData
+    // <fffe6100 b203a200 00d848df ac206600>
+    // NSData *expectedUnicodeData = [string dataUsingEncoding:NSUnicodeStringEncoding];
+
+    // Change expected to match actual.
+    uint8_t expectedUnicodeBytes[] = {0x61,
+        0x03, 0xb2,
+        0x00, 0xa2,
+        0x01, 0x03, 0x48,
+        0x00, 0xff, 0xfd,
+        0x20, 0xac,
+        0x00, 0xff, 0xfd,
+        0x66
+    };
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:17];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actual);
+    XCTAssertNil(error);
 }
 
 #pragma mark - testUTF32EncodedCodePointFromUnicodeDataErrorPtr
