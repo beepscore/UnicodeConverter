@@ -111,7 +111,7 @@
     XCTAssertTrue([BSUnicodeConverter isValidUTF8EncodedOctet:0xF4]);
 }
 
-#pragma mark - testunicodeCodePointFromUTF8TwoBytesErrorPtr
+#pragma mark - testunicodeCodePointFromUTF8TwoBytesAtIndexErrorPtr
 
 - (void)testunicodeCodePointFromUTF8TwoBytesAtIndexErrorPtrCent {
     NSError *error;
@@ -157,7 +157,7 @@
     XCTAssertNil(error);
 }
 
-#pragma mark - testunicodeCodePointFromUTF8FourBytesErrorPtr
+#pragma mark - testunicodeCodePointFromUTF8FourBytesAtIndexErrorPtr
 
 - (void)testUnicodeCodePointFromUTF8FourBytesAtIndexErrorPtrHwair {
     NSError *error;
@@ -176,7 +176,7 @@
     XCTAssertNil(error);
 }
 
-#pragma mark - testUnicodeCodePointFromUTF8DataErrorPtr
+#pragma mark - testUnicodeCodePointFromUTF8DataAtIndexErrorPtr
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrDataNil {
     NSError *error;
