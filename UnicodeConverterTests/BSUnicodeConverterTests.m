@@ -115,19 +115,23 @@
 
 - (void)testunicodeCodePointFromUTF8TwoBytesAtIndexErrorPtrCent {
     NSError *error;
-    // use cent sign as shown in wikipedia utf8
+    // U+00A2 cent ¢ UTF-8 0xc2a2
     NSString *string = centString;
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
-                                                 encoding:NSUTF8StringEncoding];
+                                             encoding:NSUTF8StringEncoding];
+    // <c2a2>
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
-    
+
+    // <00a2>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8TwoBytes:UTF8Data
+                                                                  atIndex:0
+                                                                 errorPtr:&error];
+
     // expected is the Unicode code point converted to NSData*
     uint8_t expectedBytes[] = {0x00, 0xA2};
     NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
-    XCTAssertEqualObjects(expected,
-                          [BSUnicodeConverter unicodeCodePointFromUTF8TwoBytes:UTF8Data
-                                                                       atIndex:0
-                                                                      errorPtr:&error]);
+
+    XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
 }
 
