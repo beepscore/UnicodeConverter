@@ -182,25 +182,30 @@
 #pragma mark - testUnicodeCodePointFromUTF8DataAtIndexErrorPtr
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrDataNil {
+    NSNumber *numberOfBytesRead;
     NSError *error;
     XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:nil
                                                                    atIndex:0
+                                                      numberOfBytesReadPtr:&numberOfBytesRead
                                                                   errorPtr:&error]);
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrDataEmpty {
+    NSNumber *numberOfBytesRead;
     NSError *error;
     NSData *emptyData = [NSData data];
     XCTAssertEqualObjects([BSUnicodeConverter kReplacementCharacterData],
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:emptyData
                                                                    atIndex:0
+                                                      numberOfBytesReadPtr:&numberOfBytesRead
                                                                   errorPtr:&error]);
     XCTAssertEqual(BSUTF8DecodeErrorDataEmpty, error.code);
 }
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrab {
+    NSNumber *numberOfBytesRead;
     NSError *error;
     NSString *string = @"ab";
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
@@ -210,11 +215,13 @@
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
                                                                    atIndex:0
+                                                      numberOfBytesReadPtr:&numberOfBytesRead
                                                                   errorPtr:&error]);
     XCTAssertNil(error);
 }
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrCent {
+    NSNumber *numberOfBytesRead;
     NSError *error;
     // U+00A2 cent ¢ UTF-8 0xc2a2
     NSString *string = centString;
@@ -228,11 +235,13 @@
     XCTAssertEqualObjects(expected,
                           [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
                                                                    atIndex:0
+                                                      numberOfBytesReadPtr:&numberOfBytesRead
                                                                   errorPtr:&error]);
     XCTAssertNil(error);
 }
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrEuro {
+    NSNumber *numberOfBytesRead;
     NSError *error;
     // U+20AC Euro € UTF-8 0xe282ac
     NSString *string = euroString;
@@ -244,6 +253,7 @@
     // <20ac>
     NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
                                                               atIndex:0
+                                                 numberOfBytesReadPtr:&numberOfBytesRead
                                                              errorPtr:&error];
 
     // expected is the Unicode code point converted to NSData*
@@ -255,6 +265,7 @@
 }
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndexErrorPtrHwair {
+    NSNumber *numberOfBytesRead;
     NSError *error;
     // U+10348 hwair 𐍈 UTF-8 0xf0908d88
     NSString *string = hwairString;
@@ -266,6 +277,7 @@
     // <010348>
     NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
                                                               atIndex:0
+                                                 numberOfBytesReadPtr:&numberOfBytesRead
                                                              errorPtr:&error];
 
     // expected is the Unicode code point converted to NSData*
@@ -277,6 +289,7 @@
 }
 
 - (void)testUnicodeCodePointFromUTF8DataAtIndex {
+    NSNumber *numberOfBytesRead;
     NSError *error;
     NSString *string = @"aβ¢𐍈€f";
 
@@ -286,6 +299,7 @@
     // first character after byte order marker
     NSData *dataAtIndex0 = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
                                                                     atIndex:0
+                                                       numberOfBytesReadPtr:&numberOfBytesRead
                                                                    errorPtr:&error];
 
     uint8_t expectedUnicodeBytes[] = {0x61};
@@ -376,6 +390,42 @@
     XCTAssertNil(error);
 }
 
+- (void)testUnicodeCodePointsFromUTF8DataEuro {
+    NSError *error;
+    // U+20AC Euro € UTF-8 0xe282ac
+    NSString *string = euroString;
+    // For purposes of testing, use framework method to get UTF8Data.
+    // <e282ac>
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    // <20ac>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    uint8_t expectedUnicodeBytes[] = {0x20, 0xac};
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:2];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actual);
+    XCTAssertNil(error);
+}
+
+- (void)testUnicodeCodePointsFromUTF8DataHwair {
+    NSError *error;
+    // U+10348 hwair 𐍈 UTF-8 0xf0908d88
+    NSString *string = hwairString;
+    // For purposes of testing, use framework method to get UTF8Data.
+    // po UTF8Data <f0908d88> (4 bytes)
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    // <010348>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    uint8_t expectedUnicodeBytes[] = {0x01, 0x03, 0x48};
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:3];
+
+    XCTAssertEqualObjects(expectedUnicodeData, actual);
+    XCTAssertNil(error);
+}
+
 - (void)testUnicodeCodePointsFromUTF8Data {
     NSError *error;
     NSString *string = @"aβ¢𐍈€f";
@@ -383,11 +433,7 @@
     // po UTF8Data <61ceb2c2 a2f0908d 88e282ac 66>
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
 
-    // TODO: FIXME
-    // Actual behavior appears to have a bug, can't decode this UTF-8.
-    // It appears to returns 2 instances of replacement character 0xfffd
-    // This may be due to combining characters, not sure.
-    // po actual <6103b200 a2010348 00fffd20 ac00fffd 66>
+    // po actual <6103b200 a2010348 20ac66>
     NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
     // According to some references, NSString dataUsingEncoding:NSUnicodeStringEncoding
@@ -402,12 +448,10 @@
         0x03, 0xb2,
         0x00, 0xa2,
         0x01, 0x03, 0x48,
-        0x00, 0xff, 0xfd,
         0x20, 0xac,
-        0x00, 0xff, 0xfd,
         0x66
     };
-    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:17];
+    NSData *expectedUnicodeData = [NSData dataWithBytes:expectedUnicodeBytes length:11];
 
     XCTAssertEqualObjects(expectedUnicodeData, actual);
     XCTAssertNil(error);

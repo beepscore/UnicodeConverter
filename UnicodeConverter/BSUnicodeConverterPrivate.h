@@ -79,6 +79,7 @@
  * NSData provides object oriented wrapper for a byte buffer.
  * NSData has helpful property data.length to help avoid accessing beyond range.
  * @param UTF8Data may be nil or empty or contain one or more UTF-8 encoded characters
+ * @param numberOfBytesReadPtr points to the number of bytes read to get the returned code point
  * @param errorPtr points to an error with an error.domain and error.code
  * error is nil if no error
  * @return a single unicodeCodePoint starting at start of data
@@ -86,6 +87,7 @@
  */
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
                                  atIndex:(NSInteger)index
+                    numberOfBytesReadPtr:(NSNumber **)numberOfBytesReadPtr
                                 errorPtr:(NSError **)errorPtr;
 
 /**

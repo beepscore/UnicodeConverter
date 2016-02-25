@@ -118,6 +118,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 + (NSData *)unicodeCodePointFromUTF8Data:(NSData *)UTF8Data
                                  atIndex:(NSInteger)index
+                    numberOfBytesReadPtr:(NSNumber **)numberOfBytesReadPtr
                                 errorPtr:(NSError **)errorPtr {
 
 // TODO: Consider change all methods that return unicode code point
@@ -126,6 +127,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     // no bytes
     if ((nil == UTF8Data)
         || (0 == UTF8Data.length)) {
+        *numberOfBytesReadPtr = @0;
         *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                         code:BSUTF8DecodeErrorDataEmpty
                                     userInfo:nil];
@@ -138,15 +140,18 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
                                                   atIndex:index
                                                  errorPtr:errorPtr];
     if (*errorPtr) {
+        *numberOfBytesReadPtr = @1;
         return [BSUnicodeConverter kReplacementCharacterData];
     }
 
     if ([BSUnicodeConverter isValidUTF8EncodedAsSingleByte:firstByte]) {
+        *numberOfBytesReadPtr = @1;
         return firstData;
     }
 
     // two byte sequence
     if ([BSUnicodeConverter isValidUTF8EncodedAsTwoBytesFirstByte:firstByte]) {
+        *numberOfBytesReadPtr = @2;
         return [self unicodeCodePointFromUTF8TwoBytes:UTF8Data
                                               atIndex:index
                                              errorPtr:errorPtr];
@@ -154,6 +159,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
     // three byte sequence
     if ([BSUnicodeConverter isValidUTF8EncodedAsThreeBytesFirstByte:firstByte]) {
+        *numberOfBytesReadPtr = @3;
         return [self unicodeCodePointFromUTF8ThreeBytes:UTF8Data
                                                 atIndex:index
                                                errorPtr:errorPtr];
@@ -161,12 +167,14 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
     // four byte sequence
     if ([BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:firstByte]) {
+        *numberOfBytesReadPtr = @4;
         return [self unicodeCodePointFromUTF8FourBytes:UTF8Data
                                                atIndex:index
                                               errorPtr:errorPtr];
     }
 
     // default unknown error
+    *numberOfBytesReadPtr = @0;
     *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                     code:BSUTF8DecodeErrorDataUnknown
                                 userInfo:nil];
@@ -363,12 +371,14 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         return [NSData data];
     }
 
+    NSNumber *numberOfBytesRead;
     NSError *error;
     NSMutableData* unicodeData = [NSMutableData data];
 
     for (NSInteger index = 0; index < UTF8Data.length; index++) {
         NSData *data = [BSUnicodeConverter unicodeCodePointFromUTF8Data:UTF8Data
                                                                 atIndex:index
+                                                   numberOfBytesReadPtr:&numberOfBytesRead
                                                                errorPtr:&error];
         if (error) {
             [unicodeData appendData:[BSUnicodeConverter kReplacementCharacterData]];
@@ -376,9 +386,9 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
             // loop will increment index by 1 byte
         } else {
             [unicodeData appendData:data];
-            // for next iteration, increment index by data.length
-            // use (data.length - 1) here because loop control will increment index by 1
-            index = index + (data.length - 1);
+            // for next iteration, increment index by numberOfBytesRead
+            // use (numberOfBytesRead - 1) here because loop control will increment index by 1
+            index = index + ([numberOfBytesRead integerValue] - 1);
         }
     }
     // NSMutableData is not thread safe, so copy to NSData
