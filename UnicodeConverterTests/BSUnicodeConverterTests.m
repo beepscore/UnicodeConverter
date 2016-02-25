@@ -156,7 +156,7 @@
     NSError *error;
     // use hwair as shown in wikipedia utf8
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:hwairString
-                                                encoding:NSUTF8StringEncoding];
+                                             encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:4];
     
     // expected is the Unicode code point converted to NSData*
@@ -194,7 +194,7 @@
     NSError *error;
     NSString *string = @"ab";
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
-                                                 encoding:NSUTF8StringEncoding];
+                                             encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
     NSData *expected = [NSData dataWithBytes:bytes length:1];
     XCTAssertEqualObjects(expected,
@@ -209,7 +209,7 @@
     // use cent sign as shown in wikipedia utf8
     NSString *string = @"¢";
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
-                                                 encoding:NSUTF8StringEncoding];
+                                             encoding:NSUTF8StringEncoding];
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:2];
     
     // expected is the Unicode code point converted to NSData*
@@ -227,7 +227,7 @@
     // U+20AC Euro € UTF-8 0xe282ac
     NSString *string = @"€";
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:string
-                                                 encoding:NSUTF8StringEncoding];
+                                             encoding:NSUTF8StringEncoding];
     // <e282ac>
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:3];
 
