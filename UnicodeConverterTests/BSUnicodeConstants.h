@@ -13,22 +13,21 @@
  */
 @interface BSUnicodeConstants : NSObject
 
-// unicode escape starts with \u or \U
-// Greek letter beta β \u03b2
+// U+03b2 Greek letter beta β
 // http://justskins.com/forums/escape-sequence-for-unicode-114988.html
 extern unichar const beta;
 
-// Greek letter capital gamma Γ \u0393
+// U+0393 Greek letter capital gamma Γ
 // http://blog.ablepear.com/2010/07/objective-c-tuesdays-unicode-string.html
 extern NSString *gammaString;
 
-// ¢ u\00A2
+// U+00A2 cent ¢
 extern NSString *centString;
 
-// € u\20AC
+// U+20AC Euro €
 extern NSString *euroString;
 
-// 𐍈 u\10348
+// U+10348 hwair 𐍈
 // https://en.wikipedia.org/wiki/UTF-8
 // https://en.wikipedia.org/wiki/Hwair
 extern NSString *hwairString;

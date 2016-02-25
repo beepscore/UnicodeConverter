@@ -12,7 +12,9 @@
 
 unichar const beta = 0x03b2;
 
+// unicode escape starts with \u or \U
 NSString *gammaString = @"\u0393";
+
 NSString *centString = @"¢";
 NSString *euroString = @"€";
 NSString *hwairString = @"𐍈";
