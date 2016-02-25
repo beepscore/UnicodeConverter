@@ -131,22 +131,25 @@
     XCTAssertNil(error);
 }
 
-#pragma mark - testunicodeCodePointFromUTF8ThreeBytesErrorPtr
+#pragma mark - testunicodeCodePointFromUTF8ThreeBytesAtIndexErrorPtr
 
 - (void)testUnicodeCodePointFromUTF8ThreeBytesAtIndexErrorPtrEuro {
     NSError *error;
-    // use euro sign as shown in wikipedia utf8
+    // U+20AC Euro € UTF-8 0xe282ac
     uint8_t* bytes = [BSUnicodeHelper bytesFromString:euroString
-                                                 encoding:NSUTF8StringEncoding];
+                                             encoding:NSUTF8StringEncoding];
+    // <e282ac>
     NSData *UTF8Data = [NSData dataWithBytes:bytes length:3];
-    
+
+    // <20ac>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointFromUTF8ThreeBytes:UTF8Data
+                                                                    atIndex:0
+                                                                   errorPtr:&error];
     // expected is the Unicode code point converted to NSData*
     uint8_t expectedBytes[] = {0x20, 0xAC};
     NSData *expected = [NSData dataWithBytes:expectedBytes length:2];
-    XCTAssertEqualObjects(expected,
-                          [BSUnicodeConverter unicodeCodePointFromUTF8ThreeBytes:UTF8Data
-                                                                         atIndex:0
-                                                                        errorPtr:&error]);
+
+    XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
 }
 
