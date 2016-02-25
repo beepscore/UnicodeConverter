@@ -123,4 +123,9 @@
                                       atIndex:(NSInteger)index
                                      errorPtr:(NSError **)errorPtr;
 
+/**
+ * @return an NSData of UTF-32 encoded bytes in big endian order
+ */
++ (NSData *)UTF32BigEndianFromUnicodeCodePoint:(uint32_t)unicodeCodePoint;
+
 @end

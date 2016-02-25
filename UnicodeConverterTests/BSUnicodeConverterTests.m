@@ -510,4 +510,69 @@
     XCTAssertNil(error);
 }
 
+#pragma mark - testUTF32BigEndianFromUnicodeCodePoint
+
+- (void)testUTF32BigEndianFromUnicodeCodePointa {
+    uint32_t unicodeCodePoint = 0x61;
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoint:unicodeCodePoint];
+    
+    uint8_t byte0 = 0x00;
+    uint8_t byte1 = 0x00;
+    uint8_t byte2 = 0x00;
+    uint8_t byte3 = 0x61;
+    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testUTF32BigEndianFromUnicodeCodePointCent {
+    // U+00A2 cent ¢ UTF-8 0xc2a2
+    uint32_t unicodeCodePoint = 0x00a2;
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoint:unicodeCodePoint];
+    
+    uint8_t byte0 = 0x00;
+    uint8_t byte1 = 0x00;
+    uint8_t byte2 = 0x00;
+    uint8_t byte3 = 0xa2;
+    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testUTF32BigEndianFromUnicodeCodePointEuro {
+    // U+20AC Euro € UTF-8 0xe282ac
+    uint32_t unicodeCodePoint = 0x20ac;
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoint:unicodeCodePoint];
+    
+    uint8_t byte0 = 0x00;
+    uint8_t byte1 = 0x00;
+    uint8_t byte2 = 0x20;
+    uint8_t byte3 = 0xac;
+    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testUTF32BigEndianFromUnicodeCodePointHwair {
+    // U+10348 hwair 𐍈 UTF-8 0xf0908d88
+    uint32_t unicodeCodePoint = 0x10348;
+
+    NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoint:unicodeCodePoint];
+    
+    uint8_t byte0 = 0x00;
+    uint8_t byte1 = 0x01;
+    uint8_t byte2 = 0x03;
+    uint8_t byte3 = 0x48;
+    uint8_t bytes[] = {byte0, byte1, byte2, byte3};
+    NSData *expected = [NSData dataWithBytes:bytes length:4];
+    
+    XCTAssertEqualObjects(expected, actual);
+}
+
 @end

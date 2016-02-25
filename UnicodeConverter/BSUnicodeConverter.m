@@ -410,6 +410,23 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return utf32;
 }
 
++ (NSData *)UTF32BigEndianFromUnicodeCodePoint:(uint32_t)unicodeCodePoint {
+    // TODO: Consider add conditional if unicodeCodePoint is not valid return replacement char
+
+    NSMutableData* UTF32Data = [NSMutableData data];
+
+    for (NSInteger index = 0; index < UTF32NumberOfBytes; index++) {
+
+        // big endian
+        NSInteger powerOfTwo = 8 * ((UTF32NumberOfBytes - 1) - index);
+        uint8_t currentByte = (unicodeCodePoint >> powerOfTwo);
+        uint8_t bytes[] = {currentByte};
+        [UTF32Data appendBytes:bytes length:1];
+    }
+    // NSMutableData is not thread safe, so copy to NSData
+    return [NSData dataWithData:UTF32Data];
+}
+
 - (NSError*)UTF8DecodeErrorDataEmpty {
     return [NSError errorWithDomain:@"BSUTF8DecodeError"
                                code:BSUTF8DecodeErrorDataEmpty
