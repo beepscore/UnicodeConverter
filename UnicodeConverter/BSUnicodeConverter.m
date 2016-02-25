@@ -426,10 +426,4 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return [NSData dataWithData:UTF32Data];
 }
 
-- (NSError*)UTF8DecodeErrorDataEmpty {
-    return [NSError errorWithDomain:@"BSUTF8DecodeError"
-                               code:BSUTF8DecodeErrorDataEmpty
-                           userInfo:nil];
-}
-
 @end
