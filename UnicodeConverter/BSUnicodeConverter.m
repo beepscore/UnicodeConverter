@@ -287,7 +287,7 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 + (NSData *)unicodeCodePointFromUTF8FourBytes:(NSData *)UTF8Data
                                       atIndex:(NSInteger)index
-                                      errorPtr:(NSError **)errorPtr {
+                                     errorPtr:(NSError **)errorPtr {
     if ((nil == UTF8Data)
         || ((index + 4) > UTF8Data.length)) {
         *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
