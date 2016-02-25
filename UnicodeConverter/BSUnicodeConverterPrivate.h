@@ -124,6 +124,8 @@
                                      errorPtr:(NSError **)errorPtr;
 
 /**
+ * Assumes unicodeCodePoint is valid
+ * @param unicodeCodePoint
  * @return an NSData of UTF-32 encoded bytes in big endian order
  */
 + (NSData *)UTF32BigEndianFromUnicodeCodePoint:(uint32_t)unicodeCodePoint;

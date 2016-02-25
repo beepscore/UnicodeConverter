@@ -411,7 +411,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 }
 
 + (NSData *)UTF32BigEndianFromUnicodeCodePoint:(uint32_t)unicodeCodePoint {
-    // TODO: Consider add conditional if unicodeCodePoint is not valid return replacement char
 
     NSMutableData* UTF32Data = [NSMutableData data];
 
