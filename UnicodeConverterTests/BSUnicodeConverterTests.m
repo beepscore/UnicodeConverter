@@ -322,6 +322,41 @@
     XCTAssertEqualObjects(expected, actual);
     XCTAssertNil(error);
 }
+- (void)testUnicodeCodePointsFromUTF8DataBeta {
+    NSError *error;
+    // U+03b2 Greek letter beta β UTF-8 0xceb2
+    NSString *string = @"β";
+    // For purposes of testing, use framework method to get UTF8Data.
+    // po UTF8Data <ceb2>
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    // po actual <03b2>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    uint8_t expectedUnicodeBytes[] = {0x03, 0xb2};
+    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:2];
+
+    XCTAssertEqualObjects(expected, actual);
+    XCTAssertNil(error);
+}
+
+- (void)testUnicodeCodePointsFromUTF8DataCent {
+    NSError *error;
+    // U+00A2 cent ¢ UTF-8 0xc2a2
+    NSString *string = centString;
+    // For purposes of testing, use framework method to get UTF8Data.
+    // po UTF8Data <c2a2>
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    // po actual <00a2>
+    NSData *actual = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    uint8_t expectedUnicodeBytes[] = {0x00, 0xa2};
+    NSData *expected = [NSData dataWithBytes:expectedUnicodeBytes length:2];
+
+    XCTAssertEqualObjects(expected, actual);
+    XCTAssertNil(error);
+}
 
 - (void)testUnicodeCodePointsFromUTF8DataaBeta {
     NSError *error;
