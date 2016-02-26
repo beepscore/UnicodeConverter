@@ -2,8 +2,8 @@
 //  ViewController.m
 //  UnicodeConverter
 //
-//  Created by Steve Baker on 2/19/15.
-//  Copyright (c) 2015 Beepscore LLC. All rights reserved.
+//  Created by Steve Baker on 2/17/16.
+//  Copyright (c) 2016 Beepscore LLC. All rights reserved.
 //
 
 #import "ViewController.h"
