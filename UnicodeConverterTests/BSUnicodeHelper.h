@@ -17,21 +17,11 @@
  */
 @interface BSUnicodeHelper : NSObject
 
-// void* is a pointer to any type
-@property (assign) void* buffer;
-
 /**
  * @return a pointer to an array of 8 bit bytes
  * return 0 if string is empty @""
  */
 + (uint8_t*)bytesFromString:(NSString *)string
                    encoding:(NSStringEncoding)encoding;
-
-/** similar to bytesFromString:encoding: but with alternative implementation.
- *  Warning: This method may be removed in release version of software.
- *  Internal implementation is more cumbersome than bytesFromString.
- */
-- (uint8_t*)bytesFromStringTwo:(NSString *)string
-                      encoding:(NSStringEncoding)encoding;
 
 @end
