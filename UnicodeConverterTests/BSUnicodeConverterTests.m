@@ -32,9 +32,10 @@
 }
 
 /**
- * This method encodes a string as UTF-8 data using Cocoa framework method,
- * decodes to Unicode, encodes to UTF-32
- * then converts back to string using Cocoa framework method
+ * This method can be used to test BSUnicodeConverter methods
+ * unicodeCodePointsFromUTF8Data and UTF32BigEndianFromUnicodeCodePoints.
+ * For testing purposes it uses Cocoa framework methods to 
+ * convert a string to UTF-8 data and to convert UTF-32 data back to string.
  * @param string is string to be converted
  * @return transformed string that should be equivalent to the original string
  */
@@ -45,17 +46,18 @@
         return string;
     }
     
-    // For purposes of testing, use framework method to get UTF8Data.
-    // encode NSString to UTF-8 data
+    // For testing purposes, use framework method to get UTF8Data.
+    // Convert NSString to UTF-8 data
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
 
+    // decode UTF-8 to Unicode
     NSArray *unicodeCodePoints = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
 
+    // encode Unicode to UTF-32
     NSData *UTF32Data = [BSUnicodeConverter
                          UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
 
-    // For purposes of testing, use framework method to get NSString.
-    // decode UTF-32 data back to NSString
+    // For testing purposes, use framework method to get NSString.
     NSString *transformedString = [[NSString alloc] initWithData:UTF32Data
                                                         encoding:NSUTF32BigEndianStringEncoding];
     return transformedString;
@@ -586,9 +588,20 @@
 
 - (void)testStringFromUTF32FromUnicodeFromUTF8FromString {
 
-    NSArray *array = @[@"a",
+    NSArray *array = @[@"",
+                       @"�",      // replacement character literal representation
+                       @"\ufffd", // replacement character
+                       @"\ufffe", // byte order marker BOM
+                       @"a",
+                       centString,
+                       euroString,
+                       hwairString,
                        @"aβ¢𐍈€f",
-                       @"It's working 53 times already!"];
+                       @"español",
+                       @"It's working 53 times already!",
+                       @"中华人民共和国", // People's Republic of China
+                       @"string with \ntwo lines"
+                       ];
 
     for (NSString *string in array) {
         
