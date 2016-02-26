@@ -41,6 +41,16 @@ FOUNDATION_EXPORT uint32_t const kReplacementCharacter;
  */
 + (NSData *)kReplacementCharacterData;
 
+#pragma mark - convert UTF8 to UTF32
+
+/**
+ * @param UTF8Data contains UTF-8 encoded data, may be nil or empty
+ * @return an NSData wrapping a buffer of UTF-32 encoded bytes
+ * format is big endian without byte order marker
+ * This matches format of NSString dataUsingEncoding:NSUTF32BigEndianStringEncoding
+ */
++ (NSData *)UTF32BigEndianFromUTF8Data:(NSData *)UTF8Data;
+
 #pragma mark - decode UTF-8
 
 /**

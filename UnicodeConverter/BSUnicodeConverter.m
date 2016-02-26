@@ -429,4 +429,14 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
     return [NSData dataWithData:UTF32Data];
 }
 
++ (NSData *)UTF32BigEndianFromUTF8Data:(NSData *)UTF8Data {
+    // decode UTF-8 to Unicode
+    NSArray *unicodeCodePoints = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    // encode Unicode to UTF-32
+    NSData *UTF32Data = [BSUnicodeConverter
+                         UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
+    return UTF32Data;
+}
+
 @end
