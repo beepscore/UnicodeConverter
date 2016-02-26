@@ -78,9 +78,6 @@ See tests for examples.
 
 # Appendix References
 
-## Problem statement
-MobileSDE-CodingProblem-Smartsheet.pdf by Smartsheet
-
 ## Unicode
 https://www.objc.io/issues/9-strings/unicode/
 
