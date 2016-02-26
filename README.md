@@ -47,21 +47,7 @@ https://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings
 Start by using standard conversion methods to gain familiarity with Unicode details and API.
 Then add custom implementation.
 Use unambiguous type uint8_t in preference to char or OSX Cocoa platform specific UInt8.
-
-### Convert UTF-8 encoded NSString to NSData
-Write a method to convert NSString to NSData
-NSData wraps a buffer array that will contain UTF-8 encoded bytes.
-
-### Decode UTF-8 to Unicode
-Decode UTF-8 encoded string to Unicode code points.
-Implement a custom decoder.
-Test convert strings.
-
-### Encode Unicode to UTF-32
-Implement an encoder that converts Unicode code points to UTF-32.
-In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code point.
-
----
+Avoid poorly named type "unichar" which is 16 bits and not big enough to hold 21 bit Unicode code point.
 
 # Appendix Background
 
@@ -69,12 +55,8 @@ In simplest encoding, start with all zeros, hex 00 00 00 00 and add unicode code
 Says Objective C NSString stores string as UTF-16 code units.
 https://www.objc.io/issues/9-strings/unicode
 
-https://www.mikeash.com/pyblog/friday-qa-2015-11-06-why-is-swifts-string-api-so-hard.html
-
-http://stackoverflow.com/questions/11796892/how-do-i-convert-a-unicode-code-point-range-into-an-nsstring-character-range#11805222
-
 ## Unicode
-Uses 21 bits, fits in 3 bytes.
+Code point uses 21 bits, fits in 3 bytes.
 Highest code point is 0x10FFFF.
 
 ## UTF-8
@@ -90,21 +72,28 @@ https://en.wikipedia.org/wiki/UTF-8
 Uses fixed length 4 bytes per code point.
 UTF-32 may be big-endian UTF-32BE or little endian UTF-32LE.
 For big endian encoding, first byte is always 0?
-Uses Byte Order Mark BOM at beginning of string?
+
+Some Apple methods put Byte Order Mark BOM at beginning of string, some don't.
+See tests for examples.
 
 # Appendix References
 
 ## Problem statement
 MobileSDE-CodingProblem-Smartsheet.pdf by Smartsheet
-http://www.objc.io/issue-9/unicode.html
 
 ## Unicode
 https://www.objc.io/issues/9-strings/unicode/
+
+https://www.mikeash.com/pyblog/friday-qa-2015-11-06-why-is-swifts-string-api-so-hard.html
+
+http://stackoverflow.com/questions/11796892/how-do-i-convert-a-unicode-code-point-range-into-an-nsstring-character-range#11805222
 
 ## UTF-8
 https://en.wikipedia.org/wiki/UTF-8
 Table 3-7 Well-Formed UTF-8 Byte Sequences
 http://www.unicode.org/versions/Unicode7.0.0/ch03.pdf#G7404
+
+### Online utf-8 to Unicode converter
 http://ratfactor.com/utf-8-to-unicode
 
 ## UTF-16
