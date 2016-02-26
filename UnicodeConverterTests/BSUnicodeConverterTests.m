@@ -31,6 +31,36 @@
     [super tearDown];
 }
 
+/**
+ * This method encodes a string as UTF-8 data using Cocoa framework method,
+ * decodes to Unicode, encodes to UTF-32
+ * then converts back to string using Cocoa framework method
+ * @param string is string to be converted
+ * @return transformed string that should be equivalent to the original string
+ */
++ (NSString *)stringFromUTF32FromUnicodeFromUTF8FromString:(NSString *)string {
+
+    if ((nil == string)
+        || ([string isEqualToString:@""])) {
+        return string;
+    }
+    
+    // For purposes of testing, use framework method to get UTF8Data.
+    // encode NSString to UTF-8 data
+    NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSArray *unicodeCodePoints = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
+
+    NSData *UTF32Data = [BSUnicodeConverter
+                         UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
+
+    // For purposes of testing, use framework method to get NSString.
+    // decode UTF-32 data back to NSString
+    NSString *transformedString = [[NSString alloc] initWithData:UTF32Data
+                                                        encoding:NSUTF32BigEndianStringEncoding];
+    return transformedString;
+}
+
 #pragma mark - testIsValidUTF8EncodedAsSingleByte
 
 - (void)testIsValidUTF8EncodedAsSingleByteMostSignificantBitZero {
@@ -556,6 +586,15 @@
     NSData *expected = [NSData dataWithBytes:bytes length:8];
     
     XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testStringFromUTF32FromUnicodeFromUTF8FromString {
+    
+    NSString *string = @"aβ¢𐍈€f";
+    NSString *tranformedString = [BSUnicodeConverterTests
+                                  stringFromUTF32FromUnicodeFromUTF8FromString:string];
+    
+    XCTAssertTrue([string isEqualToString:tranformedString]);
 }
 
 @end
