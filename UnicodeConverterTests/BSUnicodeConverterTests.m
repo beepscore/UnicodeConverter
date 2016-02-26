@@ -589,12 +589,17 @@
 }
 
 - (void)testStringFromUTF32FromUnicodeFromUTF8FromString {
-    
-    NSString *string = @"aβ¢𐍈€f";
-    NSString *tranformedString = [BSUnicodeConverterTests
-                                  stringFromUTF32FromUnicodeFromUTF8FromString:string];
-    
-    XCTAssertTrue([string isEqualToString:tranformedString]);
+
+    NSArray *array = @[@"a",
+                       @"aβ¢𐍈€f",
+                       @"It's working 53 times already!"];
+
+    for (NSString *string in array) {
+        
+        NSString *tranformedString = [BSUnicodeConverterTests
+                                      stringFromUTF32FromUnicodeFromUTF8FromString:string];
+        XCTAssertTrue([string isEqualToString:tranformedString]);
+    }
 }
 
 @end
