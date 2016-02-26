@@ -534,8 +534,7 @@
 
 - (void)testUTF32BigEndianFromUnicodeCodePoints0 {
     uint32_t unicodeCodePoint = 0x0;
-    NSArray *unicodeCodePoints = [NSArray
-                                  arrayWithObjects:[NSNumber numberWithUnsignedInt:unicodeCodePoint], nil];
+    NSArray *unicodeCodePoints = @[[NSNumber numberWithUnsignedInt:unicodeCodePoint]];
 
     NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
     
@@ -559,8 +558,7 @@
 - (void)testUTF32BigEndianFromUnicodeCodePointsHwair {
     // U+10348 hwair 𐍈 UTF-8 0xf0908d88
     uint32_t unicodeCodePoint = 0x10348;
-    NSArray *unicodeCodePoints = [NSArray
-                                  arrayWithObjects:[NSNumber numberWithUnsignedInt:unicodeCodePoint], nil];
+    NSArray *unicodeCodePoints = @[[NSNumber numberWithUnsignedInt:unicodeCodePoint]];
 
     NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
     
@@ -574,10 +572,8 @@
     uint32_t unicodea = 0x61;
     // U+10348 hwair 𐍈 UTF-8 0xf0908d88
     uint32_t unicodeHwair = 0x10348;
-    NSArray *unicodeCodePoints = [NSArray arrayWithObjects:
-                                  [NSNumber numberWithUnsignedInt:unicodea],
-                                  [NSNumber numberWithUnsignedInt:unicodeHwair],
-                                  nil];
+    NSArray *unicodeCodePoints = @[[NSNumber numberWithUnsignedInt:unicodea],
+                                   [NSNumber numberWithUnsignedInt:unicodeHwair]];
 
     NSData *actual = [BSUnicodeConverter UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
     
