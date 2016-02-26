@@ -31,7 +31,7 @@ It may be better to use an existing open source library, find and fix any specif
 Then submit a pull request to the owner of the library.
 Alternativley could wrap the standard conversion methods in another class that catches and fixes any specifically identified bugs.
 
-### Combining characters
+### Combining characters and ligatures
 Not sure how these work yet. Ignore for now.
 http://stackoverflow.com/questions/14010736/string-and-4-byte-unicode-characters
 
