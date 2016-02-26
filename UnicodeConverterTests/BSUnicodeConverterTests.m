@@ -440,6 +440,7 @@
     // <fffe6100 b203a200 00d848df ac206600>
     // NSData *expectedUnicodeData = [string dataUsingEncoding:NSUnicodeStringEncoding];
 
+    // I independently checked expected via online converter http://ratfactor.com/utf-8-to-unicode
     NSArray *expected = @[@0x61, @0x03b2, @0x00a2, @0x010348, @0x20ac, @0x66];
 
     XCTAssertEqualObjects(expected, actual);
