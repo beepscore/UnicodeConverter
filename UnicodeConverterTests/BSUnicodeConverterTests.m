@@ -32,14 +32,13 @@
 }
 
 /**
- * This method can be used to test BSUnicodeConverter methods
- * unicodeCodePointsFromUTF8Data and UTF32BigEndianFromUnicodeCodePoints.
+ * This method can be used to test BSUnicodeConverter method UTF32BigEndianFromUTF8Data
  * For testing purposes it uses Cocoa framework methods to 
  * convert a string to UTF-8 data and to convert UTF-32 data back to string.
  * @param string is string to be converted
  * @return transformed string that should be equivalent to the original string
  */
-+ (NSString *)stringFromUTF32FromUnicodeFromUTF8FromString:(NSString *)string {
++ (NSString *)stringFromUTF32BigEndianFromUTF8DataFromString:(NSString *)string {
 
     if ((nil == string)
         || ([string isEqualToString:@""])) {
@@ -50,12 +49,7 @@
     // Convert NSString to UTF-8 data
     NSData *UTF8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
 
-    // decode UTF-8 to Unicode
-    NSArray *unicodeCodePoints = [BSUnicodeConverter unicodeCodePointsFromUTF8Data:UTF8Data];
-
-    // encode Unicode to UTF-32
-    NSData *UTF32Data = [BSUnicodeConverter
-                         UTF32BigEndianFromUnicodeCodePoints:unicodeCodePoints];
+    NSData *UTF32Data = [BSUnicodeConverter UTF32BigEndianFromUTF8Data:UTF8Data];
 
     // For testing purposes, use framework method to get NSString.
     NSString *transformedString = [[NSString alloc] initWithData:UTF32Data
@@ -586,7 +580,7 @@
     XCTAssertEqualObjects(expected, actual);
 }
 
-- (void)testStringFromUTF32FromUnicodeFromUTF8FromString {
+- (void)testStringFromUTF32BigEndianFromUTF8DataFromString {
 
     NSArray *array = @[@"",
                        @"�",      // replacement character literal representation
@@ -606,7 +600,7 @@
     for (NSString *string in array) {
         
         NSString *tranformedString = [BSUnicodeConverterTests
-                                      stringFromUTF32FromUnicodeFromUTF8FromString:string];
+                                      stringFromUTF32BigEndianFromUTF8DataFromString:string];
         XCTAssertTrue([string isEqualToString:tranformedString]);
     }
 }
