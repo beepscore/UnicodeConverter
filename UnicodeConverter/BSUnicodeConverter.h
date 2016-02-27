@@ -10,6 +10,7 @@
 
 @interface BSUnicodeConverter : NSObject
 
+FOUNDATION_EXPORT NSInteger const bitsPerByte;
 FOUNDATION_EXPORT NSInteger const unicodeCodePointNumberOfBytes;
 FOUNDATION_EXPORT NSInteger const UTF32NumberOfBytes;
 

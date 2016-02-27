@@ -13,6 +13,7 @@
 
 @implementation BSUnicodeConverter
 
+NSInteger const bitsPerByte = 8;
 NSInteger const unicodeCodePointNumberOfBytes = 3;
 NSInteger const UTF32NumberOfBytes = 4;
 
@@ -74,22 +75,22 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
 + (BOOL)isValidUTF8EncodedAsSingleByte:(uint8_t)byte {
     return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
-            && ((byte >> 7) == 0b00000000));
+            && ((byte >> (bitsPerByte - 1)) == 0b00000000));
 }
 
 + (BOOL)isValidUTF8EncodedContinuationByte:(uint8_t)byte {
     return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
-            && ((byte >> 6) == 0b00000010));
+            && ((byte >> (bitsPerByte - 2)) == 0b00000010));
 }
 
 + (BOOL)isValidUTF8EncodedAsTwoBytesFirstByte:(uint8_t)byte {
     return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
-            && ((byte >> 5) == 0b00000110));
+            && ((byte >> (bitsPerByte - 3)) == 0b00000110));
 }
 
 + (BOOL)isValidUTF8EncodedAsThreeBytesFirstByte:(uint8_t)byte {
     return ([BSUnicodeConverter isValidUTF8EncodedOctet:byte]
-            && ((byte >> 4) == 0b00001110));
+            && ((byte >> (bitsPerByte - 4)) == 0b00001110));
 }
 
 + (BOOL)isValidUTF8EncodedAsFourBytesFirstByte:(uint8_t)byte {
@@ -213,9 +214,9 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
 
         uint8_t firstByteLast2Bits = firstByte & 0b00000011;
         uint8_t secondByteLast6Bits = secondByte & 0b00111111;
-        uint8_t unicodeSecondByte = (firstByteLast2Bits << 6) + secondByteLast6Bits;
+        uint8_t unicodeSecondByte = (firstByteLast2Bits << (bitsPerByte - 2)) + secondByteLast6Bits;
 
-        uint32_t unicodeCodePoint = (((uint32_t)unicodeFirstByte) << 8) + unicodeSecondByte;
+        uint32_t unicodeCodePoint = (((uint32_t)unicodeFirstByte) << bitsPerByte) + unicodeSecondByte;
         return unicodeCodePoint;
 
     } else {
@@ -266,13 +267,13 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         // the unicode code point needs 16 bits
         uint8_t firstByteLast4Bits = firstByte & 0b00001111;
         uint8_t secondByteMiddle4Bits = secondByte & 0b00111100;
-        uint8_t unicodeFirstByte = (firstByteLast4Bits << 4) + (secondByteMiddle4Bits >> 2);
+        uint8_t unicodeFirstByte = (firstByteLast4Bits << (bitsPerByte - 4)) + (secondByteMiddle4Bits >> 2);
 
         uint8_t secondByteLast2Bits = secondByte & 0b00000011;
         uint8_t thirdByteLast6Bits = thirdByte & 0b00111111;
-        uint8_t unicodeSecondByte = (secondByteLast2Bits << 6) + thirdByteLast6Bits;
+        uint8_t unicodeSecondByte = (secondByteLast2Bits << (bitsPerByte - 2)) + thirdByteLast6Bits;
 
-        uint32_t unicodeCodePoint = (((uint32_t)unicodeFirstByte) << 8) + unicodeSecondByte;
+        uint32_t unicodeCodePoint = (((uint32_t)unicodeFirstByte) << bitsPerByte) + unicodeSecondByte;
         return unicodeCodePoint;
 
     } else {
@@ -344,8 +345,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
         uint8_t unicodeThirdByte = (thirdByteLast2Bits << 6) + fourthByteLast6Bits;
 
         const uint32_t unicodeMaxValue = 0x01FFFF;
-        uint32_t combinedBytes = ((uint32_t)unicodeFirstByte << 16)
-        + ((uint32_t)unicodeSecondByte << 8) + unicodeThirdByte;
+        uint32_t combinedBytes = ((uint32_t)unicodeFirstByte << (2 * bitsPerByte))
+        + ((uint32_t)unicodeSecondByte << bitsPerByte) + unicodeThirdByte;
         if (combinedBytes > unicodeMaxValue) {
             *errorPtr = [NSError errorWithDomain:@"BSUTF8DecodeError"
                                             code:BSUTF8DecodeErrorInvalidFourBytes
@@ -353,8 +354,8 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
             return kReplacementCharacter;
         }
 
-        uint32_t unicodeCodePoint = (((uint32_t)unicodeFirstByte) << 16)
-        + (((uint32_t)unicodeSecondByte) << 8)
+        uint32_t unicodeCodePoint = (((uint32_t)unicodeFirstByte) << (2 * bitsPerByte))
+        + (((uint32_t)unicodeSecondByte) << bitsPerByte)
         + unicodeThirdByte;
         return unicodeCodePoint;
 
