@@ -98,12 +98,6 @@ uint32_t const kReplacementCharacter = 0x0000fffd;
             && ((byte >> 3) == 0b00011110));
 }
 
-+ (BOOL)isValidFirstByteForMultiByteCodePoint:(uint8_t)byte {
-    return ([BSUnicodeConverter isValidUTF8EncodedAsTwoBytesFirstByte:byte]
-            || [BSUnicodeConverter isValidUTF8EncodedAsThreeBytesFirstByte:byte]
-            || [BSUnicodeConverter isValidUTF8EncodedAsFourBytesFirstByte:byte]);
-}
-
 #pragma mark -
 
 /**
